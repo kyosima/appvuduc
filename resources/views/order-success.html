@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt hàng thành công</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+        integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+        integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./colorbox-master/example3/colorbox.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&subset=vietnamese">
+    <link rel="stylesheet" href="./public/css/mevivu.css">
+    <link rel="stylesheet" href="./public/css/gio-hang.css">
+    <link rel="stylesheet" href="./public/css/order-success.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+
+<body class="cart-page">
+    <div class="mobile-backdrop"> </div>
+
+    <header class="header">
+        <div class="header-wrapper">
+            <div id="header-top" class="top-bar">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="header-contact d-flex align-items-center justify-content-end">
+                                <div class="mr-2 info-contact">
+                                    <a href="#" class="mr-2">
+                                        <span><i class="fas fa-envelope"></i> info@mevivu.com</span>
+                                    </a>
+                                    <a href="#" class="">
+                                        <span><i class="fas fa-phone"></i> 0902315376</span>
+                                    </a>
+                                </div>
+                                <div class="social_list">
+                                    <a href="#" class="mr-2">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="mr-2">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="">
+                                        <i class="fab fa-youtube"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- END TOP HEADER -->
+            <div id="masthead" class="header-main">
+                <div class="header-inner">
+                    <nav class="navbar navbar-expanded-lg p-0 bg-white">
+                        <div class="container">
+                            <div class="navbar-header">
+                                <a href="#" class="navbar-brand">
+                                    <img src="https://mevivu.com/wp-content/uploads/2016/11/logomevivumoi.png"
+                                        alt="Logo" class="app-logo">
+                                </a>
+                                <button type="button" class="navbar-toggler collapsed">
+                                    <div class="bar1">
+                                    </div>
+                                    <div class="bar3">
+                                    </div>
+                                </button>
+                            </div>
+                            <div id="navbar-toggle" class="navbar-collapse collapse">
+                                <ul class="navbar-nav ml-auto">
+                                    <li class="nav-item active">
+                                        <a href="./home.html">Trang chủ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="./gioi-thieu.html">Giới thiệu</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a href="./san-pham.html" class="dropdown-toggle">Sản phẩm</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="nav-item" href="#">Sebia</a></li>
+                                            <li class="dropdown">
+                                                <a class="nav-item" href="#">Vũ Đức</a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="nav-item" href="#">Mỹ phẩm</a></li>
+                                                    <li><a class="nav-item" href="#">Đông Dược</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown">
+                                                <a class="nav-item" href="#">Mỹ phẩm</a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="nav-item" href="#">Sữa rửa mặt</a></li>
+                                                    <li><a class="nav-item" href="#">Kem dưỡng</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a class="nav-item" href="#">POSM</a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-item" href="#">Ngành hàng gia dụng</a>
+                                            </li>
+                                            <li><a class="nav-item" href="#">Khác</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="./blog.html">Tin tức - sự kiện</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="./blog.html">Thư viện</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="./lien-he.html">Liên hệ</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div><!-- END HEADER MAIN -->
+        </div>
+    </header>
+    <!-- END HEADER -->
+
+    <div class="mobile-navbar">
+        <div class="mobile-navbar-header">
+            <div class="menu_title">NAO</div>
+            <div class="mobile-navbar__close"><i class="fa fa-times"></i></div>
+        </div>
+        <ul class="mobile-navbar__nav">
+            <li class="nav-item active">
+                <a href="./home.html" class="nav-item">Trang chủ</a>
+            </li>
+            <li class="nav-item">
+                <a href="./gioi-thieu.html" class="nav-item">Giới thiệu</a>
+            </li>
+            <li class="nav-item has-child">
+                <button class="btn btn-dropdown" type="button" data-toggle="collapse" data-target="#collapseProduct"
+                    aria-expanded="false" aria-controls="collapseProduct">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <a href="./san-pham.html" class="nav-item">Sản phẩm</a>
+                <ul id="collapseProduct" class="collapse">
+                    <li><a class="nav-item" href="#">Sebia</a></li>
+                    <li class="has-child">
+                        <button class="btn btn-dropdown" type="button" data-toggle="collapse"
+                            data-target="#collapseVuDuc" aria-expanded="false" aria-controls="collapseVuDuc">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <a class="nav-item" href="#">Vũ Đức</a>
+                        <ul class="collapse" id="collapseVuDuc">
+                            <li><a class="nav-item" href="#">Mỹ phẩm</a></li>
+                            <li><a class="nav-item" href="#">Đông Dược</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-child">
+                        <button class="btn btn-dropdown" type="button" data-toggle="collapse"
+                            data-target="#collapseCosmetic" aria-expanded="false" aria-controls="collapseCosmetic">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <a class="nav-item" href="#">Mỹ phẩm</a>
+                        <ul class="collapse" id="collapseCosmetic">
+                            <li><a class="nav-item" href="#">Sữa rửa mặt</a></li>
+                            <li><a class="nav-item" href="#">Kem dưỡng</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="nav-item" href="#">POSM</a>
+                    </li>
+                    <li>
+                        <a class="nav-item" href="#">Ngành hàng gia dụng</a>
+                    </li>
+                    <li><a class="nav-item" href="#">Khác</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="./blog.html" class="nav-item">Tin tức - sự kiện</a>
+            </li>
+            <li class="nav-item">
+                <a href="./blog.html" class="nav-item">Thư viện</a>
+            </li>
+            <li class="nav-item">
+                <a href="./lien-he.html" class="nav-item">Liên hệ</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- END MOBILIE SIDEBAR -->
+
+    <main id="main">
+        <div id="content">
+            <section class="py-3">
+                <div class="container">
+                    <div class="gioithieu page-title text-center">
+                        <h1 class="title" style="text-align: center;">Đơn hàng đã nhận</h1>
+                    </div>
+                    <p class="order-notice">Cảm ơn bạn. Đơn hàng của bạn đã được nhận.</p>
+                    <ul class="order_details d-flex">
+                        <li class="order-id">
+                            Mã đơn hàng: <strong>6662</strong>
+                        </li>
+                        <li class="order-date">
+                            Ngày: <strong>Tháng Chín 6, 2021</strong>
+                        </li>
+                        <li class="order-total">
+                            Tổng cộng: <strong><span class="amount">1,100,000₫</span></strong>
+                        </li>
+                        <li class="payment-method">
+                            Phương thức thanh toán: <strong>COD</strong>
+                        </li>
+                    </ul>
+                    <div id="order_review" class="cart-table">
+                        <table class="shop_table">
+                            <thead>
+                                <tr>
+                                    <th class="product-name">Sản phẩm</th>
+                                    <th class="product-total">Tổng cộng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="cart_item">
+                                    <td class="product-name" data-title="Sản phẩm">
+                                        <a
+                                            href="https://rbvietnam.com/product/kem-duong-ban-dem-daily-beauty-age-away-vitalizing-night-cream"></a><a
+                                            href="https://rbvietnam.com/product/kem-duong-ban-dem-daily-beauty-age-away-vitalizing-night-cream">Kem
+                                            dưỡng ban đêm Daily Beauty Age Away Vitalizing Night Cream</a>
+                                        <strong class="product-quantity">× 1</strong>
+                                    </td>
+
+                                    <td class="product-total" data-title="Tổng cộng">
+                                        <span class="amount">780,000₫</span>
+                                    </td>
+                                </tr>
+                                <tr class="cart_item">
+                                    <td class="product-name" data-title="Sản phẩm">
+                                        <a
+                                            href="https://rbvietnam.com/product/kem-duong-ban-dem-daily-beauty-age-away-vitalizing-night-cream"></a><a
+                                            href="https://rbvietnam.com/product/kem-duong-ban-dem-daily-beauty-age-away-vitalizing-night-cream">Kem
+                                            dưỡng ban đêm Daily Beauty Age Away Vitalizing Night Cream</a>
+                                        <strong class="product-quantity">× 1</strong>
+                                    </td>
+
+                                    <td class="product-total" data-title="Tổng cộng">
+                                        <span class="amount">780,000₫</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="cart-subtotal">
+                                    <th>Tạm tính</th>
+                                    <td><span class="amount">1,100,000₫</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Phương thức thanh toán:</th>
+                                    <td>COD</td>
+                                </tr>
+                                <tr class="order-total">
+                                    <th>Tổng cộng</th>
+                                    <td><strong><span class="amount">1,100,000₫</span></strong> </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- footer -->
+    <footer id="footer" class="footer">
+        <div class="footer-top">
+            <div class="container clearfix">
+                <div class="row clearfix">
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="ftop-left text-center">
+                            <h4 class="caps-light"><strong>Hỗ trợ trực tuyến</strong> 24/7</h4>
+                            <h2 class="ftop-number">0902 315 376</h2>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="ftop-right">
+                            <p><em>Đăng ký đại lý</em></p>
+                            <div id="dkft_form">
+                                <form action="">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <input type="text" name="" id="" class="form-control"
+                                                    placeholder="Họ và tên">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <input type="text" name="" id="" class="form-control"
+                                                    placeholder="Số điện thoại">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-12">
+                                            <div class="form-group form-btn-submit">
+                                                <button type="submit" class="btn btn-dky">Đăng ký</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="footer-widgets">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-xs-full col-sm-6 col-md-4 col-lg-3 footer-widget">
+                        <div class="box-infomation box-footer">
+                            <div class="module clearfix">
+                                <div class="modtitle">CÔNG TY TNHH NAO VIỆT NAM</div>
+                                <div class="modcontent">
+                                    <p>Giấy CNĐKKD: Số 0107445731 do Phòng ĐKKD – Sở KHĐT TP. Hà Nội cấp lần đầu
+                                        ngày
+                                        24/05/2016.<br>
+                                        Trụ sở chính: Số 383D, ngõ 383B, đường Giải Phóng, P. Phương Liệt, Q. Thanh
+                                        Xuân, TP. Hà Nội, Việt Nam.<br>
+                                        Showroom: Tháp B, Tòa nhà Golden Land, 275 Nguyễn Trãi, Q. Thanh Xuân, TP.
+                                        Hà
+                                        Nội<br>
+                                        Email: richandbeautyvn@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-xs-full col-sm-6 col-md-4 col-lg-5 footer-widget">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="box-infomation box-footer">
+                                    <div class="module clearfix">
+                                        <div class="modtitle">THÔNG TIN HỮU ÍCH</div>
+                                        <div class="modcontent">
+                                            <ul class="menu-footer">
+                                                <li>Giới thiệu</li>
+                                                <li>Cam kết chất lượng dịch vụ</li>
+                                                <li>Chính sách bảo mật thông tin</li>
+                                                <li>Chính sách Giao hàng</li>
+                                            </ul>
+                                            <img width="791" height="300"
+                                                src="https://rbvietnam.com/wp-content/uploads/2019/11/20150827110756-dathongbao-e1574135865150.png"
+                                                class="image wp-image-2198  attachment-1405x533 size-1405x533" alt=""
+                                                style="max-width: 100%; height: auto;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="box-infomation box-footer">
+                                    <div class="module clearfix">
+                                        <div class="modtitle">HỖ TRỢ KHÁCH HÀNG</div>
+                                        <div class="modcontent">
+                                            <ul class="menu-footer">
+                                                <li>Chính sách Đổi Trả hàng</li>
+                                                <li>Chính sách Thanh toán</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-xs-full col-sm-6 col-md-4 footer-widget">
+                        <div class="box-infomation box-footer">
+                            <div class="module clearfix">
+                                <div class="modtitle"></div>
+                                <div class="modcontent">
+                                    <iframe
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.6292210098914!2d106.64510181446822!3d10.83966076098813!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752ee0bb7baff5%3A0x73a2be67d900f176!2sMevivu%20Technology!5e0!3m2!1svi!2s!4v1629965790966!5m2!1svi!2s"
+                                        width="100%" height="200" style="border:0;" allowfullscreen=""
+                                        loading="lazy"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+
+    <div class="footer-additional">
+        <ul>
+            <li class="desktop">
+                <a>
+                    <i class="fas fa-home"></i>
+                    <span>Trang chủ</span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <i class="fas fa-store"></i>
+                    <span>Mua sản phẩm</span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Giỏ hàng</span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Đăng nhập/Đăng ký</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="bottom-contact">
+        <ul class="d-flex mx-0 my-0 justify-content-around">
+            <li>
+                <a id="goidien" href="tel:0938976188">
+                    <img src="https://image.flaticon.com/icons/png/512/5219/5219891.png">
+                    <br>
+                    <span>Trang chủ</span>
+                </a>
+            </li>
+            <li>
+                <a id="chatzalo" href="https://zalo.me/0938976188">
+                    <img src="https://image.flaticon.com/icons/png/512/3937/3937035.png">
+                    <br>
+                    <span>Mua sản phẩm</span>
+                </a>
+            </li>
+            <li>
+                <a id="chatfb" href="https://www.facebook.com/profile.php?id=100070938861938" target="_blank">
+                    <img src="https://image.flaticon.com/icons/png/512/833/833314.png">
+                    <br>
+                    <span>Giỏ hàng</span>
+                </a>
+            </li>
+            <li>
+                <a id="baogia" href="https://vinrepair.com/yeu-cau-bao-gia/">
+                    <img src="https://image.flaticon.com/icons/png/512/5087/5087592.png">
+                    <br>
+                    <span>Đăng nhập/ Đăng ký</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+        integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <script src="./colorbox-master/jquery.colorbox-min.js"></script>
+    <script src="./public/js/main.js"></script>
+
+</body>
+
+</html>
