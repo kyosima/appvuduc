@@ -2,7 +2,7 @@
     <tr class="child-category has-child" data-categoryid="{{$child_category->id}}" data-parentcat="{{$child_category->category_parent}}">
         <td><i class="fa fa-plus click-cell" aria-hidden="true"></td>
         <td>{{ $child_category->code }}</td>
-        <td><a style="text-decoration: none;" href="">{{ $child_category->name }}</a></td>
+        <td><a style="text-decoration: none; cursor: pointer;" class="modal-edit-proCat" data-route="{{route('nganh-nhom-hang.modalEdit')}}" data-unitid="{{$category->id}}">{{ $child_category->name }}</a></td>
         <td><button class="btn btn-circle">{{ count($child_category->categories) }}</button></td>
         <td>
             <div class="input-group" style="min-width: 108px;">
@@ -25,7 +25,7 @@
     <tr class="child-category" data-parentcat="{{$child_category->category_parent}}">
         <td></td>
         <td>{{ $child_category->code }}</td>
-        <td><a style="text-decoration: none;" href="">{{ $child_category->name }}</a></td>
+        <td><a style="text-decoration: none; cursor: pointer;" class="modal-edit-proCat" data-route="{{route('nganh-nhom-hang.modalEdit')}}" data-unitid="{{$child_category->id}}">{{ $child_category->name }}</a></td>
         <td><button class="btn btn-circle">0</button></td>
         <td>
             <div class="input-group" style="min-width: 108px;">

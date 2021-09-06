@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProductCategoryController extends Controller
 {
@@ -18,70 +19,44 @@ class ProductCategoryController extends Controller
         $categories = ProductCategory::where('category_parent', 0)
                                     ->with('childrenCategories')
                                     ->get();
-        return view('admin.productCategory.nganh-nhom-hang', compact('categories'));
+        $subMask = '';
+        return view('admin.productCategory.nganh-nhom-hang', compact('categories', 'subMask'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $slug = Str::slug($request->proCatName, '-');
+
+        ProductCategory::create([
+            'category_parent' => $request->proCatParent,
+            'slug' => $slug,
+            'name' => $request->proCatName,
+            'code' => $request->proCatCode,
+            'description' => $request->proCatDescription
+        ]);
+
+        return redirect()->route('nganh-nhom-hang.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function modalEdit(Request $request)
+    {
+        $id = $request->id;
+        $proCat = ProductCategory::where('id', $id)->first();
+        $allProCats = ProductCategory::all();
+        $returnHTML = view('admin.productCategory.formUpdate', compact('proCat', 'id', 'allProCats'))->render();
+
+        return response()->json([
+            'html' => $returnHTML
+        ], 200);
+    }
+
+
     public function destroy($id)
     {
         //

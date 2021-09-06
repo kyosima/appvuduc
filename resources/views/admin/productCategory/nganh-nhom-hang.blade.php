@@ -76,9 +76,15 @@
                                         aria-required="true">(*)</span></label>
                                 <div class="col-md-9">
                                     <select name="proCatParent" id="proCatParent" class="form-control">
-                                        <option value="0">---</option>
+                                        <option value="0" selected>---</option>
                                         @foreach ($categories as $item)
                                             <option value="{{$item->id}}">{{$item->name}}</option>
+                                            @if (count($item->childrenCategories) > 0)
+                                                @foreach ($item->childrenCategories as $childCategory)
+                                                    @include('admin.productCategory.option_child_category', ['child_category' =>
+                                                    $childCategory, 'subMask' => $subMask . '--'])
+                                                @endforeach
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -185,7 +191,7 @@
                                     <tr class="parent-category has-child" data-categoryid="{{$category->id}}">
                                         <td><i class="fa fa-plus click-cell" aria-hidden="true"></td>
                                         <td>{{ $category->code }}</td>
-                                        <td><a style="text-decoration: none;" href="">{{ $category->name }}</a></td>
+                                        <td><a style="text-decoration: none; cursor: pointer;" class="modal-edit-proCat" data-route="{{route('nganh-nhom-hang.modalEdit')}}" data-unitid="{{$category->id}}">{{ $category->name }}</a></td>
                                         <td><button class="btn btn-circle">{{count($category->categories)}}</button></td>
                                         <td>
                                             <div class="input-group" style="min-width: 108px;">
@@ -210,7 +216,7 @@
                                     <tr>
                                         <td></td>
                                         <td>{{ $category->code }}</td>
-                                        <td><a style="text-decoration: none;" href="">{{ $category->name }}</a></td>
+                                        <td><a style="text-decoration: none; cursor: pointer;" class="modal-edit-proCat" data-route="{{route('nganh-nhom-hang.modalEdit')}}" data-unitid="{{$category->id}}">{{ $category->name }}</a></td>
                                         <td><button class="btn btn-circle">0</button></td>
                                         <td>
                                             <div class="input-group" style="min-width: 108px;">

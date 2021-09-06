@@ -81,7 +81,8 @@ Route::get('/admin/loai-khuyen-mai', function () {
 // PRODUCT CATEGORIES
 Route::get('/admin/nganh-nhom-hang', [ProductCategoryController::class, 'index'])->name('nganh-nhom-hang.index');
 Route::post('/admin/nganh-nhom-hang', [ProductCategoryController::class, 'store'])->name('nganh-nhom-hang.store');
-
+Route::get('/admin/nganh-nhom-hang/modal-edit', [ProductCategoryController::class, 'modalEdit'])->name('nganh-nhom-hang.modalEdit');
+Route::put('/admin/nganh-nhom-hang/update/{id}', [ProductCategoryController::class, 'update'])->name('nganh-nhom-hang.update');
 
 
 Route::get('/admin/san-pham', function () {
