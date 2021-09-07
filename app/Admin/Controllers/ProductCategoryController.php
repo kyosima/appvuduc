@@ -29,7 +29,8 @@ class ProductCategoryController extends Controller
         $slug = Str::slug($request->proCatName, '-');
 
         ProductCategory::create([
-            'category_parent' => $request->proCatParent,
+            'category_parent' => $request->proCatParent == null ? '0' : $request->proCatParent,
+            'typeof_category' => $request->proCatType,
             'slug' => $slug,
             'name' => $request->proCatName,
             'code' => $request->proCatCode,
@@ -44,7 +45,8 @@ class ProductCategoryController extends Controller
         $slug = Str::slug($request->proCatName, '-');
 
         ProductCategory::where('id', $id)->update([
-            'category_parent' => $request->proCatParent,
+            'category_parent' => $request->proCatParent == null ? '0' : $request->proCatParent,
+            'typeof_category' => $request->proCatType,
             'slug' => $slug,
             'name' => $request->proCatName,
             'code' => $request->proCatCode,
@@ -58,11 +60,7 @@ class ProductCategoryController extends Controller
     {
         $id = $request->id;
         $proCat = ProductCategory::where('id', $id)->first();
-        $allProCats = ProductCategory::where('category_parent', 0)
-                                    ->with('childrenCategories')
-                                    ->get();
-        $subMask = '';
-        $returnHTML = view('admin.productCategory.formUpdate', compact('proCat', 'id', 'allProCats', 'subMask'))->render();
+        $returnHTML = view('admin.productCategory.formUpdate', compact('proCat', 'id'))->render();
 
         return response()->json([
             'html' => $returnHTML

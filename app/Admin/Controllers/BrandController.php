@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class BrandController extends Controller
 {
@@ -15,72 +16,64 @@ class BrandController extends Controller
      */
     public function index()
     {
-        //
+        $brands = Brand::all();
+        $index = 0;
+        return view('admin.brand.index', compact('brands', 'index'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function modalEdit(Request $request)
     {
-        //
+        $id = $request->id;
+        $unit = Brand::where('id', $id)->first();
+        $returnHTML = view('admin.brand.formUpdate', compact('unit', 'id'))->render();
+
+        return response()->json([
+            'html' => $returnHTML
+        ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        $slug = Str::slug($request->name, '-');
+        Brand::create([
+            'code' => $request->brandCode,
+            'slug' => $slug,
+            'type' => $request->Type == "Company" ? "Công ty" : "Đối thủ",
+            'name' => $request->brandName,
+            'description' => $request->brandDescription,
+        ]);
+
+        return redirect()->route('thuong-hieu.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Brand  $brand
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Brand $brand)
+    public function update(Request $request, $id)
     {
-        //
+        $slug = Str::slug($request->name, '-');
+
+        Brand::where('id', $id)->update([
+            'code' => $request->brandCode,
+            'slug' => $slug,
+            'type' => $request->Type == "Company" ? "Công ty" : "Đối thủ",
+            'name' => $request->brandName,
+            'description' => $request->brandDescription
+        ]);
+
+        return redirect()->route('thuong-hieu.index');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Brand  $brand
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Brand $brand)
+    public function updateStatus(Request $request, $id)
     {
-        //
+        Brand::where('id', $id)->update([
+            'status' => $request->brandStatus
+        ]);
+
+        return redirect()->route('thuong-hieu.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Brand  $brand
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Brand $brand)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Brand  $brand
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Brand $brand)
-    {
-        //
+        Brand::destroy($id);
+        return redirect()->route('thuong-hieu.index');
     }
 }

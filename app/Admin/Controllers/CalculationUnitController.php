@@ -65,7 +65,6 @@ class CalculationUnitController extends Controller
         ]);
 
         return redirect()->route('don-vi-tinh.index');
-
     }
 
     public function updateStatus(Request $request, $id)

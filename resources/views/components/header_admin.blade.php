@@ -31,6 +31,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"
         integrity="sha512-XZEy8UQ9rngkxQVugAdOuBRDmJ5N4vCuNXCh8KlniZgDKTvf7zl75QBtaVG1lEhMFe2a2DuA22nZYY+qsI2/xA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <link rel="stylesheet" href="{{ asset('/resources/css/header.css') }}">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{{ asset('/resources/css/responsive.css') }}" type="text/css">
@@ -73,6 +75,7 @@
                 </a>
                 <span class="dropdown-content">
                     <a href="/appvuduc/admin/nganh-nhom-hang">Ngành/Nhóm hàng</a>
+                    <a href="/appvuduc/admin/thuong-hieu">Thương hiệu</a>
                     <a href="/appvuduc/admin/don-vi-tinh">Đơn vị tính</a>
                     <a href="/appvuduc/admin/san-pham">Thông tin sản phẩm</a>
                 </span>

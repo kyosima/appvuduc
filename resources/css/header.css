@@ -356,9 +356,6 @@ label {
   background-color: #586674;
 }
 
-
-/* MINH CSS */
-.error {
-  color: red !important;
-  border-color: red;
+img, svg {
+  max-width: 100%;
 }

@@ -112,7 +112,7 @@
 									</div>
 									<div class="dropdown" style="border: 1px solid #c2cad8; border-radius: 5px;">
 										<button class="btn dropdown-toggle fs-14" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-											Hiển thị tất cả các loại sản phẩm
+											Hiển thị tất cả thương hiệu
 										</button>
 										<ul class="dropdown-menu dropdown-menu1 fs-14" aria-labelledby="dropdownMenuButton1">
 										  <li class="ps-2 pe-2"><input class="p-1" style="width: 100%; border-radius: 5px;border: 1px solid #c2cad8;" type="text"></li>
@@ -172,16 +172,13 @@
                                             Tên sản phẩm
 										</th>
 										<th class="title-text">
-                                            Thông tin sản phẩm
-										</th>
-										<th class="title-text">
                                             Thương hiệu
 										</th>
 										<th class="title-text">
-                                            Nhóm / Ngành sản phẩm
+                                            Nhóm sản phẩm
 										</th>
 										<th class="title-text">
-                                            Nhóm sản phẩm
+                                            Ngành hàng
 										</th>
 										<th class="title-text">
                                             Đơn vị tính
@@ -196,161 +193,31 @@
                                             Chiều rộng 
 										</th>
 										<th class="title-text">
+                                            Chiều cao 
+										</th>
+										<th class="title-text">
                                             Đơn giá bán lẻ	
 										</th>
                                     </tr>
                                 </thead>
 								<tbody style="color: #748092; font-size: 14px; vertical-align: middle;">
+									@foreach ($products as $item)
 									<tr>
-										<td>1</td>
-										<td><img src="{{asset('/resources/image/header/1623382658150_ (1).png')}}" width="70"  height="60" alt=""></td>
-										<td>XNK</td>
-										<td><a style="text-decoration: none;" href="">Xuân Nữ Khang</a></td>
-										<td>KHÁC</td>
-										<td>Product</td>
-										<td>Đông Dược</td>
-										<td>Vũ Đức</td>
-										<td>Hũ</td>
-										<td>0.5 gam</td>
-										<td>10 cm</td>
-										<td>5 cm</td>
-										<td>590,000 đ</td>
+										<td>{{$item->id}}</td>
+										<td><img src="{{$item->feature_img}}" width="70"  height="60" alt=""></td>
+										<td>{{$item->sku}}</td>
+										<td><a style="text-decoration: none;" href="{{route('san-pham.edit', $item->id)}}">{{$item->name}}</a></td>
+										<td>{{$item->productBrand->name}}</td>
+										<td>{{$item->productCategory->name}}</td>
+										<td>{{$item->productCategory->parentCategories != null ? $item->productCategory->parentCategories->name : ''}}</td>
+										<td>{{$item->productCalculationUnit->name}}</td>
+										<td>{{$item->weight}} gam</td>
+										<td>{{$item->length}} cm</td>
+										<td>{{$item->width}} cm</td>
+										<td>{{$item->height}} cm</td>
+										<td>{{$item->productPrice->regular_price}} đ</td>
 									</tr>
-									<tr>
-										<td>2</td>
-										<td><img src="{{asset('/resources/image/header/1623382658150_ (1).png')}}" width="70"  height="60" alt=""></td>
-										<td>XNK</td>
-										<td><a style="text-decoration: none;" href="">Xuân Nữ Khang</a></td>
-										<td>KHÁC</td>
-										<td>Product</td>
-										<td>Đông Dược</td>
-										<td>Vũ Đức</td>
-										<td>Hũ</td>
-										<td>0.5 gam</td>
-										<td>10 cm</td>
-										<td>5 cm</td>
-										<td>590,000 đ</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td><img src="{{asset('/resources/image/header/1623382658150_ (1).png')}}" width="70"  height="60" alt=""></td>
-										<td>XNK</td>
-										<td><a style="text-decoration: none;" href="">Xuân Nữ Khang</a></td>
-										<td>KHÁC</td>
-										<td>Product</td>
-										<td>Đông Dược</td>
-										<td>Vũ Đức</td>
-										<td>Hũ</td>
-										<td>0.5 gam</td>
-										<td>10 cm</td>
-										<td>5 cm</td>
-										<td>590,000 đ</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td><img src="{{asset('/resources/image/header/1623382658150_ (1).png')}}" width="70"  height="60" alt=""></td>
-										<td>XNK</td>
-										<td><a style="text-decoration: none;" href="">Xuân Nữ Khang</a></td>
-										<td>KHÁC</td>
-										<td>Product</td>
-										<td>Đông Dược</td>
-										<td>Vũ Đức</td>
-										<td>Hũ</td>
-										<td>0.5 gam</td>
-										<td>10 cm</td>
-										<td>5 cm</td>
-										<td>590,000 đ</td>
-									</tr>
-									<tr>
-										<td>5</td>
-										<td><img src="{{asset('/resources/image/header/1623382658150_ (1).png')}}" width="70"  height="60" alt=""></td>
-										<td>XNK</td>
-										<td><a style="text-decoration: none;" href="">Xuân Nữ Khang</a></td>
-										<td>KHÁC</td>
-										<td>Product</td>
-										<td>Đông Dược</td>
-										<td>Vũ Đức</td>
-										<td>Hũ</td>
-										<td>0.5 gam</td>
-										<td>10 cm</td>
-										<td>5 cm</td>
-										<td>590,000 đ</td>
-									</tr>
-									<tr>
-										<td>6</td>
-										<td><img src="{{asset('/resources/image/header/1623382658150_ (1).png')}}" width="70"  height="60" alt=""></td>
-										<td>XNK</td>
-										<td><a style="text-decoration: none;" href="">Xuân Nữ Khang</a></td>
-										<td>KHÁC</td>
-										<td>Product</td>
-										<td>Đông Dược</td>
-										<td>Vũ Đức</td>
-										<td>Hũ</td>
-										<td>0.5 gam</td>
-										<td>10 cm</td>
-										<td>5 cm</td>
-										<td>590,000 đ</td>
-									</tr>
-									<tr>
-										<td>7</td>
-										<td><img src="{{asset('/resources/image/header/1623382658150_ (1).png')}}" width="70"  height="60" alt=""></td>
-										<td>XNK</td>
-										<td><a style="text-decoration: none;" href="">Xuân Nữ Khang</a></td>
-										<td>KHÁC</td>
-										<td>Product</td>
-										<td>Đông Dược</td>
-										<td>Vũ Đức</td>
-										<td>Hũ</td>
-										<td>0.5 gam</td>
-										<td>10 cm</td>
-										<td>5 cm</td>
-										<td>590,000 đ</td>
-									</tr>
-									<tr>
-										<td>8</td>
-										<td><img src="{{asset('/resources/image/header/1623382658150_ (1).png')}}" width="70"  height="60" alt=""></td>
-										<td>XNK</td>
-										<td><a style="text-decoration: none;" href="">Xuân Nữ Khang</a></td>
-										<td>KHÁC</td>
-										<td>Product</td>
-										<td>Đông Dược</td>
-										<td>Vũ Đức</td>
-										<td>Hũ</td>
-										<td>0.5 gam</td>
-										<td>10 cm</td>
-										<td>5 cm</td>
-										<td>590,000 đ</td>
-									</tr>
-									<tr>
-										<td>9</td>
-										<td><img src="{{asset('/resources/image/header/1623382658150_ (1).png')}}" width="70"  height="60" alt=""></td>
-										<td>XNK</td>
-										<td><a style="text-decoration: none;" href="">Xuân Nữ Khang</a></td>
-										<td>KHÁC</td>
-										<td>Product</td>
-										<td>Đông Dược</td>
-										<td>Vũ Đức</td>
-										<td>Hũ</td>
-										<td>0.5 gam</td>
-										<td>10 cm</td>
-										<td>5 cm</td>
-										<td>590,000 đ</td>
-									</tr>
-									<tr>
-										<td>10</td>
-										<td><img src="{{asset('/resources/image/header/1623382658150_ (1).png')}}" width="70"  height="60" alt=""></td>
-										<td>XNK</td>
-										<td><a style="text-decoration: none;" href="">Xuân Nữ Khang</a></td>
-										<td>KHÁC</td>
-										<td>Product</td>
-										<td>Đông Dược</td>
-										<td>Vũ Đức</td>
-										<td>Hũ</td>
-										<td>0.5 gam</td>
-										<td>10 cm</td>
-										<td>5 cm</td>
-										<td>590,000 đ</td>
-									</tr>
+									@endforeach
 								</tbody>
 							</table>
 						</div>

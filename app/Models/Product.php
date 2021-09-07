@@ -12,15 +12,19 @@ class Product extends Model
     protected $guarded = [];
 
     public function productPrice() {
-        return $this->hasOne(ProductPrice::class);
+        return $this->hasOne(ProductPrice::class, 'id_ofproduct', 'id');
     }
 
     public function productBrand() {
-        return $this->hasOne(Brand::class);
+        return $this->belongsto(Brand::class, 'brand', 'id');
     }
 
     public function productCalculationUnit() {
-        return $this->hasOne(CalculationUnit::class);
+        return $this->belongsto(CalculationUnit::class, 'calculation_unit', 'id');
+    }
+
+    public function productCategory() {
+        return $this->belongsto(ProductCategory::class, 'category_id', 'id');
     }
 
 }

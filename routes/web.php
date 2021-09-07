@@ -1,5 +1,6 @@
 <?php
 
+use App\Admin\Controllers\BrandController;
 use App\Admin\Controllers\CalculationUnitController;
 use App\Admin\Controllers\ProductCategoryController;
 use App\Admin\Controllers\ProductController;
@@ -96,6 +97,19 @@ Route::prefix('admin')->group(function () {
     Route::get('/san-pham', [ProductController::class, 'index'])->name('san-pham.index');
     Route::get('/tao-san-pham', [ProductController::class, 'create'])->name('san-pham.create');
     Route::post('/san-pham', [ProductController::class, 'store'])->name('san-pham.store');
+    Route::get('/san-pham/edit/{id}', [ProductController::class, 'edit'])->name('san-pham.edit');
+    Route::put('/san-pham/update/{id}', [ProductController::class, 'update'])->name('san-pham.update');
+    Route::delete('/san-pham/delete/{id}', [ProductController::class, 'destroy'])->name('san-pham.delete');
+    Route::get('/san-pham/get-category', [ProductController::class, 'getCategory'])->name('san-pham.getCategory');
+
+    // BRAND
+    Route::get('/thuong-hieu', [BrandController::class, 'index'])->name('thuong-hieu.index');
+    Route::get('/thuong-hieu/modal-edit', [BrandController::class, 'modalEdit'])->name('thuong-hieu.modalEdit');
+    Route::post('/thuong-hieu', [BrandController::class, 'store'])->name('thuong-hieu.store');
+    Route::put('/thuong-hieu/update/{id}', [BrandController::class, 'update'])->name('thuong-hieu.update');
+    Route::put('/thuong-hieu/{id}', [BrandController::class, 'updateStatus'])->name('thuong-hieu.updateStatus');
+    Route::delete('/thuong-hieu/{id}', [BrandController::class, 'destroy'])->name('thuong-hieu.delete');
+
 });
 
 

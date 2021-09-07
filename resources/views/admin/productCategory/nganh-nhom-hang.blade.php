@@ -75,14 +75,14 @@
                                 <label class="col-md-3 control-label">Danh mục<span class="required"
                                         aria-required="true">(*)</span></label>
                                 <div class="col-md-9">
-                                    <select name="proCatType" id="proCatType" class="form-control">
+                                    <select name="proCatType" class="form-control proCatType">
                                         <option value="0" selected>Ngành hàng</option>
                                         <option value="1">Nhóm sản phẩm</option>
                                         <option value="2">Nhóm sản phẩm con</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group d-flex mb-2 hide-select-option" id="select-category">
+                            <div class="form-group d-flex mb-2 hide-select-option select-category">
                                 <label class="col-md-3 control-label">Chọn ngành hàng<span class="required"
                                         aria-required="true">(*)</span></label>
                                 <div class="col-md-9">
@@ -91,7 +91,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group d-flex mb-2 hide-select-option" id="select-category-child-create">
+                            <div class="form-group d-flex mb-2 hide-select-option select-category-child-create">
                                 <label class="col-md-3 control-label">Chọn nhóm sản phẩm<span class="required"
                                         aria-required="true">(*)</span></label>
                                 <div class="col-md-9">
