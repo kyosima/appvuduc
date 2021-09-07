@@ -67,28 +67,40 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" id="formCreateProductCategory" action="{{ route('nganh-nhom-hang.store') }}"
-                        role="form" method="POST">
+                    <form class="form-horizontal" id="formCreateProductCategory"
+                        action="{{ route('nganh-nhom-hang.store') }}" role="form" method="POST">
                         @csrf
                         <div class="form-body">
                             <div class="form-group d-flex mb-2">
-                                <label class="col-md-3 control-label">Danh mục cha<span class="required"
+                                <label class="col-md-3 control-label">Danh mục<span class="required"
                                         aria-required="true">(*)</span></label>
                                 <div class="col-md-9">
-                                    <select name="proCatParent" id="proCatParent" class="form-control">
-                                        <option value="0" selected>---</option>
-                                        @foreach ($categories as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
-                                            @if (count($item->childrenCategories) > 0)
-                                                @foreach ($item->childrenCategories as $childCategory)
-                                                    @include('admin.productCategory.option_child_category', ['child_category' =>
-                                                    $childCategory, 'subMask' => $subMask . '--'])
-                                                @endforeach
-                                            @endif
-                                        @endforeach
+                                    <select name="proCatType" id="proCatType" class="form-control">
+                                        <option value="0" selected>Ngành hàng</option>
+                                        <option value="1">Nhóm sản phẩm</option>
+                                        <option value="2">Nhóm sản phẩm con</option>
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group d-flex mb-2 hide-select-option" id="select-category">
+                                <label class="col-md-3 control-label">Chọn ngành hàng<span class="required"
+                                        aria-required="true">(*)</span></label>
+                                <div class="col-md-9">
+                                    <select name="proCatParent" class="form-control">
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group d-flex mb-2 hide-select-option" id="select-category-child-create">
+                                <label class="col-md-3 control-label">Chọn nhóm sản phẩm<span class="required"
+                                        aria-required="true">(*)</span></label>
+                                <div class="col-md-9">
+                                    <select name="proCatParent" class="form-control">
+
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="form-group d-flex mb-2">
                                 <label class="col-md-3 control-label">Mã ngành hàng<span class="required"
                                         aria-required="true">(*)</span></label>
@@ -188,23 +200,79 @@
                         <tbody style="color: #748092; font-size: 14px; vertical-align: middle;">
                             @foreach ($categories as $category)
                                 @if (count($category->categories) > 0)
-                                    <tr class="parent-category has-child" data-categoryid="{{$category->id}}">
+                                    <tr class="parent-category has-child" data-categoryid="{{ $category->id }}">
                                         <td><i class="fa fa-plus click-cell" aria-hidden="true"></td>
                                         <td>{{ $category->code }}</td>
-                                        <td><a style="text-decoration: none; cursor: pointer;" class="modal-edit-proCat" data-route="{{route('nganh-nhom-hang.modalEdit')}}" data-unitid="{{$category->id}}">{{ $category->name }}</a></td>
-                                        <td><button class="btn btn-circle">{{count($category->categories)}}</button></td>
+                                        <td><a style="text-decoration: none; cursor: pointer;"
+                                                class="modal-edit-proCat"
+                                                data-route="{{ route('nganh-nhom-hang.modalEdit') }}"
+                                                data-unitid="{{ $category->id }}">{{ $category->name }}</a></td>
+                                        <td><button
+                                                class="btn btn-circle">{{ count($category->categories) }}</button>
+                                        </td>
                                         <td>
                                             <div class="input-group" style="min-width: 108px;">
-                                                <span style=" max-width: 82px;min-width: 82px;" type="text"
-                                                    class="form-control form-control-sm font-size-s text-white active text-center"
-                                                    aria-label="Text input with dropdown button">Hoạt động</span>
-                                                <button class="btn bg-status-drop border-0 text-white py-0 px-2"
-                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                        class="fa fa-angle-down" aria-hidden="true"></i></button>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a class="dropdown-item" href="#">Ngừng</a></li>
-                                                    <li><a class="dropdown-item" href="#">Xoá</a></li>
-                                                </ul>
+                                                @if ($category->status == 1)
+                                                    <span style=" max-width: 82px;min-width: 82px;" type="text"
+                                                        class="form-control form-control-sm font-size-s text-white active text-center"
+                                                        aria-label="Text input with dropdown button">Hoạt động</span>
+                                                    <button class="btn bg-status-drop border-0 text-white py-0 px-2"
+                                                        type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
+                                                            class="fa fa-angle-down" aria-hidden="true"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li>
+                                                            <form
+                                                                action="{{ route('nganh-nhom-hang.updateStatus', $category->id) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('put')
+                                                                <input type="hidden" name="unitStatus" value="0">
+                                                                <button type="submit"
+                                                                    class="dropdown-item">Ngừng</button>
+                                                            </form>
+                                                        </li>
+                                                        <li>
+                                                            <form
+                                                                action="{{ route('nganh-nhom-hang.delete', $category->id) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('delete')
+                                                                <button type="submit" class="dropdown-item"
+                                                                    onclick="confirm('Bạn có chắc muốn xóa');">Xoá</button>
+                                                            </form>
+                                                        </li>
+                                                    </ul>
+                                                @else
+                                                    <span style=" max-width: 82px;min-width: 82px;" type="text"
+                                                        class="form-control form-control-sm font-size-s text-white stop text-center"
+                                                        aria-label="Text input with dropdown button">Ngừng</span>
+                                                    <button class="btn bg-status-drop border-0 text-white py-0 px-2"
+                                                        type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
+                                                            class="fa fa-angle-down" aria-hidden="true"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li>
+                                                            <form
+                                                                action="{{ route('nganh-nhom-hang.updateStatus', $category->id) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('put')
+                                                                <input type="hidden" name="unitStatus" value="1">
+                                                                <button type="submit" class="dropdown-item">Hoạt
+                                                                    động</button>
+                                                            </form>
+                                                        </li>
+                                                        <li>
+                                                            <form
+                                                                action="{{ route('nganh-nhom-hang.delete', $category->id) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('delete')
+                                                                <button type="submit" class="dropdown-item"
+                                                                    onclick="confirm('Bạn có chắc muốn xóa');">Xoá</button>
+                                                            </form>
+                                                        </li>
+                                                    </ul>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -216,20 +284,74 @@
                                     <tr>
                                         <td></td>
                                         <td>{{ $category->code }}</td>
-                                        <td><a style="text-decoration: none; cursor: pointer;" class="modal-edit-proCat" data-route="{{route('nganh-nhom-hang.modalEdit')}}" data-unitid="{{$category->id}}">{{ $category->name }}</a></td>
+                                        <td><a style="text-decoration: none; cursor: pointer;"
+                                                class="modal-edit-proCat"
+                                                data-route="{{ route('nganh-nhom-hang.modalEdit') }}"
+                                                data-unitid="{{ $category->id }}">{{ $category->name }}</a></td>
                                         <td><button class="btn btn-circle">0</button></td>
                                         <td>
                                             <div class="input-group" style="min-width: 108px;">
-                                                <span style=" max-width: 82px;min-width: 82px;" type="text"
-                                                    class="form-control form-control-sm font-size-s text-white active text-center"
-                                                    aria-label="Text input with dropdown button">Hoạt động</span>
-                                                <button class="btn bg-status-drop border-0 text-white py-0 px-2"
-                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                        class="fa fa-angle-down" aria-hidden="true"></i></button>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a class="dropdown-item" href="#">Ngừng</a></li>
-                                                    <li><a class="dropdown-item" href="#">Xoá</a></li>
-                                                </ul>
+                                                @if ($category->status == 1)
+                                                    <span style=" max-width: 82px;min-width: 82px;" type="text"
+                                                        class="form-control form-control-sm font-size-s text-white active text-center"
+                                                        aria-label="Text input with dropdown button">Hoạt động</span>
+                                                    <button class="btn bg-status-drop border-0 text-white py-0 px-2"
+                                                        type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
+                                                            class="fa fa-angle-down" aria-hidden="true"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li>
+                                                            <form
+                                                                action="{{ route('nganh-nhom-hang.updateStatus', $category->id) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('put')
+                                                                <input type="hidden" name="unitStatus" value="0">
+                                                                <button type="submit"
+                                                                    class="dropdown-item">Ngừng</button>
+                                                            </form>
+                                                        </li>
+                                                        <li>
+                                                            <form
+                                                                action="{{ route('nganh-nhom-hang.delete', $category->id) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('delete')
+                                                                <button type="submit" class="dropdown-item"
+                                                                    onclick="confirm('Bạn có chắc muốn xóa');">Xoá</button>
+                                                            </form>
+                                                        </li>
+                                                    </ul>
+                                                @else
+                                                    <span style=" max-width: 82px;min-width: 82px;" type="text"
+                                                        class="form-control form-control-sm font-size-s text-white stop text-center"
+                                                        aria-label="Text input with dropdown button">Ngừng</span>
+                                                    <button class="btn bg-status-drop border-0 text-white py-0 px-2"
+                                                        type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
+                                                            class="fa fa-angle-down" aria-hidden="true"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li>
+                                                            <form
+                                                                action="{{ route('nganh-nhom-hang.updateStatus', $category->id) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('put')
+                                                                <input type="hidden" name="unitStatus" value="1">
+                                                                <button type="submit" class="dropdown-item">Hoạt
+                                                                    động</button>
+                                                            </form>
+                                                        </li>
+                                                        <li>
+                                                            <form
+                                                                action="{{ route('nganh-nhom-hang.delete', $category->id) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('delete')
+                                                                <button type="submit" class="dropdown-item"
+                                                                    onclick="confirm('Bạn có chắc muốn xóa');">Xoá</button>
+                                                            </form>
+                                                        </li>
+                                                    </ul>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -246,6 +368,10 @@
         <spans style="font-size: 12px; color: #333;">Copyright©2005-2021 . All rights reserved</spans>
     </div>
 </section>
+
+<script>
+    var ajaxSelectCategory = {!! json_encode(route('nganh-nhom-hang.getCategory')) !!}
+</script>
 
 <script type="text/javascript" src="{{ asset('/resources/js/adminProductCategory.js') }}"></script>
 

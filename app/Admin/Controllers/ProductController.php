@@ -15,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.product.san-pham');
     }
 
     /**
@@ -25,7 +25,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.product.tao-san-pham');
     }
 
     /**

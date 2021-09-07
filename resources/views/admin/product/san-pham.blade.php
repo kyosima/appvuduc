@@ -60,7 +60,7 @@
 								<span class="caption-helper"></span>
 							</div>
 							<div class="ps-5">
-								<a href="#group_category_create" data-toggle="modal" class="btn btn-add"><i class="fa fa-plus"></i>
+								<a href="{{route('san-pham.create')}}" class="btn btn-add"><i class="fa fa-plus"></i>
 									Thêm mới </a>
 								<a href="#group_category_create" data-toggle="modal" class="btn btn-add"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
 									Import </a>

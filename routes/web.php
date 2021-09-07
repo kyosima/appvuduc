@@ -2,6 +2,7 @@
 
 use App\Admin\Controllers\CalculationUnitController;
 use App\Admin\Controllers\ProductCategoryController;
+use App\Admin\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,13 +62,7 @@ Route::get('/admin/don-hang-tra-dai-ly', function () {
 //     return view('admin.don-vi-tinh');
 // });
 
-// ĐƠN VỊ TÍNH
-Route::get('/admin/don-vi-tinh', [CalculationUnitController::class, 'index'])->name('don-vi-tinh.index');
-Route::get('/admin/don-vi-tinh/modal-edit', [CalculationUnitController::class, 'modalEdit'])->name('don-vi-tinh.modalEdit');
-Route::post('/admin/don-vi-tinh', [CalculationUnitController::class, 'store'])->name('don-vi-tinh.store');
-Route::put('/admin/don-vi-tinh/update/{id}', [CalculationUnitController::class, 'update'])->name('don-vi-tinh.update');
-Route::put('/admin/don-vi-tinh/{id}', [CalculationUnitController::class, 'updateStatus'])->name('don-vi-tinh.updateStatus');
-Route::delete('/admin/don-vi-tinh/{id}', [CalculationUnitController::class, 'destroy'])->name('don-vi-tinh.delete');
+
 
 
 Route::get('/admin/ket-qua-dao-tao', function () {
@@ -78,16 +73,35 @@ Route::get('/admin/loai-khuyen-mai', function () {
     return view('admin.loai-khuyen-mai');
 });
 
-// PRODUCT CATEGORIES
-Route::get('/admin/nganh-nhom-hang', [ProductCategoryController::class, 'index'])->name('nganh-nhom-hang.index');
-Route::post('/admin/nganh-nhom-hang', [ProductCategoryController::class, 'store'])->name('nganh-nhom-hang.store');
-Route::get('/admin/nganh-nhom-hang/modal-edit', [ProductCategoryController::class, 'modalEdit'])->name('nganh-nhom-hang.modalEdit');
-Route::put('/admin/nganh-nhom-hang/update/{id}', [ProductCategoryController::class, 'update'])->name('nganh-nhom-hang.update');
+Route::prefix('admin')->group(function () {
+    // ĐƠN VỊ TÍNH
+    Route::get('/don-vi-tinh', [CalculationUnitController::class, 'index'])->name('don-vi-tinh.index');
+    Route::get('/don-vi-tinh/modal-edit', [CalculationUnitController::class, 'modalEdit'])->name('don-vi-tinh.modalEdit');
+    Route::post('/don-vi-tinh', [CalculationUnitController::class, 'store'])->name('don-vi-tinh.store');
+    Route::put('/don-vi-tinh/update/{id}', [CalculationUnitController::class, 'update'])->name('don-vi-tinh.update');
+    Route::put('/don-vi-tinh/{id}', [CalculationUnitController::class, 'updateStatus'])->name('don-vi-tinh.updateStatus');
+    Route::delete('/don-vi-tinh/{id}', [CalculationUnitController::class, 'destroy'])->name('don-vi-tinh.delete');
+
+    // PRODUCT CATEGORIES
+    Route::get('/nganh-nhom-hang', [ProductCategoryController::class, 'index'])->name('nganh-nhom-hang.index');
+    Route::post('/nganh-nhom-hang', [ProductCategoryController::class, 'store'])->name('nganh-nhom-hang.store');
+    Route::get('/nganh-nhom-hang/modal-edit', [ProductCategoryController::class, 'modalEdit'])->name('nganh-nhom-hang.modalEdit');
+    Route::put('/nganh-nhom-hang/update/{id}', [ProductCategoryController::class, 'update'])->name('nganh-nhom-hang.update');
+    Route::put('/nganh-nhom-hang/{id}', [ProductCategoryController::class, 'updateStatus'])->name('nganh-nhom-hang.updateStatus');
+    Route::delete('/nganh-nhom-hang/{id}', [ProductCategoryController::class, 'destroy'])->name('nganh-nhom-hang.delete');
+    Route::get('/nganh-nhom-hang/get-category', [ProductCategoryController::class, 'getCategory'])->name('nganh-nhom-hang.getCategory');
 
 
-Route::get('/admin/san-pham', function () {
-    return view('admin.san-pham');
+    // PRODUCT
+    Route::get('/san-pham', [ProductController::class, 'index'])->name('san-pham.index');
+    Route::get('/tao-san-pham', [ProductController::class, 'create'])->name('san-pham.create');
+    Route::post('/san-pham', [ProductController::class, 'store'])->name('san-pham.store');
 });
+
+
+
+
+
 
 Route::get('/admin/thong-tin-ban-hang', function () {
     return view('admin.thong-tin-ban-hang');

@@ -209,3 +209,7 @@ table .click-cell {
 tr.selected {
   background: #f5f8fd !important;
 }
+
+.hide-select-option {
+  display: none !important;
+}

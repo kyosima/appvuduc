@@ -15,9 +15,15 @@
                                     aria-required="true">(*)</span></label>
                             <div class="col-md-9">
                                 <select name="proCatParent" id="proCatParent" class="form-control">
-                                    <option value="0">---</option>
-                                    @foreach ($categories as $item)
-                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                    <option value="0" selected>---</option>
+                                    @foreach ($allProCats as $item)
+                                    <option value="{{$item->id}}" {{$item->id == $proCat->category_parent ? 'selected' : ''}} >{{$item->name}}</option>
+                                        @if (count($item->childrenCategories) > 0)
+                                            @foreach ($item->childrenCategories as $childCategory)
+                                                @include('admin.productCategory.option_child_category', ['child_category' =>
+                                                $childCategory, 'subMask' => $subMask . '--'])
+                                            @endforeach
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -27,7 +33,7 @@
                                     aria-required="true">(*)</span></label>
                             <div class="col-md-9">
                                 <input type="text" name="proCatCode" class="form-control" required
-                                    value="">
+                                    value="{{old('proCatCode', $proCat->code)}}">
                             </div>
                         </div>
                         <div class="form-group d-flex mb-2">
@@ -35,14 +41,14 @@
                                     aria-required="true">(*)</span></label>
                             <div class="col-md-9">
                                 <input type="text" name="proCatName" class="form-control" required
-                                    value="">
+                                    value="{{old('proCatName', $proCat->name)}}">
                             </div>
                         </div>
                         <div class="form-group d-flex mb-2">
                             <label class="col-md-3 control-label">Miêu tả</label>
                             <div class="col-md-9">
                                 <textarea class="form-control" name="proCatDescription" rows="3"
-                                    value=""></textarea>
+                                    value="{{old('proCatDescription', $proCat->description)}}"></textarea>
                             </div>
                         </div>
                     </div>
