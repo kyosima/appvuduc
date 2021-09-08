@@ -128,3 +128,18 @@
   font-size: 12px;
   padding-left: 2px;
 }
+
+.custom-export-button button.dt-button {
+  padding: 4px 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #fff;
+  background-color: #11101d;
+  border-radius: 25px;
+}
+
+.custom-export-button button.dt-button:hover {
+  color: #fff;
+  background-color: #1fb6c4;
+  border-color: #1fb6c4;
+}

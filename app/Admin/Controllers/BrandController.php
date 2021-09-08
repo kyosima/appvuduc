@@ -21,6 +21,23 @@ class BrandController extends Controller
         return view('admin.brand.index', compact('brands', 'index'));
     }
 
+    public function indexDatatable()
+    {
+        $brands = Brand::all();
+        if($brands) {
+            return response()->json([
+                'message' => "Success!",
+                'code' => 200,
+                'data' => $brands
+            ]);
+        } else {
+            return response()->json([
+                'message' => "Error!",
+                'code' => 500,
+            ]);
+        }
+    }
+
     public function modalEdit(Request $request)
     {
         $id = $request->id;
@@ -36,7 +53,7 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $slug = Str::slug($request->name, '-');
-        Brand::create([
+        $brand = Brand::create([
             'code' => $request->brandCode,
             'slug' => $slug,
             'type' => $request->Type == "Company" ? "Công ty" : "Đối thủ",
@@ -44,14 +61,24 @@ class BrandController extends Controller
             'description' => $request->brandDescription,
         ]);
 
-        return redirect()->route('thuong-hieu.index');
+        if($brand){
+            return response()->json([
+                'message' => "Success",
+                'code' => 200,
+            ]);
+        } else {
+            return response()->json([
+                'message' => "Error",
+                'code' => 500,
+            ]);
+        }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $slug = Str::slug($request->name, '-');
 
-        Brand::where('id', $id)->update([
+        $brand = Brand::where('id', $request->id)->update([
             'code' => $request->brandCode,
             'slug' => $slug,
             'type' => $request->Type == "Company" ? "Công ty" : "Đối thủ",
@@ -59,21 +86,51 @@ class BrandController extends Controller
             'description' => $request->brandDescription
         ]);
 
-        return redirect()->route('thuong-hieu.index');
+        if($brand){
+            return response()->json([
+                'message' => "Success",
+                'code' => 200,
+            ]);
+        } else {
+            return response()->json([
+                'message' => "Error",
+                'code' => 500,
+            ]);
+        }
     }
 
-    public function updateStatus(Request $request, $id)
+    public function updateStatus(Request $request)
     {
-        Brand::where('id', $id)->update([
-            'status' => $request->brandStatus
+        $brand = Brand::where('id', $request->id)->update([
+            'status' => $request->status
         ]);
 
-        return redirect()->route('thuong-hieu.index');
+        if($brand){
+            return response()->json([
+                'message' => "Success",
+                'code' => 200,
+            ]);
+        } else {
+            return response()->json([
+                'message' => "Error",
+                'code' => 500,
+            ]);
+        }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        Brand::destroy($id);
-        return redirect()->route('thuong-hieu.index');
+        $brand = Brand::destroy($request->id);
+        if($brand){
+            return response()->json([
+                'message' => "Success",
+                'code' => 200,
+            ]);
+        } else {
+            return response()->json([
+                'message' => "Error",
+                'code' => 500,
+            ]);
+        }
     }
 }

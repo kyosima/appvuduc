@@ -116,12 +116,19 @@
                                         <label class="col-md-12 control-label text-left">Nhóm ngành hàng<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
-                                            <select class="selectpicker form-control nhomhang" name="category_parent"
-                                                required data-placeholder="Nhóm ngành hàng">
+                                            <select class="selectpicker form-control selectCategory nhomhang" name="category_parent"
+                                                required data-placeholder="Nhóm ngành hàng" data-type="megaParent">
                                                 <option value="-1">Nhóm ngành hàng</option>
-                                                @foreach ($nganhHang as $item)
-                                                    <option value="{{ $item->id }}" {{$item->id == $product->productCategory->parentCategories->id ? 'selected' : ''}}>{{ $item->name }}</option>
-                                                @endforeach
+                                                @if ( $product->productCategory->typeof_category == 2 )
+                                                    @foreach ($nganhHang as $item)
+                                                        <option value="{{ $item->id }}" {{$item->id == $product->productCategory->parentCategories->megaParentCategories->id ? 'selected' : ''}}>{{ $item->name }}</option>
+                                                    @endforeach
+                                                @else
+                                                    @foreach ($nganhHang as $item)
+                                                        <option value="{{ $item->id }}" {{$item->id == $product->productCategory->parentCategories->id ? 'selected' : ''}}>{{ $item->name }}</option>
+                                                    @endforeach
+                                                @endif
+                                                
                                             </select>
                                         </div>
                                     </div>
@@ -129,8 +136,18 @@
                                         <label class="col-md-12 control-label text-left">Nhóm sản phẩm<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
-                                            <select class="selectpicker form-control nhomsp" name="category_parent"
-                                                required data-placeholder="Nhóm sản phẩm">
+                                            <select class="selectpicker form-control selectCategory nhomsp" name="category_parent"
+                                                required data-placeholder="Nhóm sản phẩm" data-type="parent">
+                                                @if ( $product->productCategory->typeof_category == 2 )
+                                                    @php
+                                                        $cates = \App\Models\ProductCategory::where('category_parent', $product->productCategory->parentCategories->megaParentCategories->id)
+                                                                                                ->where('typeof_category', 1)
+                                                                                                ->get(); 
+                                                    @endphp
+                                                    @foreach ($cates as $item)
+                                                        <option value="{{ $item->id }}" {{$item->id == $product->productCategory->parentCategories->id ? 'selected' : ''}}>{{ $item->name }}</option>
+                                                    @endforeach
+                                                @else
                                                     @php
                                                         $cates = \App\Models\ProductCategory::where('category_parent', $product->productCategory->parentCategories->id)
                                                                                                 ->where('typeof_category', 1)
@@ -139,9 +156,39 @@
                                                     @foreach ($cates as $item)
                                                         <option value="{{ $item->id }}" {{ $item->id == $product->category_id ? 'selected' : ''}}>{{ $item->name }}</option>
                                                     @endforeach
+                                                @endif
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 control-label text-left">Nhóm sản phẩm con:</label>
+                                        <div class="col-md-12">
+                                            <select class="selectpicker form-control nhomspcon" name="child_category"
+                                                data-placeholder="Nhóm sản phẩm con">
+                                                <option value="-1">Chọn nhóm sản phẩm con</option>
+                                                @if ( $product->productCategory->typeof_category == 2 )
+                                                    @php
+                                                        $cates = \App\Models\ProductCategory::where('category_parent', $product->productCategory->parentCategories->id)
+                                                                                                ->where('typeof_category', 2)
+                                                                                                ->get(); 
+                                                    @endphp
+                                                    @foreach ($cates as $item)
+                                                        <option value="{{ $item->id }}" {{$item->id == $product->productCategory->id ? 'selected' : ''}}>{{ $item->name }}</option>
+                                                    @endforeach
+                                                @else
+                                                    @php
+                                                        $cates = \App\Models\ProductCategory::where('typeof_category', 2)
+                                                                                                ->get(); 
+                                                    @endphp
+                                                    @foreach ($cates as $item)
+                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="col-md-12 control-label text-left">Thương hiệu<span
                                                 class="required" aria-required="true">(*)</span>:</label>
@@ -155,8 +202,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="col-md-12 control-label text-left">Đơn vị tính<span
                                                 class="required" aria-required="true">(*)</span>:</label>
@@ -171,7 +216,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-12 control-label text-left">Khối lượng<span
+                                        <label class="col-md-12 control-label text-left">Khối lượng (g)<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
                                             <input type="number" step="0.1" name="product_weight" class="form-control"
@@ -181,7 +226,7 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-4">
-                                                <label class="col-md-12 control-label text-left">Chiều dài<span
+                                                <label class="col-md-12 control-label text-left">Chiều dài (cm)<span
                                                         class="required" aria-required="true">(*)</span>:</label>
                                                 <div class="col-md-12">
                                                     <input type="number" step="0.1" name="product_length"
@@ -190,7 +235,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-4">
-                                                <label class="col-md-12 control-label text-left">Chiều cao<span
+                                                <label class="col-md-12 control-label text-left">Chiều cao (cm)<span
                                                         class="required" aria-required="true">(*)</span>:</label>
                                                 <div class="col-md-12">
                                                     <input type="number" step="0.1" name="product_height"
@@ -199,7 +244,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-4">
-                                                <label class="col-md-12 control-label text-left">Chiều rộng<span
+                                                <label class="col-md-12 control-label text-left">Chiều rộng (cm)<span
                                                         class="required" aria-required="true">(*)</span>:</label>
                                                 <div class="col-md-12">
                                                     <input type="number" step="0.1" name="product_width"
@@ -297,8 +342,15 @@
                         </div>
 
                         <div class="col-md-12 mb-3">
+                            <div class="form-group mb-2">
+                                <label class="col-md-12 control-label vertical text-left">Mô tả ngắn:</label>
+                                <div class="col-md-12">
+                                    <textarea name="short_description" id="short_description" class="form-control" rows="2"
+                                        placeholder="...">{{ old('short_description', $product->short_desc) }}</textarea>
+                                </div>
+                            </div>
                             <div class="form-group">
-                                <label class="col-md-12 control-label vertical text-left">Mô tả</label>
+                                <label class="col-md-12 control-label vertical text-left text-danger">Mô tả chi tiết:</label>
                                 <div class="col-md-12">
                                     <textarea name="description" id="description" class="form-control" rows="3"
                                         placeholder="...">{{ old('description', $product->long_desc) }}</textarea>
@@ -336,7 +388,39 @@
     $(document).ready(function() {
         $('select.selectpicker').select2();
 
-        CKEDITOR.replace('description');
+        CKEDITOR.replace('description', {
+            toolbar :
+            [
+                { name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+                { name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','SpellChecker', 'Scayt' ] },
+                { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
+                { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv',
+                '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
+                { name: 'links', items : [ 'Link','Unlink','Anchor' ] },
+                { name: 'insert', items : [ 'Image','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','Iframe' ] },
+                '/',
+                { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+                { name: 'colors', items : [ 'TextColor','BGColor' ] },
+                { name: 'tools', items : [ 'Maximize', 'ShowBlocks','-','About' ] }
+            ]
+        });
+
+        CKEDITOR.replace('short_description', {
+            toolbar :
+            [
+                { name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+                { name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','SpellChecker', 'Scayt' ] },
+                { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
+                { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv',
+                '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
+                { name: 'links', items : [ 'Link','Unlink','Anchor' ] },
+                { name: 'insert', items : [ 'Image','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','Iframe' ] },
+                '/',
+                { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+                { name: 'colors', items : [ 'TextColor','BGColor' ] },
+                { name: 'tools', items : [ 'Maximize', 'ShowBlocks','-','About' ] }
+            ]
+        });
 
         $('#ckfinder-popup-1').click(function() {
             selectFileWithCKFinder('ckfinder-input-1');
@@ -364,10 +448,10 @@
             });
         }
 
-        $('select.nhomhang').change(function(e) {
+        $('select.selectCategory').change(function(e) {
             e.preventDefault();
-            $('select.nhomsp').html('');
             let html = '';
+            var type = $(this).data('type');
             $.ajax({
                 type: "GET",
                 url: "{{ route('san-pham.getCategory') }}",
@@ -376,13 +460,24 @@
                 },
                 success: function(response) {
                     if (response.data.length > 0) {
-                        console.log(response.data);
-                        html = "<option value='' selected>Chọn nhóm sản phẩm</option>";
-                        $.each(response.data, function(idx, val) {
-                            html += "<option value=" + val.id + ">" + val.name +
-                                "</option>"
-                        });
-                        $('select.nhomsp').html('').append(html);
+                        if ( type == 'megaParent') {
+                            html = "<option value='-1' selected>Chọn nhóm sản phẩm</option>";
+                            $.each(response.data, function(idx, val) {
+                                html += "<option value=" + val.id + ">" + val.name +
+                                    "</option>"
+                            });
+                            $('select.nhomsp').html('').append(html);
+                        } else {
+                            html = "<option value='-1' selected>Chọn nhóm sản phẩm con</option>";
+                            $.each(response.data, function(idx, val) {
+                                html += "<option value=" + val.id + ">" + val.name +
+                                    "</option>"
+                            });
+                            $('select.nhomspcon').html('').append(html);
+                        }
+                    } else {
+                        $('select.nhomsp').html('')
+                        $('select.nhomspcon').html('');
                     }
                 }
             });

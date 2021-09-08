@@ -371,6 +371,7 @@
 
 <script>
     var ajaxSelectCategory = {!! json_encode(route('nganh-nhom-hang.getCategory')) !!}
+
 </script>
 
 <script type="text/javascript" src="{{ asset('/resources/js/adminProductCategory.js') }}"></script>

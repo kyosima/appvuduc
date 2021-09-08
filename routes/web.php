@@ -4,6 +4,7 @@ use App\Admin\Controllers\BrandController;
 use App\Admin\Controllers\CalculationUnitController;
 use App\Admin\Controllers\ProductCategoryController;
 use App\Admin\Controllers\ProductController;
+use App\Http\Controllers\PublicProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -77,11 +78,12 @@ Route::get('/admin/loai-khuyen-mai', function () {
 Route::prefix('admin')->group(function () {
     // ĐƠN VỊ TÍNH
     Route::get('/don-vi-tinh', [CalculationUnitController::class, 'index'])->name('don-vi-tinh.index');
+    Route::get('/don-vi-tinh/getDatatable', [CalculationUnitController::class, 'indexDatatable'])->name('don-vi-tinh.indexDatatable');
     Route::get('/don-vi-tinh/modal-edit', [CalculationUnitController::class, 'modalEdit'])->name('don-vi-tinh.modalEdit');
     Route::post('/don-vi-tinh', [CalculationUnitController::class, 'store'])->name('don-vi-tinh.store');
-    Route::put('/don-vi-tinh/update/{id}', [CalculationUnitController::class, 'update'])->name('don-vi-tinh.update');
-    Route::put('/don-vi-tinh/{id}', [CalculationUnitController::class, 'updateStatus'])->name('don-vi-tinh.updateStatus');
-    Route::delete('/don-vi-tinh/{id}', [CalculationUnitController::class, 'destroy'])->name('don-vi-tinh.delete');
+    Route::put('/don-vi-tinh/update', [CalculationUnitController::class, 'update'])->name('don-vi-tinh.update');
+    Route::put('/don-vi-tinh', [CalculationUnitController::class, 'updateStatus'])->name('don-vi-tinh.updateStatus');
+    Route::delete('/don-vi-tinh', [CalculationUnitController::class, 'destroy'])->name('don-vi-tinh.delete');
 
     // PRODUCT CATEGORIES
     Route::get('/nganh-nhom-hang', [ProductCategoryController::class, 'index'])->name('nganh-nhom-hang.index');
@@ -104,11 +106,12 @@ Route::prefix('admin')->group(function () {
 
     // BRAND
     Route::get('/thuong-hieu', [BrandController::class, 'index'])->name('thuong-hieu.index');
+    Route::get('/thuong-hieu/getDatatable', [BrandController::class, 'indexDatatable'])->name('thuong-hieu.indexDatatable');
     Route::get('/thuong-hieu/modal-edit', [BrandController::class, 'modalEdit'])->name('thuong-hieu.modalEdit');
     Route::post('/thuong-hieu', [BrandController::class, 'store'])->name('thuong-hieu.store');
-    Route::put('/thuong-hieu/update/{id}', [BrandController::class, 'update'])->name('thuong-hieu.update');
-    Route::put('/thuong-hieu/{id}', [BrandController::class, 'updateStatus'])->name('thuong-hieu.updateStatus');
-    Route::delete('/thuong-hieu/{id}', [BrandController::class, 'destroy'])->name('thuong-hieu.delete');
+    Route::put('/thuong-hieu/update', [BrandController::class, 'update'])->name('thuong-hieu.update');
+    Route::put('/thuong-hieu', [BrandController::class, 'updateStatus'])->name('thuong-hieu.updateStatus');
+    Route::delete('/thuong-hieu', [BrandController::class, 'destroy'])->name('thuong-hieu.delete');
 
 });
 
@@ -142,10 +145,6 @@ Route::get('/chitiet-baiviet', function () {
     return view('chitiet-baiviet');
 });
 
-Route::get('/chitiet-sanpham', function () {
-    return view('chitiet-sanpham');
-});
-
 Route::get('/dangky', function () {
     return view('dangky');
 });
@@ -162,9 +161,10 @@ Route::get('/lien-he', function () {
     return view('lien-he');
 });
 
-Route::get('/san-pham', function () {
-    return view('san-pham');
-});
+Route::get('/san-pham', [PublicProductController::class, 'index'])->name('product.index');
+Route::get('/danh-muc/{slug}', [PublicProductController::class, 'indexCategory'])->name('product.indexCategory');
+Route::get('/san-pham/{slug}', [PublicProductController::class, 'show'])->name('product.show');
+
 
 Route::get('/thongtin', function () {
     return view('thongtin');

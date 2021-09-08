@@ -18,7 +18,12 @@ class ProductCategory extends Model
 
     public function parentCategories()
     {
-        return $this->belongsTo(ProductCategory::class, 'category_parent');
+        return $this->belongsTo(ProductCategory::class, 'category_parent')->with('megaParentCategories');
+    }
+
+    public function megaParentCategories()
+    {
+        return $this->belongsTo(ProductCategory::class, 'category_parent')->where('typeof_category', 0);
     }
 
     public function childrenCategories()

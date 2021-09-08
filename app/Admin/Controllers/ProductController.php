@@ -65,7 +65,7 @@ class ProductController extends Controller
                     'name' => $request->product_name,
                     'slug' => $slug,
                     'feature_img' => $request->feature_img,
-                    'category_id' => $request->category_parent,
+                    'category_id' => $request->child_category != "-1" ? $request->category_parent : $request->child_category,
                     'calculation_unit' => $request->product_calculation_unit,
                     'weight' => $request->product_weight,
                     'height' => $request->product_height,
@@ -73,6 +73,7 @@ class ProductController extends Controller
                     'length' => $request->product_length,
                     'brand' => $request->product_brand,
                     'status' => $request->product_status,
+                    'short_desc' => $request->short_description,
                     'long_desc' => $request->description,
                 ]);
 
@@ -97,26 +98,10 @@ class ProductController extends Controller
         });
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $product)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request)
+    public function edit($id)
     {
-        $product = Product::find($request->id)->first();
+        $product = Product::find($id);
         $nganhHang = ProductCategory::where('typeof_category', 0)->get();
         $calculationUnits = CalculationUnit::all();
         $brands = Brand::all();
@@ -136,12 +121,12 @@ class ProductController extends Controller
             try {
                 $slug = Str::slug($request->product_name, '-');
 
-                $product = Product::where('id', $id)->update([
+                Product::where('id', $id)->update([
                     'sku' => $request->product_sku,
                     'name' => $request->product_name,
                     'slug' => $slug,
                     'feature_img' => $request->feature_img,
-                    'category_id' => $request->category_parent,
+                    'category_id' => $request->child_category == "-1" ? $request->category_parent : $request->child_category,
                     'calculation_unit' => $request->product_calculation_unit,
                     'weight' => $request->product_weight,
                     'height' => $request->product_height,
@@ -149,6 +134,7 @@ class ProductController extends Controller
                     'length' => $request->product_length,
                     'brand' => $request->product_brand,
                     'status' => $request->product_status,
+                    'short_desc' => $request->short_description,
                     'long_desc' => $request->description,
                 ]);
 
