@@ -240,9 +240,7 @@
                                         <!-- Nhom san pham -->
                                         @if ($item->productCategory->typeof_category == 1)
                                             {{ $item->productCategory->name }}
-                                            <!-- Trong trường hợp tyoeof_category == 2 (có nhóm sp con)  -->
-                                            <!-- Tương đương có thằng cha (typeof_category == 1) -->
-                                        @elseif($item->productCategory->parentCategories != null)
+                                        @elseif($item->productCategory->parentCategories != null && $item->productCategory->typeof_category == 2)
                                             {{ $item->productCategory->parentCategories->name }}
                                         @endif
                                     </td>
@@ -250,15 +248,12 @@
                                         <!-- Nganh hang -->
                                         @if ($item->productCategory->parentCategories->typeof_category == 0)
                                             {{ $item->productCategory->parentCategories->name }}
-                                            <!-- Trong trường hợp tyoeof_category == 2 (có nhóm sp con)  -->
-                                            <!-- Tương đương có thằng ông nội (typeof_category == 0) -->
-                                        @elseif($item->productCategory->parentCategories->megaParentCategories !=
-                                            null)
+                                        @elseif($item->productCategory->parentCategories->megaParentCategories != null)
                                             {{ $item->productCategory->parentCategories->megaParentCategories->name }}
                                         @endif
                                     </td>
                                     <td>{{ $item->productCalculationUnit->name }}</td>
-                                    <td>{{ $item->weight }}gam</td>
+                                    <td>{{ $item->weight }} gam</td>
                                     <td>{{ $item->length }}cm</td>
                                     <td>{{ $item->width }}cm</td>
                                     <td>{{ $item->height }}cm</td>
@@ -279,6 +274,10 @@
 <script>
     $('#table-product').DataTable({
         ordering: false,
+        columnDefs: [
+            { "type": "string", "targets": [1, 3] },
+            { "orderable": false, "targets": 1 },
+        ],
 		searchBuilder: {
 			conditions: {
 				num: {
@@ -293,29 +292,17 @@
                     '!null': null,
 				},
 				string: {
-					'contains': null,
-                    '!between': null,
-					'between': null,
 					'!=': null,
-					'<': null,
-					'>': null,
-					'<=': null,
-					'>=': null,
+					'=': null,
                     'null': null,
                     '!null': null,
 				},
-				html: {
-					'contains': null,
-                    '!between': null,
-					'between': null,
-					'!=': null,
-					'<': null,
-					'>': null,
-					'<=': null,
-					'>=': null,
+                html: {
+                    '!=': null,
                     'null': null,
                     '!null': null,
-				},
+                    'contains': null,
+                },
 			}
 		},
 		language: {
@@ -340,7 +327,14 @@
                             equals: '=',
                         },
                         string: {
+                            contains: '=',
+                            startsWith: 'Bắt đầu bằng ký tự',
+                            endsWith: 'Kết thúc bằng ký tự',
+                        },
+                        string: {
                             equals: '=',
+                            startsWith: '',
+                            endsWith: '',
                         },
                     },
             },
@@ -351,10 +345,10 @@
 			zeroRecords: "Không tìm thấy",
 			emptyTable: "Hiện tại chưa có dữ liệu",
 			paginate: {
-				first: "Đầu",
-				last: "Cuối",
-				next: "Next",
-				previous: "Previous"
+				first: ">>",
+				last: "<<",
+				next: ">",
+				previous: "<"
 			},
         },
         dom: '<Q><"wrapper d-flex justify-content-between mb-3"lf><"custom-export-button"B>tip',

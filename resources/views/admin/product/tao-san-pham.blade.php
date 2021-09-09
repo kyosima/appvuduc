@@ -77,15 +77,15 @@
                                     <img src="http://api.salefie.vn/images/new_product_default.jpg">
                                 </div>
                                 <div class="form-group my-2">
-                                    <input id="ckfinder-input-1" type="text" name="feature_img" required readonly class="form-control">
-                                    <a style="cursor: pointer;" id="ckfinder-popup-1" class="btn btn-success">Chọn ảnh</a>
+                                    <input id="ckfinder-input-1" type="hidden" name="feature_img" class="form-control">
+                                    <a style="cursor: pointer;" id="ckfinder-popup-1" class="btn btn-success">Chọn ảnh đại diện</a>
                                 </div>
                             </div>
 
                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <div class="form-group my-2">
-                                    <input id="ckfinder-input-2" type="text" name="gallery_img" data-type="multiple" readonly class="form-control">
-                                    <a style="cursor: pointer;" id="ckfinder-popup-2" class="btn btn-success">Chọn nhiều ảnh</a>
+                                    <input id="ckfinder-input-2" type="hidden" name="gallery_img" data-type="multiple" class="form-control">
+                                    <a style="cursor: pointer;" id="ckfinder-popup-2" class="btn btn-success">Chọn thư viện ảnh</a>
                                 </div>
                                 <div class="fileinput-gallery thumbnail">
                                     <div class="row">
@@ -485,5 +485,7 @@
 
     });
 </script>
+
+<script type="text/javascript" src="{{ asset('/resources/js/adminProductCreateUpdate.js') }}"></script>
 
 <x-footer_admin />
