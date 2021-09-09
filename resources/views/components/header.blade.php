@@ -84,30 +84,25 @@
                                         <a href="./gioi-thieu">Giới thiệu</a>
                                     </li>
                                     <li class="nav-item dropdown">
-                                        <a href="./san-pham" class="dropdown-toggle">Sản phẩm</a>
+                                        <a href="{{route('product.index')}}" class="dropdown-toggle">Sản phẩm</a>
+                                        @php
+                                            $categories = \App\Models\ProductCategory::where('category_parent', 0)
+                                                        ->with('childrenCategories')
+                                                        ->get();
+                                        @endphp
                                         <ul class="dropdown-menu">
-                                            <li><a class="nav-item" href="#">Sebia</a></li>
-                                            <li class="dropdown">
-                                                <a class="nav-item" href="#">Vũ Đức</a>
-                                                <ul class="dropdown-menu">
-                                                    <li><a class="nav-item" href="#">Mỹ phẩm</a></li>
-                                                    <li><a class="nav-item" href="#">Đông Dược</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="dropdown">
-                                                <a class="nav-item" href="#">Mỹ phẩm</a>
-                                                <ul class="dropdown-menu">
-                                                    <li><a class="nav-item" href="#">Sữa rửa mặt</a></li>
-                                                    <li><a class="nav-item" href="#">Kem dưỡng</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a class="nav-item" href="#">POSM</a>
-                                            </li>
-                                            <li>
-                                                <a class="nav-item" href="#">Ngành hàng gia dụng</a>
-                                            </li>
-                                            <li><a class="nav-item" href="#">Khác</a></li>
+                                            @foreach ($categories as $item)
+                                                @if (count($item->categories) > 0)
+                                                    <li class="dropdown">
+                                                        <a class="nav-item" href="{{route('product.indexCategory', $item->slug)}}">{{$item->name}}</a>
+                                                        @include('publicProduct.menu-danhmuc', ['child_categories' => $item->childrenCategories])
+                                                    </li>
+                                                @else 
+                                                    <li>
+                                                        <a class="nav-item" href="{{route('product.indexCategory', $item->slug)}}">{{$item->name}}</a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
                                         </ul>
                                     </li>
                                     <li class="nav-item">

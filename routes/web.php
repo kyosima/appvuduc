@@ -94,7 +94,6 @@ Route::prefix('admin')->group(function () {
     Route::delete('/nganh-nhom-hang/{id}', [ProductCategoryController::class, 'destroy'])->name('nganh-nhom-hang.delete');
     Route::get('/nganh-nhom-hang/get-category', [ProductCategoryController::class, 'getCategory'])->name('nganh-nhom-hang.getCategory');
 
-
     // PRODUCT
     Route::get('/san-pham', [ProductController::class, 'index'])->name('san-pham.index');
     Route::get('/tao-san-pham', [ProductController::class, 'create'])->name('san-pham.create');
@@ -114,11 +113,6 @@ Route::prefix('admin')->group(function () {
     Route::delete('/thuong-hieu', [BrandController::class, 'destroy'])->name('thuong-hieu.delete');
 
 });
-
-
-
-
-
 
 Route::get('/admin/thong-tin-ban-hang', function () {
     return view('admin.thong-tin-ban-hang');

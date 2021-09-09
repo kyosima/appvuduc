@@ -65,6 +65,7 @@ class ProductController extends Controller
                     'name' => $request->product_name,
                     'slug' => $slug,
                     'feature_img' => $request->feature_img,
+                    'gallery' => rtrim($request->gallery_img, ", "),
                     'category_id' => $request->child_category != "-1" ? $request->category_parent : $request->child_category,
                     'calculation_unit' => $request->product_calculation_unit,
                     'weight' => $request->product_weight,
@@ -90,7 +91,7 @@ class ProductController extends Controller
 
                 $product->productPrice()->save($productPrice);
 
-                return redirect()->route('san-pham.index');
+                return redirect()->route('san-pham.edit', $product->id);
             } catch (\Throwable $th) {
                 throw new \Exception('Đã có lỗi xảy ra vui lòng thử lại');
                 return redirect()->back()->withErrors(['error' => $th->getMessage()]);
@@ -126,6 +127,7 @@ class ProductController extends Controller
                     'name' => $request->product_name,
                     'slug' => $slug,
                     'feature_img' => $request->feature_img,
+                    'gallery' => rtrim($request->gallery_img, ", "),
                     'category_id' => $request->child_category == "-1" ? $request->category_parent : $request->child_category,
                     'calculation_unit' => $request->product_calculation_unit,
                     'weight' => $request->product_weight,
@@ -151,7 +153,7 @@ class ProductController extends Controller
                     'vpoint_member' => $request->product_discount_member,
                 ]);
 
-                return redirect()->route('san-pham.index');
+                return redirect()->route('san-pham.edit', $id);
             } catch (\Throwable $th) {
                 throw new \Exception('Đã có lỗi xảy ra vui lòng thử lại');
                 return redirect()->back()->withErrors(['error' => $th->getMessage()]);

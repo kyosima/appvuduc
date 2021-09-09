@@ -77,8 +77,19 @@
                                     <img src="http://api.salefie.vn/images/new_product_default.jpg">
                                 </div>
                                 <div class="form-group my-2">
-                                    <input id="ckfinder-input-1" type="text" name="feature_img" class="form-control">
+                                    <input id="ckfinder-input-1" type="text" name="feature_img" required readonly class="form-control">
                                     <a style="cursor: pointer;" id="ckfinder-popup-1" class="btn btn-success">Chọn ảnh</a>
+                                </div>
+                            </div>
+
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="form-group my-2">
+                                    <input id="ckfinder-input-2" type="text" name="gallery_img" data-type="multiple" readonly class="form-control">
+                                    <a style="cursor: pointer;" id="ckfinder-popup-2" class="btn btn-success">Chọn nhiều ảnh</a>
+                                </div>
+                                <div class="fileinput-gallery thumbnail">
+                                    <div class="row">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -374,27 +385,64 @@
             selectFileWithCKFinder('ckfinder-input-1');
         })
 
+        $('#ckfinder-popup-2').click(function() {
+            selectFileWithCKFinder('ckfinder-input-2');
+        })
+
         function selectFileWithCKFinder(elementId) {
+            var type = $(`#${elementId}`).data('type')
             CKFinder.popup({
                 chooseFiles: true,
                 width: 800,
                 height: 600,
                 onInit: function(finder) {
                     finder.on('files:choose', function(evt) {
-                        var file = evt.data.files.first();
-                        var output = document.getElementById(elementId);
-                        output.value = file.getUrl();
-                        $('.fileinput-new img').attr('src', file.getUrl())
+                        if(type == "multiple") {
+                            var files = evt.data.files;
+                            var chosenFiles = $(`#${elementId}`).val();
+                            files.forEach( function(file, idx, array) {
+                                chosenFiles += file.getUrl() + ', ';
+                                $('.fileinput-gallery .row').append(`<div class="col-md-3">
+                                    <span style="cursor: pointer;" data-id='' data-url="${file.getUrl()}" class="delete_gallery">
+                                        <i class="fas fa-times"></i>
+                                        </span>
+                                                <img src="${file.getUrl()}">
+                                            </div>`)
+                            });
+                            var output = document.getElementById(elementId);
+                            output.value = chosenFiles;
+                        } else {
+                            var file = evt.data.files.first();
+                            var output = document.getElementById(elementId);
+                            output.value = file.getUrl();
+                            $('.fileinput-new.thumbnail img').attr('src', file.getUrl())
+                        }
                     });
-
-                    finder.on('file:choose:resizedImage', function(evt) {
-                        var output = document.getElementById(elementId);
-                        output.value = evt.data.resizedUrl;
-                        $('.fileinput-new img').attr('src', evt.data.resizedUrl)
-                    });
+                    // finder.on('file:choose:resizedImage', function(evt) {
+                    //     var output = document.getElementById(elementId);
+                    //     output.value = evt.data.resizedUrl;
+                    //     $('.fileinput-new img').attr('src', evt.data.resizedUrl)
+                    // });
                 }
             });
         }
+
+        $(document).on('click', '.delete_gallery', function(event) {
+            var t = $(this);
+            var in_value = $("#ckfinder-input-2");
+            var url = $(this).data('url');
+            if(t.parent().is(':last-child') && t.parent().is(':first-child')){
+                var newValue = '';
+            }
+            else if(t.parent().is(':last-child') && !t.parent().is(':first-child')){
+                var newValue = in_value.val().replace(', '+url, '');
+            } 
+            else {
+                var newValue = in_value.val().replace(url+', ', '');
+            }
+            in_value.val(newValue);
+            t.parent().remove();
+        });
 
         $('select.selectCategory').change(function(e) {
             e.preventDefault();
@@ -409,12 +457,14 @@
                 success: function(response) {
                     if (response.data.length > 0) {
                         if ( type == 'megaParent') {
+                            console.log(response.data);
                             html = "<option value='-1' selected>Chọn nhóm sản phẩm</option>";
                             $.each(response.data, function(idx, val) {
                                 html += "<option value=" + val.id + ">" + val.name +
                                     "</option>"
                             });
                             $('select.nhomsp').html('').append(html);
+                            $('select.nhomspcon').html('');
                         } else {
                             html = "<option value='-1' selected>Chọn nhóm sản phẩm con</option>";
                             $.each(response.data, function(idx, val) {
@@ -424,8 +474,10 @@
                             $('select.nhomspcon').html('').append(html);
                         }
                     } else {
-                        $('select.nhomsp').html('')
-                        $('select.nhomspcon').html('');
+                        if ( type == 'megaParent') {
+                            $('select.nhomsp').html('')
+                            $('select.nhomspcon').html('');
+                        }
                     }
                 }
             });

@@ -65,16 +65,16 @@
                             SẢN PHẨM </span>
                         <span class="caption-helper"></span>
                     </div>
-                    {{-- <div class="ps-5">
+                    <div class="ps-5">
                         <a href="{{ route('san-pham.create') }}" class="btn btn-add"><i class="fa fa-plus"></i>
                             Thêm mới </a>
-                        <a href="#group_category_create" data-toggle="modal" class="btn btn-add"><i
+                        {{-- <a href="#group_category_create" data-toggle="modal" class="btn btn-add"><i
                                 class="fa fa-file-excel-o" aria-hidden="true"></i>
                             Import </a>
                         <a href="#group_category_create" data-toggle="modal" class="btn btn-add"><i
                                 class="fa fa-file-excel-o" aria-hidden="true"></i>
-                            Export </a>
-                    </div> --}}
+                            Export </a> --}}
+                    </div>
                 </div>
             </div>
             <hr>
@@ -289,15 +289,33 @@
 					'>': null,
 					'<=': null,
 					'>=': null,
+                    'null': null,
+                    '!null': null,
 				},
 				string: {
-					"Not": null,
-					"Less Than": null,
-					"Less Than Equal To": null,
-					"Greater Than": null,
-					"Greater Than Equal To": null,
-					"Between": null,
-				}
+					'contains': null,
+                    '!between': null,
+					'between': null,
+					'!=': null,
+					'<': null,
+					'>': null,
+					'<=': null,
+					'>=': null,
+                    'null': null,
+                    '!null': null,
+				},
+				html: {
+					'contains': null,
+                    '!between': null,
+					'between': null,
+					'!=': null,
+					'<': null,
+					'>': null,
+					'<=': null,
+					'>=': null,
+                    'null': null,
+                    '!null': null,
+				},
 			}
 		},
 		language: {
@@ -316,7 +334,15 @@
                     _: 'Kết quả lọc (%d)'
                 },
                 value: 'Giá trị',
-                valueJoiner: 'et'
+                valueJoiner: 'et',
+                conditions :{
+                        number: {
+                            equals: '=',
+                        },
+                        string: {
+                            equals: '=',
+                        },
+                    },
             },
 			search: "Tìm kiếm:",
 			lengthMenu: "Hiển thị _MENU_ kết quả",

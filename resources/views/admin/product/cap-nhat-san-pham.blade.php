@@ -78,10 +78,38 @@
                                     <img src="{{$product->feature_img}}">
                                 </div>
                                 <div class="form-group my-2">
-                                    <input id="ckfinder-input-1" type="text" name="feature_img" class="form-control" value="{{old('feature_img', $product->feature_img)}}">
+                                    <input id="ckfinder-input-1" type="text" name="feature_img" class="form-control" value="{{old('feature_img', $product->feature_img)}}" readonly required>
                                     <a style="cursor: pointer;" id="ckfinder-popup-1" class="btn btn-success">Chọn ảnh</a>
                                 </div>
                             </div>
+
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="form-group my-2">
+                                    <input id="ckfinder-input-2" type="text" name="gallery_img"
+                                    data-type="multiple" data-hasid="{{$product->id}}"
+                                    readonly class="form-control"
+                                    value="{{old('gallery_img', $product->gallery)}}">
+                                    <a style="cursor: pointer;" id="ckfinder-popup-2" class="btn btn-success">Chọn nhiều ảnh</a>
+                                </div>
+                                <div class="fileinput-gallery thumbnail">
+                                    <div class="row">
+                                        @php
+                                            $gallery = explode(", ",$product->gallery);
+                                        @endphp
+                                        @if ($product->gallery != null)
+                                            @foreach ($gallery as $img)
+                                                <div class="col-md-3">
+                                                    <span style="cursor: pointer;" data-id='{{$product->id}}' data-url="{{$img}}" class="delete_gallery">
+                                                        <i class="fas fa-times"></i>
+                                                    </span>
+                                                    <img src="{{$img}}">
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="col-sm-9">
@@ -426,27 +454,69 @@
             selectFileWithCKFinder('ckfinder-input-1');
         })
 
+        $('#ckfinder-popup-2').click(function() {
+            selectFileWithCKFinder('ckfinder-input-2');
+        })
+
         function selectFileWithCKFinder(elementId) {
+            var type = $(`#${elementId}`).data('type')
+            var hasid = $(`#${elementId}`).data('hasid')
             CKFinder.popup({
                 chooseFiles: true,
                 width: 800,
                 height: 600,
                 onInit: function(finder) {
                     finder.on('files:choose', function(evt) {
-                        var file = evt.data.files.first();
-                        var output = document.getElementById(elementId);
-                        output.value = file.getUrl();
-                        $('.fileinput-new img').attr('src', file.getUrl())
-                    });
-
-                    finder.on('file:choose:resizedImage', function(evt) {
-                        var output = document.getElementById(elementId);
-                        output.value = evt.data.resizedUrl;
-                        $('.fileinput-new img').attr('src', evt.data.resizedUrl)
+                        if(type == "multiple") {
+                            var files = evt.data.files;
+                            var chosenFiles = $(`#${elementId}`).val();
+                            files.forEach( function(file, idx, array) {
+                                chosenFiles += file.getUrl() + ', ';
+                                if(hasid != ''){
+                                    $('.fileinput-gallery .row').append(`<div class="col-md-3">
+                                    <span style="cursor: pointer;" data-id='${hasid}' data-url="${file.getUrl()}" class="delete_gallery">
+                                        <i class="fas fa-times"></i>
+                                        </span>
+                                                <img src="${file.getUrl()}">
+                                            </div>`)
+                                } else {
+                                    $('.fileinput-gallery .row').append(`<div class="col-md-3">
+                                        <span style="cursor: pointer;" data-id='' data-url="${file.getUrl()}" class="delete_gallery">
+                                            <i class="fas fa-times"></i>
+                                            </span>
+                                                    <img src="${file.getUrl()}">
+                                                </div>`)
+                                }
+                            });
+                            var output = document.getElementById(elementId);
+                            output.value = chosenFiles;
+                        } else {
+                            var file = evt.data.files.first();
+                            var output = document.getElementById(elementId);
+                            output.value = file.getUrl();
+                            $('.fileinput-new.thumbnail img').attr('src', file.getUrl())
+                        }
                     });
                 }
             });
         }
+
+        $(document).on('click', '.delete_gallery', function(event) {
+            var t = $(this);
+            var in_value = $("#ckfinder-input-2");
+            var url = $(this).data('url');
+            if(t.parent().is(':last-child') && t.parent().is(':first-child')){
+                var newValue = '';
+            }
+            else if(t.parent().is(':last-child') && !t.parent().is(':first-child')){
+                var newValue = in_value.val().replace(', '+url, '');
+            } 
+            else {
+                var newValue = in_value.val().replace(url+', ', '');
+            }
+            in_value.val(newValue);
+            t.parent().remove();
+        });
 
         $('select.selectCategory').change(function(e) {
             e.preventDefault();
@@ -467,6 +537,7 @@
                                     "</option>"
                             });
                             $('select.nhomsp').html('').append(html);
+                            $('select.nhomspcon').html('');
                         } else {
                             html = "<option value='-1' selected>Chọn nhóm sản phẩm con</option>";
                             $.each(response.data, function(idx, val) {
@@ -476,8 +547,10 @@
                             $('select.nhomspcon').html('').append(html);
                         }
                     } else {
-                        $('select.nhomsp').html('')
-                        $('select.nhomspcon').html('');
+                        if ( type == 'megaParent') {
+                            $('select.nhomsp').html('')
+                            $('select.nhomspcon').html('');
+                        }
                     }
                 }
             });

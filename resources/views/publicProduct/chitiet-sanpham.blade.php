@@ -14,9 +14,15 @@
                                 <div class="product-gallery">
                                     <div class="fotorama" data-nav="thumbs" data-swipe="true"
                                         data-allowfullscreen="native" data-loop="true" data-transition="crossfade" width="100%" height="100%">
-                                        <img src="https://rbvietnam.com/wp-content/uploads/2020/08/7796a17e8bec77b22efd.jpg">
                                         <img src="{{$product->feature_img}}">
-                                        <img src="https://rbvietnam.com/wp-content/uploads/2019/06/971e4dea5b93bfcde682.jpg">
+                                        @if ($product->gallery != null)
+                                            @php
+                                                $gallery = explode(", ",$product->gallery);
+                                            @endphp
+                                            @foreach ($gallery as $img)
+                                                <img src="{{$img}}">
+                                            @endforeach
+                                        @endif
                                     </div>
                                 </div>
                             </div>
