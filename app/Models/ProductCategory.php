@@ -11,9 +11,11 @@ class ProductCategory extends Model
     protected $guarded = [];
     protected $table = 'product_category';
 
+   
+
     public function categories()
     {
-        return $this->hasMany(ProductCategory::class, 'category_parent');
+        return $this->hasMany(ProductCategory::class, 'category_parent', 'id');
     }
 
     public function parentCategories()
@@ -23,6 +25,6 @@ class ProductCategory extends Model
 
     public function childrenCategories()
     {
-        return $this->hasMany(ProductCategory::class, 'category_parent')->with('categories');
+        return $this->categories()->with('categories');
     }
 }

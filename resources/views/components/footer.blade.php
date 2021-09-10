@@ -133,7 +133,7 @@
                 </a>
             </li>
             <li>
-                <a>
+                <a href="{{route('cart.index')}}">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Giỏ hàng</span>
                 </a>
@@ -163,7 +163,7 @@
                 </a>
             </li>
             <li>
-                <a id="chatfb" href="https://www.facebook.com/profile.php?id=100070938861938" target="_blank">
+                <a id="chatfb" href="{{route('cart.index')}}" target="_blank">
                     <img src="https://image.flaticon.com/icons/png/512/833/833314.png">
                     <br>
                     <span>Giỏ hàng</span>
@@ -192,6 +192,11 @@
         crossorigin="anonymous"></script>
     <script src="{{asset('/resources/js/colorbox-master/jquery.colorbox-min.js')}}"></script>
     <script src="{{asset('/resources/js/main.js')}}"></script>
+    <script src="{{asset('/resources/js/sidebar.js')}}"></script>
+    <script src="{{asset('/resources/js/fotorama.js')}}"></script>
+    <script src="{{asset('/resources/js/cart.js')}}"></script>
+
+
 
 </body>
 

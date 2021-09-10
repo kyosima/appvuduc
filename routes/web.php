@@ -5,6 +5,10 @@ use App\Admin\Controllers\CalculationUnitController;
 use App\Admin\Controllers\ProductCategoryController;
 use App\Admin\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PublicProductController;
+use App\Http\Controllers\PublicProductCategoryController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -132,8 +136,26 @@ Route::get('/admin/ton-kho-dai-ly', function () {
 //------------------------------------------------------------------------------------------------------
 Route::get('/', function () {
     return view('home');
+})->name('home');
+
+Route::resources([
+    'san-pham' => PublicProductController::class,
+    'danh-muc' => PublicProductCategoryController::class,
+]);
+
+Route::prefix('gio-hang')->group(function () {
+    Route::get('/', [CartController::Class, 'index'])->name('cart.index');
+    Route::post('add', [CartController::Class, 'addCart'])->name('cart.add');
+    Route::post('update', [CartController::Class, 'updateCart'])->name('cart.update');
+    Route::post('delete', [CartController::Class, 'deleteCart'])->name('cart.delete');
 });
 
+Route::prefix('thanh-toan')->group(function () {
+    Route::get('/', [CheckoutController::Class, 'index'])->name('checkout.index');
+
+});
+
+Route::get('/tim-kiem-san-pham', [PublicProductController::class, 'searchProduct'])->name('tim-kiem-san-pham');
 Route::get('/blog', function () {
     return view('blog');
 });
@@ -162,9 +184,6 @@ Route::get('/lien-he', function () {
     return view('lien-he');
 });
 
-Route::get('/san-pham', function () {
-    return view('san-pham');
-});
 
 Route::get('/thongtin', function () {
     return view('thongtin');
