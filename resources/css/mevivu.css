@@ -986,3 +986,33 @@ ul.dropdown-menu>li.dropdown>ul.dropdown-menu {
         width: 33.33%;
     }
 }
+#breadcrumbs {
+    list-style:none;
+    display:flex;
+    padding:8px 0px;
+  }
+  
+  #breadcrumbs li {
+    margin-right:16px;
+  }
+  #breadcrumbs li a.breadcrumb-home{
+    color:#ec5598;
+
+  }
+  #breadcrumbs li a {
+    color:#4b7bec;
+    text-decoration:none;
+  }
+  #breadcrumbs li a:hover {
+    transition-delay:50ms;
+    transition:50ms;
+    color:#3867d6;
+    text-decoration:underline;
+  }
+  
+  
+  #breadcrumbs li+li:before  {
+    padding:8px;
+    color:#000;
+    content: "/\00a0";
+  }

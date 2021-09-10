@@ -105,3 +105,26 @@
   padding: 10px;
   border-radius: 10px;
 }
+
+/* MINH CSS */
+.error {
+  color: red !important;
+  border-color: red;
+}
+
+.select2-container .select2-selection--single{
+  padding: .375rem .75rem;
+    height: 38px;
+    line-height: 1.5;
+}
+
+.control-label {
+  font-size: 14px;
+
+}
+
+.control-label .required {
+  color: #e02222;
+  font-size: 12px;
+  padding-left: 2px;
+}

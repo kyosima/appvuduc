@@ -234,7 +234,7 @@
   left: 250px;
   width: calc(100% - 250px);
   transition: all 0.5s ease;
-  z-index: 2;
+  /* z-index: 2; */
 }
 .sidebar.open ~ .home-section{
   left: 78px;
@@ -279,7 +279,7 @@
   color: rgb(255, 255, 255) !important;
 }
 label {
-  color: black !important;
+  color: black;
 }
 .list-group-item-link:hover i:first-child {
   color: var(--primary) !important;
@@ -354,4 +354,8 @@ label {
   padding-bottom: 0.7rem;
   border-bottom: 0 solid #fff;
   background-color: #586674;
+}
+
+img, svg {
+  max-width: 100%;
 }

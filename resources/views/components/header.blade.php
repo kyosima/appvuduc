@@ -18,8 +18,17 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
         integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&subset=vietnamese">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{asset('/resources/css/mevivu.css')}}">
+    <link rel="stylesheet" href="{{asset('/resources/css/pagination.css')}}">
+    <link rel="stylesheet" href="{{asset('/resources/css/sidebar.css')}}">
+    <link rel="stylesheet" href="{{asset('/resources/css/chitiet-sanpham.css')}}">
+    <link rel="stylesheet" href="{{asset('/resources/css/fotorama.css')}}">
+    <link rel="stylesheet" href="{{asset('/resources/css/gio-hang.css')}}">
+
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+
 </head>
 
 <body>
@@ -75,36 +84,39 @@
                             <div id="navbar-toggle" class="navbar-collapse collapse">
                                 <ul class="navbar-nav ml-auto">
                                     <li class="nav-item active">
-                                        <a href="/">Trang chủ</a>
+                                        <a href="{{route('home')}}">Trang chủ</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="./gioi-thieu">Giới thiệu</a>
                                     </li>
                                     <li class="nav-item dropdown">
-                                        <a href="./san-pham" class="dropdown-toggle">Sản phẩm</a>
+                                        <a href="{{route('san-pham.index')}}" class="dropdown-toggle">Sản phẩm</a>
                                         <ul class="dropdown-menu">
-                                            <li><a class="nav-item" href="#">Sebia</a></li>
-                                            <li class="dropdown">
-                                                <a class="nav-item" href="#">Vũ Đức</a>
-                                                <ul class="dropdown-menu">
-                                                    <li><a class="nav-item" href="#">Mỹ phẩm</a></li>
-                                                    <li><a class="nav-item" href="#">Đông Dược</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="dropdown">
-                                                <a class="nav-item" href="#">Mỹ phẩm</a>
-                                                <ul class="dropdown-menu">
-                                                    <li><a class="nav-item" href="#">Sữa rửa mặt</a></li>
-                                                    <li><a class="nav-item" href="#">Kem dưỡng</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a class="nav-item" href="#">POSM</a>
-                                            </li>
-                                            <li>
-                                                <a class="nav-item" href="#">Ngành hàng gia dụng</a>
-                                            </li>
-                                            <li><a class="nav-item" href="#">Khác</a></li>
+                                            @foreach (App\Models\ProductCategory::whereCategoryParent(0)->get() as $parent)
+                                                @if ($parent->childrenCategories()->count() > 0)
+                                                    <li class="dropdown">
+                                                        <a class="nav-item" href="{{ url('danh-muc/'.$parent->slug) }}">{{$parent->name}}</a>
+                                                        <ul class="dropdown-menu">
+                                                            @foreach ($parent->childrenCategories()->get() as $child1)     
+                                                                @if ($child1->childrenCategories()->count() > 0)
+                                                                    <li class="dropdown">
+                                                                        <a class="nav-item" href="{{ url('danh-muc/'.$child1->slug) }}">{{$child1->name}}</a>
+                                                                        <ul class="dropdown-menu">
+                                                                            @foreach ($child1->childrenCategories()->get() as $child2)     
+                                                                                <li><a class="nav-item" href="{{ url('danh-muc/'.$child2->slug) }}">{{$child2->name}}</a></li>
+                                                                            @endforeach
+                                                                        </ul>
+                                                                    </li>
+                                                                @else
+                                                                    <li><a class="nav-item" href="{{ url('danh-muc/'.$parent->slug) }}">{{$child1->name}}</a></li>
+                                                                @endif
+                                                            @endforeach
+                                                        </ul>
+                                                    </li>
+                                                @else
+                                                    <li><a class="nav-item" href="{{ url('danh-muc/'.$parent->slug) }}">{{$parent->name}}</a></li>
+                                                @endif
+                                            @endforeach
                                         </ul>
                                     </li>
                                     <li class="nav-item">
