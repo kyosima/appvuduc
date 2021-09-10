@@ -3,11 +3,6 @@ function destroyModal() {
 }
 
 $(document).ready(function () {
-    $('#table-calculation-unit').DataTable({
-        ordering: false,
-        dom: '<"wrapper d-flex justify-content-between mb-3"lf>tip'
-    });
-
     $('body').click(function (e) {
         if (!$('#calculation_unit_update').hasClass('show')) {
             $('#calculation_unit_update').remove();

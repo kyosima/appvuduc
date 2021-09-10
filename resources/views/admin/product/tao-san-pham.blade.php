@@ -77,8 +77,19 @@
                                     <img src="http://api.salefie.vn/images/new_product_default.jpg">
                                 </div>
                                 <div class="form-group my-2">
-                                    <input id="ckfinder-input-1" type="text" name="feature_img" class="form-control">
-                                    <a style="cursor: pointer;" id="ckfinder-popup-1" class="btn btn-success">Chọn ảnh</a>
+                                    <input id="ckfinder-input-1" type="hidden" name="feature_img" class="form-control">
+                                    <a style="cursor: pointer;" id="ckfinder-popup-1" class="btn btn-success">Chọn ảnh đại diện</a>
+                                </div>
+                            </div>
+
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="form-group my-2">
+                                    <input id="ckfinder-input-2" type="hidden" name="gallery_img" data-type="multiple" class="form-control">
+                                    <a style="cursor: pointer;" id="ckfinder-popup-2" class="btn btn-success">Chọn thư viện ảnh</a>
+                                </div>
+                                <div class="fileinput-gallery thumbnail">
+                                    <div class="row">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -115,8 +126,8 @@
                                         <label class="col-md-12 control-label text-left">Nhóm ngành hàng<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
-                                            <select class="selectpicker form-control nhomhang" name="category_parent"
-                                                required data-placeholder="Nhóm ngành hàng">
+                                            <select class="selectpicker form-control selectCategory nhomhang" name="category_parent"
+                                                required data-placeholder="Nhóm ngành hàng" data-type="megaParent">
                                                 <option value="-1">Nhóm ngành hàng</option>
                                                 @foreach ($nganhHang as $item)
                                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -128,12 +139,24 @@
                                         <label class="col-md-12 control-label text-left">Nhóm sản phẩm<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
-                                            <select class="selectpicker form-control nhomsp" name="category_parent"
-                                                required data-placeholder="Nhóm sản phẩm">
+                                            <select class="selectpicker form-control selectCategory nhomsp" name="category_parent"
+                                                required data-placeholder="Nhóm sản phẩm" data-type="parent">
 
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 control-label text-left">Nhóm sản phẩm con:</label>
+                                        <div class="col-md-12">
+                                            <select class="selectpicker form-control nhomspcon" name="child_category"
+                                                data-placeholder="Nhóm sản phẩm con">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="col-md-12 control-label text-left">Thương hiệu<span
                                                 class="required" aria-required="true">(*)</span>:</label>
@@ -147,8 +170,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="col-md-12 control-label text-left">Đơn vị tính<span
                                                 class="required" aria-required="true">(*)</span>:</label>
@@ -163,7 +184,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-12 control-label text-left">Khối lượng<span
+                                        <label class="col-md-12 control-label text-left">Khối lượng (g) <span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
                                             <input type="number" step="0.1" name="product_weight" class="form-control"
@@ -173,7 +194,7 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-4">
-                                                <label class="col-md-12 control-label text-left">Chiều dài<span
+                                                <label class="col-md-12 control-label text-left">Chiều dài (cm)<span
                                                         class="required" aria-required="true">(*)</span>:</label>
                                                 <div class="col-md-12">
                                                     <input type="number" step="0.1" name="product_length"
@@ -182,7 +203,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-4">
-                                                <label class="col-md-12 control-label text-left">Chiều cao<span
+                                                <label class="col-md-12 control-label text-left">Chiều cao (cm)<span
                                                         class="required" aria-required="true">(*)</span>:</label>
                                                 <div class="col-md-12">
                                                     <input type="number" step="0.1" name="product_height"
@@ -191,7 +212,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-4">
-                                                <label class="col-md-12 control-label text-left">Chiều rộng<span
+                                                <label class="col-md-12 control-label text-left">Chiều rộng (cm)<span
                                                         class="required" aria-required="true">(*)</span>:</label>
                                                 <div class="col-md-12">
                                                     <input type="number" step="0.1" name="product_width"
@@ -289,8 +310,15 @@
                         </div>
 
                         <div class="col-md-12 mb-3">
+                            <div class="form-group mb-2">
+                                <label class="col-md-12 control-label vertical text-left">Mô tả ngắn:</label>
+                                <div class="col-md-12">
+                                    <textarea name="short_description" id="short_description" class="form-control" rows="2"
+                                        placeholder="...">{{ old('short_description') }}</textarea>
+                                </div>
+                            </div>
                             <div class="form-group">
-                                <label class="col-md-12 control-label vertical text-left">Mô tả</label>
+                                <label class="col-md-12 control-label vertical text-left text-danger">Mô tả chi tiết:</label>
                                 <div class="col-md-12">
                                     <textarea name="description" id="description" class="form-control" rows="3"
                                         placeholder="...">{{ old('description') }}</textarea>
@@ -319,37 +347,107 @@
     $(document).ready(function() {
         $('select.selectpicker').select2();
 
-        CKEDITOR.replace('description');
+        CKEDITOR.replace('description', {
+            toolbar :
+            [
+                { name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+                { name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','SpellChecker', 'Scayt' ] },
+                { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
+                { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv',
+                '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
+                { name: 'links', items : [ 'Link','Unlink','Anchor' ] },
+                { name: 'insert', items : [ 'Image','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','Iframe' ] },
+                '/',
+                { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+                { name: 'colors', items : [ 'TextColor','BGColor' ] },
+                { name: 'tools', items : [ 'Maximize', 'ShowBlocks','-','About' ] }
+            ]
+        });
+
+        CKEDITOR.replace('short_description', {
+            toolbar :
+            [
+                { name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+                { name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','SpellChecker', 'Scayt' ] },
+                { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
+                { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv',
+                '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
+                { name: 'links', items : [ 'Link','Unlink','Anchor' ] },
+                { name: 'insert', items : [ 'Image','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','Iframe' ] },
+                '/',
+                { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+                { name: 'colors', items : [ 'TextColor','BGColor' ] },
+                { name: 'tools', items : [ 'Maximize', 'ShowBlocks','-','About' ] }
+            ]
+        });
 
         $('#ckfinder-popup-1').click(function() {
             selectFileWithCKFinder('ckfinder-input-1');
         })
 
+        $('#ckfinder-popup-2').click(function() {
+            selectFileWithCKFinder('ckfinder-input-2');
+        })
+
         function selectFileWithCKFinder(elementId) {
+            var type = $(`#${elementId}`).data('type')
             CKFinder.popup({
                 chooseFiles: true,
                 width: 800,
                 height: 600,
                 onInit: function(finder) {
                     finder.on('files:choose', function(evt) {
-                        var file = evt.data.files.first();
-                        var output = document.getElementById(elementId);
-                        output.value = file.getUrl();
-                        $('.fileinput-new img').attr('src', file.getUrl())
+                        if(type == "multiple") {
+                            var files = evt.data.files;
+                            var chosenFiles = $(`#${elementId}`).val();
+                            files.forEach( function(file, idx, array) {
+                                chosenFiles += file.getUrl() + ', ';
+                                $('.fileinput-gallery .row').append(`<div class="col-md-3">
+                                    <span style="cursor: pointer;" data-id='' data-url="${file.getUrl()}" class="delete_gallery">
+                                        <i class="fas fa-times"></i>
+                                        </span>
+                                                <img src="${file.getUrl()}">
+                                            </div>`)
+                            });
+                            var output = document.getElementById(elementId);
+                            output.value = chosenFiles;
+                        } else {
+                            var file = evt.data.files.first();
+                            var output = document.getElementById(elementId);
+                            output.value = file.getUrl();
+                            $('.fileinput-new.thumbnail img').attr('src', file.getUrl())
+                        }
                     });
-
-                    finder.on('file:choose:resizedImage', function(evt) {
-                        var output = document.getElementById(elementId);
-                        output.value = evt.data.resizedUrl;
-                        $('.fileinput-new img').attr('src', evt.data.resizedUrl)
-                    });
+                    // finder.on('file:choose:resizedImage', function(evt) {
+                    //     var output = document.getElementById(elementId);
+                    //     output.value = evt.data.resizedUrl;
+                    //     $('.fileinput-new img').attr('src', evt.data.resizedUrl)
+                    // });
                 }
             });
         }
 
-        $('select.nhomhang').change(function(e) {
+        $(document).on('click', '.delete_gallery', function(event) {
+            var t = $(this);
+            var in_value = $("#ckfinder-input-2");
+            var url = $(this).data('url');
+            if(t.parent().is(':last-child') && t.parent().is(':first-child')){
+                var newValue = '';
+            }
+            else if(t.parent().is(':last-child') && !t.parent().is(':first-child')){
+                var newValue = in_value.val().replace(', '+url, '');
+            } 
+            else {
+                var newValue = in_value.val().replace(url+', ', '');
+            }
+            in_value.val(newValue);
+            t.parent().remove();
+        });
+
+        $('select.selectCategory').change(function(e) {
             e.preventDefault();
             let html = '';
+            var type = $(this).data('type');
             $.ajax({
                 type: "GET",
                 url: "{{ route('san-pham.getCategory') }}",
@@ -358,13 +456,28 @@
                 },
                 success: function(response) {
                     if (response.data.length > 0) {
-                        console.log(response.data);
-                        html = "<option value='' selected>Chọn nhóm sản phẩm</option>";
-                        $.each(response.data, function(idx, val) {
-                            html += "<option value=" + val.id + ">" + val.name +
-                                "</option>"
-                        });
-                        $('select.nhomsp').html('').append(html);
+                        if ( type == 'megaParent') {
+                            console.log(response.data);
+                            html = "<option value='-1' selected>Chọn nhóm sản phẩm</option>";
+                            $.each(response.data, function(idx, val) {
+                                html += "<option value=" + val.id + ">" + val.name +
+                                    "</option>"
+                            });
+                            $('select.nhomsp').html('').append(html);
+                            $('select.nhomspcon').html('');
+                        } else {
+                            html = "<option value='-1' selected>Chọn nhóm sản phẩm con</option>";
+                            $.each(response.data, function(idx, val) {
+                                html += "<option value=" + val.id + ">" + val.name +
+                                    "</option>"
+                            });
+                            $('select.nhomspcon').html('').append(html);
+                        }
+                    } else {
+                        if ( type == 'megaParent') {
+                            $('select.nhomsp').html('')
+                            $('select.nhomspcon').html('');
+                        }
                     }
                 }
             });
@@ -372,5 +485,7 @@
 
     });
 </script>
+
+<script type="text/javascript" src="{{ asset('/resources/js/adminProductCreateUpdate.js') }}"></script>
 
 <x-footer_admin />

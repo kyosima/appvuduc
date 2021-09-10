@@ -20,6 +20,23 @@ class CalculationUnitController extends Controller
         return view('admin.donViTinh.don-vi-tinh', compact('calculationUnit', 'index'));
     }
 
+    public function indexDatatable()
+    {
+        $units = CalculationUnit::all();
+        if($units) {
+            return response()->json([
+                'message' => "Success!",
+                'code' => 200,
+                'data' => $units
+            ]);
+        } else {
+            return response()->json([
+                'message' => "Error!",
+                'code' => 500,
+            ]);
+        }
+    }
+
     public function modalEdit(Request $request)
     {
         $id = $request->id;
@@ -46,41 +63,74 @@ class CalculationUnitController extends Controller
             'note' => $request->unitDescription,
         ]);
 
-        $calculationUnit = CalculationUnit::all();
-        $index = 1;
-        $returnHTML = view('admin.donViTinh.indexTable', compact('calculationUnit', 'index'))->render();
+        if($calculationUnit){
+            return response()->json([
+                'message' => "Success",
+                'code' => 200,
+            ]);
+        } else {
+            return response()->json([
+                'message' => "Error",
+                'code' => 500,
+            ]);
+        }
 
-        return response()->json([
-            'html' => $returnHTML
-        ], 200);
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        CalculationUnit::where('id', $id)->update([
+        $calculationUnit = CalculationUnit::where('id', $request->id)->update([
             'code' => $request->unitCode,
             'name' => $request->unitName,
             'note' => $request->unitDescription
         ]);
 
-        return redirect()->route('don-vi-tinh.index');
+        if($calculationUnit){
+            return response()->json([
+                'message' => "Success",
+                'code' => 200,
+            ]);
+        } else {
+            return response()->json([
+                'message' => "Error",
+                'code' => 500,
+            ]);
+        }
     }
 
-    public function updateStatus(Request $request, $id)
+    public function updateStatus(Request $request)
     {
-        CalculationUnit::where('id', $id)->update([
-            'status' => $request->unitStatus
+        $calculationUnit = CalculationUnit::where('id', $request->id)->update([
+            'status' => $request->status
         ]);
 
-        return redirect()->route('don-vi-tinh.index');
+        if($calculationUnit){
+            return response()->json([
+                'message' => "Success",
+                'code' => 200,
+            ]);
+        } else {
+            return response()->json([
+                'message' => "Error",
+                'code' => 500,
+            ]);
+        }
     }
 
-
-
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $calculationUnit = CalculationUnit::destroy($id);
-        return redirect()->route('don-vi-tinh.index');
+        $calculationUnit = CalculationUnit::destroy($request->id);
+        if($calculationUnit){
+            return response()->json([
+                'message' => "Success",
+                'code' => 200,
+            ]);
+        } else {
+            return response()->json([
+                'message' => "Error",
+                'code' => 500,
+            ]);
+        }
     }
 }

@@ -166,7 +166,7 @@
                             </tr>
                         </thead>
                         <tbody style="color: #748092; font-size: 14px; vertical-align: middle;">
-                            @include('admin.donViTinh.indexTable')
+                            {{-- @include('admin.donViTinh.indexTable') --}}
                         </tbody>
                     </table>
                 </div>
@@ -178,6 +178,167 @@
         <spans style="font-size: 12px; color: #333;">Copyright©2005-2021 . All rights reserved</spans>
     </div>
 </section>
+
+<script>
+    $(document).ready(function() {
+
+        // CREATE NEW CALCULATION UNIT
+        $("#formCreateUnit").submit(function (e) {
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+            var form = $(this);
+            var url = form.attr('action');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form.serialize(), // serializes the form's elements.
+                success: function (response) {
+                    $("#formCreateUnit")[0].reset();
+                    $('#calculation_unit_create .form-body').prepend(`<div class="bg-success p-2 mb-2">
+                        <p class="text-light m-0">Đã thêm mới đơn vị tính thành công</p>
+                        </div>`);
+                    setTimeout(function () {
+                        $('#calculation_unit_create').modal('dispose')
+                        $('#calculation_unit_create').hide()
+                        $('.modal-backdrop.fade.show').remove()
+                    }, 1500);
+                    table.ajax.reload();
+                }
+            });
+        });
+
+        $(document).on("submit", '#formUpdateUnit', function (e) {
+            e.preventDefault();
+            var form = $(this)
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "PUT",
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function (response) {
+                    $('#calculation_unit_update .form-body').prepend(`<div class="bg-success p-2 mb-2">
+                        <p class="text-light m-0">Đã chỉnh sửa đơn vị tính thành công</p>
+                        </div>`);
+                    setTimeout(function () {
+                        $('#calculation_unit_update').modal('dispose')
+                        $('#calculation_unit_update').remove()
+                        $('.modal-backdrop.fade.show').remove()
+                        $('body').removeClass('modal-open')
+                        $('body').css({'padding-right': 'unset', 'overflow': 'unset'})
+                    }, 1500);
+                    table.ajax.reload();
+                }
+            });
+        });
+
+        // UPDATE STATUS
+        $(document).on('click', '.changeStatus', function () {
+            var id = $(this).data('unitid')
+            var status = $(this).data('status')
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "PUT",
+                url: `{{ route('don-vi-tinh.updateStatus') }}`,
+                data: {
+                    status: status,
+                    id: id
+                },
+                success: function (response) {
+                    table.ajax.reload();
+                }
+            });
+        })
+        // DELETE
+        $(document).on('click', '.item-delete', function () {
+            var id = $(this).data('unitid')
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            if(confirm('Bạn có chắc muốn xóa')){
+                $.ajax({
+                    type: "DELETE",
+                    url: `{{ route('don-vi-tinh.delete') }}`,
+                    data: {
+                        id: id
+                    },
+                    success: function (response) {
+                        table.ajax.reload();
+                    }
+                });
+            }
+        })
+
+        var table = $('#table-calculation-unit').DataTable({
+            ordering: false,
+            dom: '<"wrapper d-flex justify-content-between mb-3"lf>tip',
+            ajax: "{{ route('don-vi-tinh.indexDatatable') }}",
+            columns: [{
+                    data: 'id'
+                },
+                {
+                    data: 'code',
+                    render: function(data, type, row) {
+                        return `<a style="text-decoration: none; cursor: pointer;" 
+                        data-route="{{ route('don-vi-tinh.modalEdit') }}" 
+                        data-unitid="${row.id}" class="modal-edit-unit">${row.code}</a>`
+                    }
+                },
+                {
+                    data: 'name',
+                    render: function(data, type, row) {
+                        return `<a style="text-decoration: none; cursor: pointer;"
+                        data-route="{{ route('don-vi-tinh.modalEdit') }}"
+                        data-unitid="${row.id}" class="modal-edit-unit">${row.name}</a>`
+                    }
+                },
+                {
+                    data: 'note'
+                },
+                {
+                    data: 'status',
+                    render: function(data, type, row){
+                        var id = row.id 
+                        if(data == 1) {
+                            return `<span style=" max-width: 82px;min-width: 82px;" type="text"
+                                    class="form-control form-control-sm font-size-s text-white active text-center d-inline">Hoạt động</span>
+                                <button class="btn bg-status-drop border-0 text-white py-0 px-2" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-angle-down"
+                                        aria-hidden="true"></i></button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                <li><button class="dropdown-item item-deactive changeStatus" data-unitid="${row.id}" data-status="0">Ngừng</button></li>
+                                <li><button class="dropdown-item item-delete" data-unitid="${row.id} onclick="confirm('Bạn có chắc muốn xóa');">Xoá</button></li>
+                            </ul>`
+                        } else {
+                            return `<span style=" max-width: 82px;min-width: 82px;" type="text"
+                                class="form-control form-control-sm font-size-s text-white stop text-center d-inline">Ngừng</span>
+                            <button class="btn bg-status-drop border-0 text-white py-0 px-2" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-angle-down"
+                                    aria-hidden="true"></i></button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><button class="dropdown-item item-active changeStatus" data-unitid="${row.id}" data-status="1">Hoạt động</button></li>
+                                <li><button class="dropdown-item item-delete" data-unitid="${row.id} onclick="confirm('Bạn có chắc muốn xóa');">Xoá</button></li>
+                            </ul>`
+                        }
+                    }
+                },
+            ]
+        });
+    });
+</script>
 
 <script type="text/javascript" src="{{ asset('/resources/js/calculation-unit.js') }}"></script>
 

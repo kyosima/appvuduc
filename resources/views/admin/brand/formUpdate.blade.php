@@ -6,9 +6,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="destroyModal()" ></button>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" id="formUpdateUnit" action="{{route('thuong-hieu.update', $id)}}" role="form" method="POST">
+                <form class="form-horizontal" id="formUpdateUnit" action="{{route('thuong-hieu.update')}}" role="form" method="POST">
                     @csrf
                     @method('PUT')
+                    <input type="hidden" name="id" value="{{$unit->id}}">
                     <div class="form-body">
                         <div class="form-group d-flex mb-2">
                             <label class="col-md-3 control-label">Code<span class="required" aria-required="true">(*)</span></label>
@@ -40,7 +41,7 @@
                             <label class="col-md-3 control-label">Ghi chú</label>
                             <div class="col-md-9">
                                 <textarea class="form-control" name="brandDescription" rows="3">
-                                    {{$unit->note}}
+                                    {{$unit->description}}
                                 </textarea>
                             </div>
                         </div>

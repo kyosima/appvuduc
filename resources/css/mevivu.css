@@ -720,6 +720,10 @@ ul.dropdown-menu>li.dropdown>ul.dropdown-menu {
 }
 
 /* FOOTER */
+#footer {
+    margin-bottom: 44px;
+}
+
 #footer .footer-top {
     width: 100%;
     min-height: 130px;
