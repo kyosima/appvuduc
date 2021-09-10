@@ -75,6 +75,11 @@
   color: #fff;
 }
 
+tr.selected .btn-circle {
+  background: #36c6d3;
+  color: #fff;
+}
+
 .title-text {
   font-size: 14px;
   font-weight: 600;
@@ -120,7 +125,11 @@
 
 .control-label {
   font-size: 14px;
+  font-weight: 700;
+}
 
+.form-group {
+  margin-bottom: 5px;
 }
 
 .control-label .required {

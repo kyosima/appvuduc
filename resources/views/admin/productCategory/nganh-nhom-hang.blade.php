@@ -145,7 +145,7 @@
                     <div class="caption">
                         <i class="fa fa-product-hunt icon-drec" aria-hidden="true"></i>
                         <span class="caption-subject text-uppercase">
-                            SẢN PHẨM </span>
+                            DANH MỤC SẢN PHẨM </span>
                         <span class="caption-helper"></span>
                     </div>
                     <div class="ps-5">
@@ -158,30 +158,8 @@
             </div>
             <hr>
             <div class="portlet-body">
-                <div class="row">
-                    <div class="col-lg-10">
-                        <div class="col-md-12 flex-row gap-2">
-                            <select class="form-select fs-14" aria-label="Default select example">
-                                <option selected>10</option>
-                                <option value="1">25</option>
-                                <option value="2">50</option>
-                                <option value="3">100</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-2">
-                        <div class="col-md-12">
-                            <div class="input-group" style="width: 100%;">
-                                <input type="text" class="form-control" placeholder="Tìm kiếm"
-                                    aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"
-                                        aria-hidden="true"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="pt-3" style="overflow-x: auto;">
-                    <table class="table table-hover table-main">
+                    <table id="table-product-category" class="table table-hover table-main">
                         <thead class="thead1" style="vertical-align: middle;">
                             <tr>
                                 <th class="title title-text">
@@ -200,6 +178,10 @@
                         <tbody style="color: #748092; font-size: 14px; vertical-align: middle;">
                             @foreach ($categories as $category)
                                 @if (count($category->categories) > 0)
+                                    <?php $numChild = count($category->childrenCategories); ?>
+                                    @foreach ($category->childrenCategories as $item)
+                                        <?php $numChild += count($item->childrenCategories); ?>
+                                    @endforeach
                                     <tr class="parent-category has-child" data-categoryid="{{ $category->id }}">
                                         <td><i class="fa fa-plus click-cell" aria-hidden="true"></td>
                                         <td>{{ $category->code }}</td>
@@ -207,8 +189,11 @@
                                                 class="modal-edit-proCat"
                                                 data-route="{{ route('nganh-nhom-hang.modalEdit') }}"
                                                 data-unitid="{{ $category->id }}">{{ $category->name }}</a></td>
-                                        <td><button
-                                                class="btn btn-circle">{{ count($category->categories) }}</button>
+                                        <td>
+                                            <button class="btn btn-circle">
+                                                
+                                                    {{$numChild}}
+                                            </button>
                                         </td>
                                         <td>
                                             <div class="input-group" style="min-width: 108px;">
@@ -371,6 +356,47 @@
 
 <script>
     var ajaxSelectCategory = {!! json_encode(route('nganh-nhom-hang.getCategory')) !!}
+
+    $(document).ready(function () {
+        var table = $('#table-product-category').DataTable({
+            ordering: false,
+            language: {
+                    search: "Tìm kiếm:",
+                    lengthMenu: "Hiển thị _MENU_ kết quả",
+                    info: "Hiển thị _START_ đến _END_ trong _TOTAL_ kết quả",
+                    infoEmpty: "Hiển thị 0 trên 0 trong 0 kết quả",
+                    zeroRecords: "Không tìm thấy",
+                    emptyTable: "Hiện tại chưa có dữ liệu",
+                    paginate: {
+                        first: ">>",
+                        last: "<<",
+                        next: ">",
+                        previous: "<"
+                    },
+            },
+            dom: '<"wrapper d-flex justify-content-between mb-3"lf>tip',
+        });
+
+
+        var val = $('#table-product-category_filter input').val();
+        var rowChild = $('tr.child-category')
+        var hasChild = $('tr.has-child')
+
+        table.on( 'search.dt', function () {
+            var value = $('#table-product-category_filter input').val();
+            if(value != ''){
+                console.log('khi có dữ liệu',val);
+                $('#table-product-category tr.child-category').css('display', 'table-row')
+            } else {
+                $(rowChild).css('display', '')
+                $(hasChild).removeClass('selected')
+            }
+        } );
+
+        if(val == ''){
+            $('tr.child-category').css('display', '')
+        }        
+    });
 
 </script>
 

@@ -42,7 +42,8 @@ class ProductController extends Controller
 
     public function getCategory(Request $request)
     {
-        $cate = ProductCategory::where('category_parent', $request->id)->get();
+        $cate = ProductCategory::where('category_parent', $request->id)
+                                ->get();
         return response()->json([
             'data' => $cate,
         ], 200);
@@ -68,6 +69,7 @@ class ProductController extends Controller
                     'gallery' => rtrim($request->gallery_img, ", "),
                     'category_id' => $request->child_category != "-1" ? $request->category_parent : $request->child_category,
                     'calculation_unit' => $request->product_calculation_unit,
+                    'quantity' => $request->product_quantity,
                     'weight' => $request->product_weight,
                     'height' => $request->product_height,
                     'width' => $request->product_width,
@@ -91,7 +93,7 @@ class ProductController extends Controller
 
                 $product->productPrice()->save($productPrice);
 
-                return redirect()->route('san-pham.edit', $product->id);
+                return redirect()->route('san-pham.edit', $product->id)->with('success', 'Cập nhật sản phẩm thành công');
             } catch (\Throwable $th) {
                 throw new \Exception('Đã có lỗi xảy ra vui lòng thử lại');
                 return redirect()->back()->withErrors(['error' => $th->getMessage()]);
@@ -130,6 +132,7 @@ class ProductController extends Controller
                     'gallery' => rtrim($request->gallery_img, ", "),
                     'category_id' => $request->child_category == "-1" ? $request->category_parent : $request->child_category,
                     'calculation_unit' => $request->product_calculation_unit,
+                    'quantity' => $request->product_quantity,
                     'weight' => $request->product_weight,
                     'height' => $request->product_height,
                     'width' => $request->product_width,
@@ -153,7 +156,7 @@ class ProductController extends Controller
                     'vpoint_member' => $request->product_discount_member,
                 ]);
 
-                return redirect()->route('san-pham.edit', $id);
+                return redirect()->route('san-pham.edit', $id)->with('success', 'Cập nhật sản phẩm thành công');
             } catch (\Throwable $th) {
                 throw new \Exception('Đã có lỗi xảy ra vui lòng thử lại');
                 return redirect()->back()->withErrors(['error' => $th->getMessage()]);

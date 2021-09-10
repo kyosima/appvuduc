@@ -25,6 +25,11 @@ $(document).ready(function () {
                 min: 1,
                 number: true,
             },
+            product_quantity: {
+                required: true,
+                min: 1,
+                number: true,
+            },
             product_length: {
                 required: true,
                 min: 1,
@@ -94,6 +99,7 @@ $(document).ready(function () {
             category_parent: "Không được để trống",
             product_brand: "Không được để trống",
             product_calculation_unit: "Không được để trống",
+            product_quantity: "Không được để trống",
             product_weight: "Không được để trống",
             product_length: "Không được để trống",
             product_height: "Không được để trống",

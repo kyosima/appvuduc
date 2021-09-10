@@ -23,7 +23,6 @@ class ProductCategoryController extends Controller
         return view('admin.productCategory.nganh-nhom-hang', compact('categories'));
     }
 
-
     public function store(Request $request)
     {
         $slug = Str::slug($request->proCatName, '-');

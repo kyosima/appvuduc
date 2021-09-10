@@ -57,6 +57,13 @@
     <!-- end menu mobile -->
     <div class="m-3">
         <div class="wrapper bg-white p-4">
+            @if (session('success'))
+                <div class="portlet-status">
+                    <div class="caption bg-success p-3">
+                        <span class="caption-subject bold uppercase text-light">{{session('success')}}</span>
+                    </div>
+                </div>
+            @endif
             <div class="portlet-title">
                 <div class="title-name">
                     <div class="caption">
@@ -244,6 +251,14 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <label class="col-md-12 control-label text-left">Tồn kho<span
+                                                class="required" aria-required="true">(*)</span>:</label>
+                                        <div class="col-md-12">
+                                            <input type="number" step="1" name="product_quantity" class="form-control"
+                                                min="1" value="{{ old('product_quantity', $product->quantity) }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="col-md-12 control-label text-left">Khối lượng (g)<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
@@ -415,6 +430,10 @@
 <script>
     $(document).ready(function() {
         $('select.selectpicker').select2();
+
+        setInterval(() => {
+            $('.portlet-status').remove();
+        }, 1500);
 
         CKEDITOR.replace('description', {
             toolbar :

@@ -26,6 +26,11 @@ class PublicProductController extends Controller
         $proCat = ProductCategory::whereSlug($slug)->firstOrFail();
         $query = Product::where('category_id', $proCat->id);
         foreach ($proCat->childrenCategories as $item) {
+            if(count($item->categories) > 0) {
+                foreach ($item->categories as $cate) {
+                    $query->orWhere('category_id', $cate->id);
+                }
+            }
             $query->orWhere('category_id', $item->id);
         }
         $products = $query->get();
