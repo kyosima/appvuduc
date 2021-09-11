@@ -9,6 +9,7 @@ use App\Http\Controllers\PublicProductController;
 use App\Http\Controllers\PublicProductCategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ShippingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -188,3 +189,13 @@ Route::get('/lien-he', function () {
 Route::get('/thongtin', function () {
     return view('thongtin');
 });
+//----------------vận chuyển---------------
+Route::get('test-van-chuyen', [ShippingController::class, 'postShippingFee']);
+
+Route::get('lay-quan-huyen-theo-tinh-thanh', [ShippingController::class, 'districtOfProvince']);
+
+Route::get('lay-phuong-xa-theo-quan-huyen', [ShippingController::class, 'wardOfDistrict']);
+
+Route::post('tinh-phi-van-chuyen', [ShippingController::class, 'postShippingFee'])->name('post.shippingFee');
+
+//----------------vận chuyển---------------
