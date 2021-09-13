@@ -198,7 +198,7 @@
     <script src="{{asset('/resources/js/sidebar.js')}}"></script>
     <script src="{{asset('/resources/js/fotorama.js')}}"></script>
     <script src="{{asset('/resources/js/cart.js')}}"></script>
-
+    <script src="{{asset('/resources/js/shipping/shipping.js')}}"></script>
 
 
 </body>

@@ -28,9 +28,10 @@
     <link rel="stylesheet" href="{{asset('/resources/css/chitiet-sanpham.css')}}">
     <link rel="stylesheet" href="{{asset('/resources/css/fotorama.css')}}">
     <link rel="stylesheet" href="{{asset('/resources/css/gio-hang.css')}}">
-
+    <link rel="stylesheet" href="{{asset('/resources/css/shipping.css')}}">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="url-home" content="{{ URL::to('/') }}" />
 
 </head>
 
