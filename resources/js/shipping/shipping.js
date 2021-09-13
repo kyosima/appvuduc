@@ -25,13 +25,13 @@ function RecieveAjax(){
     $(".submit-overlay").remove();
 }
 
-// $(document).ready(function() {
-//     $('.select2').select2({
-//         allowClear: true,
-//         theme: "classic",
-//         width: '50%'
-//     });
-// });
+$(document).ready(function() {
+    $('.select2').select2({
+        allowClear: true,
+        theme: "classic",
+        width: '100%'
+    });
+});
 $(document).on('change', 'select[name="sel_province"]', function(event) {
     event.preventDefault();
     /* Act on the event */

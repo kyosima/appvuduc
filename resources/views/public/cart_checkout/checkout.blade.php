@@ -20,7 +20,7 @@
                                         <div class="form-group w-100">
                                         <label for="exampleInputEmail1">Tỉnh thành <abbr class="required"
                                                     title="bắt buộc">*</abbr></label>
-                                            <select name="sel_province" class="form-control" required>
+                                            <select name="sel_province" class="form-control select2" data-placeholder="---Chọn tỉnh thành---" required>
                                                 <option value="">---Chọn tỉnh thành---</option>
                                                 @foreach($province as $value)
                                                     <option value="{{$value->matinhthanh}}">{{$value->tentinhthanh}}</option>
@@ -31,14 +31,14 @@
                                             <div class="form-group col-sm-12 col-lg-6">
                                             <label for="exampleInputEmail1">Quận huyện <abbr class="required"
                                                     title="bắt buộc">*</abbr></label>
-                                                <select class="form-control" name="sel_district" required>
+                                                <select class="form-control select2" name="sel_district" data-placeholder="---Chọn quận huyên---" required>
                                                     <option value="">---Chọn quận huyên---</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-sm-12 col-lg-6">
                                             <label for="exampleInputEmail1">Phường xã <abbr class="required"
                                                     title="bắt buộc">*</abbr></label>
-                                                <select class="form-control" name="sel_ward" required>
+                                                <select class="form-control select2" name="sel_ward" data-placeholder="---Chọn phường xã---" required>
                                                     <option value="">---Chọn phường xã---</option>
                                                 </select>
                                             </div>
@@ -140,5 +140,4 @@
             </section>
         </div>
     </main>
-
-    <x-footer />
+<x-footer />
