@@ -6,3 +6,9 @@ if (!function_exists('formatPrice')) {
         return number_format($price, 0, '.', ',') . '₫';
     }
 }
+if (!function_exists('moneyFormat')) {
+    function moneyFormat($price)
+    {
+        return number_format($price, 0, '', ',');
+    }
+}
