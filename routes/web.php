@@ -6,7 +6,6 @@ use App\Admin\Controllers\ProductCategoryController;
 use App\Admin\Controllers\ProductController;
 use App\Http\Controllers\PublicProductController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PublicProductController;
 use App\Http\Controllers\PublicProductCategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
