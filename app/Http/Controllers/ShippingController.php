@@ -12,17 +12,28 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 class ShippingController extends Controller
 {
     public function test(){
-        dd((int)str_replace(".", "", Cart::instance('shopping')->subtotal())); 
+        // try {
+        //     return District::where('maquanhuyen', 7110)->first()->ward()
+        // ->select('maphuongxa', 'tenphuongxa')->get();
+        // } catch (\Throwable $th) {
+        //     throw $th;
+        // }
+        return optional(District::where('maquanhuyen', 7110)->first(), function ($user) {
+            return $user->ward()->select('maphuongxa', 'tenphuongxa')->get();
+        });
+        
     }
     // lấy quận huyện theo tỉnh thành
     public function districtOfProvince(Request $request){
-        return Province::where('matinhthanh', $request->id)->first()->district()
-        ->select('maquanhuyen', 'tenquanhuyen')->get();
+        return optional(Province::where('matinhthanh', $request->id)->first(), function ($response) {
+            return $response->district()->select('maquanhuyen', 'tenquanhuyen')->get();
+        });
     }
     // lấy phường xã theo quận huyện
     public function wardOfDistrict(Request $request){
-        return District::where('maquanhuyen', $request->id)->first()->ward()
-        ->select('maphuongxa', 'tenphuongxa')->get();
+        return optional(District::where('maquanhuyen', $request->id)->first(), function ($response) {
+            return $response->ward()->select('maphuongxa', 'tenphuongxa')->get();
+        });
     }
 
     public function postShippingFee(Request $request){
@@ -79,7 +90,7 @@ class ShippingController extends Controller
         $response_shippinh_fee = json_decode($response_shippinh_fee, true);
 
         //lấy 2 phương thức vận chuyển: chuyển phát nhanh, chuyển phát thường.
-        unset($response_shippinh_fee[2], $response_shippinh_fee[3], $response_shippinh_fee[4], $response_shippinh_fee[5]);
+        // unset($response_shippinh_fee[2], $response_shippinh_fee[3], $response_shippinh_fee[4], $response_shippinh_fee[5]);
 
         //EMS: chuyển phát nhanh, BK: chuyển phát thường
         return response(array('EMS' => $response_shippinh_fee[0]["TongCuocBaoGomDVCT"], 'BK' => $response_shippinh_fee[1]["TongCuocBaoGomDVCT"]));
@@ -93,7 +104,7 @@ class ShippingController extends Controller
         $length = 0;
         foreach($products as $value){
             $weight += $value->model->weight*$value->qty;
-            $height += $height < $value->model->height ? $value->model->height : $height;
+            $height = $height < $value->model->height ? $value->model->height : $height;
             $width += $value->model->width*$value->qty;
             $length = $length < $value->model->length ? $value->model->length : $length;
         }

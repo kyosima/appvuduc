@@ -190,7 +190,7 @@ Route::get('/thongtin', function () {
     return view('thongtin');
 });
 //----------------vận chuyển---------------
-Route::get('test-van-chuyen', [ShippingController::class, 'postShippingFee']);
+Route::get('test-van-chuyen', [ShippingController::class, 'test']);
 
 Route::get('lay-quan-huyen-theo-tinh-thanh', [ShippingController::class, 'districtOfProvince']);
 
