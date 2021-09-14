@@ -191,7 +191,6 @@
                                                 data-unitid="{{ $category->id }}">{{ $category->name }}</a></td>
                                         <td>
                                             <button class="btn btn-circle">
-                                                
                                                     {{$numChild}}
                                             </button>
                                         </td>

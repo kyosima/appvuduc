@@ -4,6 +4,7 @@ use App\Admin\Controllers\BrandController;
 use App\Admin\Controllers\CalculationUnitController;
 use App\Admin\Controllers\ProductCategoryController;
 use App\Admin\Controllers\ProductController;
+use App\Admin\Controllers\WarehouseController;
 use App\Http\Controllers\PublicProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -112,18 +113,19 @@ Route::prefix('admin')->group(function () {
     Route::put('/thuong-hieu', [BrandController::class, 'updateStatus'])->name('thuong-hieu.updateStatus');
     Route::delete('/thuong-hieu', [BrandController::class, 'destroy'])->name('thuong-hieu.delete');
 
+    Route::get('/ton-kho-CNNPP', function () {
+        return view('admin.warehouse.ton-kho-CNNPP');
+    });
+    
+    Route::get('/ton-kho-dai-ly', [WarehouseController::class, 'index'])->name('warehouse.index');
+    Route::post('/ton-kho-dai-ly', [WarehouseController::class, 'store'])->name('warehouse.store');
+    Route::put('/ton-kho-dai-ly', [WarehouseController::class, 'update'])->name('warehouse.update');
+    Route::delete('/ton-kho-dai-ly', [WarehouseController::class, 'delete'])->name('warehouse.destroy');
+
 });
 
 Route::get('/admin/thong-tin-ban-hang', function () {
     return view('admin.thong-tin-ban-hang');
-});
-
-Route::get('/admin/ton-kho-CNNPP', function () {
-    return view('admin.ton-kho-CNNPP');
-});
-
-Route::get('/admin/ton-kho-dai-ly', function () {
-    return view('admin.ton-kho-dai-ly');
 });
 
 //------------------------------------------------------------------------------------------------------

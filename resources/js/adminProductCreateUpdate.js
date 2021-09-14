@@ -22,7 +22,7 @@ $(document).ready(function () {
             },
             product_weight: {
                 required: true,
-                min: 1,
+                min: 0.1,
                 number: true,
             },
             product_quantity: {
@@ -32,17 +32,17 @@ $(document).ready(function () {
             },
             product_length: {
                 required: true,
-                min: 1,
+                min: 0.1,
                 number: true,
             },
             product_height: {
                 required: true,
-                min: 1,
+                min: 0.1,
                 number: true,
             },
             product_width: {
                 required: true,
-                min: 1,
+                min: 0.1,
                 number: true,
             },
             product_regular_price: {
@@ -51,42 +51,42 @@ $(document).ready(function () {
                 number: true,
             },
             product_vpoint: {
-                min: 1,
+                min: 0.1,
                 required: true,
                 number: true,
             },
             product_discount_2: {
-                min: 1,
+                min: 0.1,
                 required: true,
                 number: true,
             },
             product_discount_1: {
-                min: 1,
+                min: 0.1,
                 required: true,
                 number: true,
             },
             product_discount_platinum: {
-                min: 1,
+                min: 0.1,
                 required: true,
                 number: true,
             },
             product_discount_diamond: {
-                min: 1,
+                min: 0.1,
                 required: true,
                 number: true,
             },
             product_discount_gold: {
-                min: 1,
+                min: 0.1,
                 required: true,
                 number: true,
             },
             product_discount_silver: {
-                min: 1,
+                min: 0.1,
                 required: true,
                 number: true,
             },
             product_discount_member: {
-                min: 1,
+                min: 0.1,
                 required: true,
                 number: true,
             },
