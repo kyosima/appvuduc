@@ -112,4 +112,5 @@ $(document).on('change', 'select[name="sel_district"]', function(event) {
 });
 $(document).on('change', 'input[name="in_shipping"]', function(event) {
     $(".order-total .amount").text(formatNumber(order_total + parseInt($(this).val())) + 'đ');
+    $('input[name="shipping_method').val($(this).attr('id'));
 });

@@ -149,10 +149,13 @@ Route::prefix('gio-hang')->group(function () {
 
 Route::prefix('thanh-toan')->group(function () {
     Route::get('/', [CheckoutController::Class, 'index'])->name('checkout.index');
+    Route::post('post', [CheckoutController::Class, 'postOrder'])->name('checkout.post');
+    Route::get('thanh-cong', [CheckoutController::Class, 'orderSuccess'])->name('checkout.orderSuccess');
 
 });
 
 Route::get('/tim-kiem-san-pham', [PublicProductController::class, 'searchProduct'])->name('tim-kiem-san-pham');
+
 Route::get('/blog', function () {
     return view('blog');
 });

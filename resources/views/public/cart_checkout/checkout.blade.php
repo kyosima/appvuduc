@@ -7,18 +7,28 @@
                         <h1 class="title" style="text-align: center;">Thanh toán</h1>
                     </div>
                     <div class="content-checkout">
-                        <form action="" method="post">
+                        @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+                        <form action="{{route('checkout.post')}}" method="post">
+                            @csrf
                             <div class="row col2-set" id="customer_details">
                                 <div class="col col-12 col-md-6">
                                     <div class="billing-fields">
                                         <h3 class="tborder">Chi tiết thanh toán</h3>
                                         <div class="form-group w-100">
-                                            <label for="exampleInputEmail1">Họ và Tên <abbr class="required"
+                                            <label for="fullname">Họ và Tên <abbr class="required"
                                                     title="bắt buộc">*</abbr></label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1">
+                                            <input type="text" class="form-control" id="fullname" name="fullname" required>
                                         </div>
                                         <div class="form-group w-100">
-                                        <label for="exampleInputEmail1">Tỉnh thành <abbr class="required"
+                                        <label for="">Tỉnh thành <abbr class="required"
                                                     title="bắt buộc">*</abbr></label>
                                             <select name="sel_province" class="form-control" required>
                                                 <option value="">---Chọn tỉnh thành---</option>
@@ -29,14 +39,14 @@
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-sm-12 col-lg-6">
-                                            <label for="exampleInputEmail1">Quận huyện <abbr class="required"
+                                            <label for="">Quận huyện <abbr class="required"
                                                     title="bắt buộc">*</abbr></label>
                                                 <select class="form-control" name="sel_district" required>
                                                     <option value="">---Chọn quận huyên---</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-sm-12 col-lg-6">
-                                            <label for="exampleInputEmail1">Phường xã <abbr class="required"
+                                            <label for="">Phường xã <abbr class="required"
                                                     title="bắt buộc">*</abbr></label>
                                                 <select class="form-control" name="sel_ward" required>
                                                     <option value="">---Chọn phường xã---</option>
@@ -44,20 +54,20 @@
                                             </div>
                                         </div>
                                         <div class="form-group w-100">
-                                            <label for="exampleInputEmail1">Địa chỉ <abbr class="required"
+                                            <label for="address">Địa chỉ <abbr class="required"
                                                     title="bắt buộc">*</abbr></label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" required>
+                                            <input type="text" class="form-control" id="address" name="address"required>
                                             <small class="text-danger">Địa chỉ không bao gồm phường xã, quận huyện, tỉnh thành.</small>
                                         </div>
                                         <div class="form-group w-100">
-                                            <label for="exampleInputEmail1">Số điện thoại <abbr class="required"
+                                            <label for="phone">Số điện thoại <abbr class="required"
                                                     title="bắt buộc">*</abbr></label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1">
+                                            <input type="number" class="form-control" id="phone" name="phone" required>
                                         </div>
                                         <div class="form-group w-100">
-                                            <label for="exampleInputEmail1">Địa chỉ email <abbr class="required"
+                                            <label for="email">Địa chỉ email <abbr class="required"
                                                     title="bắt buộc">*</abbr></label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1">
+                                            <input type="email" class="form-control" id="email" name="email" required>
                                         </div>
                                     </div>
                                 </div>
@@ -105,7 +115,9 @@
                                             <th>Giao hàng</th>
                                             <td>Vui lòng chọn địa chỉ</td>
                                         </tr>
-                                        
+                                        <tr>
+                                            <input type="hidden" name="shipping_method" value="shipping-ems">
+                                        </tr>
                                         <tr class="order-total">
                                             <th>Tổng cộng</th>
                                             <td><strong><span class="amount" data-total={{$cart_total}}>{{$cart_total}}₫</span></strong> </td>
@@ -120,7 +132,6 @@
                                         <input id="payment_method_cod" type="radio" class="input-radio"
                                             name="payment_method" value="cod" checked="checked" data-order_button_text=""
                                             style="display: none;">
-
                                         <label for="payment_method_cod">
                                             <b>COD </b></label>
                                         <div class="payment_box payment_method_cod">
@@ -129,7 +140,8 @@
                                     </li>
                                 </ul>
                                 <div class="form-group place-order p-3 text-right">
-                                    <button type="submit" class="btn btn-pink text-light" id="place_order">Đặt hàng</button>
+                                    <button type="submit" id="place_order" class="btn btn-readmore btn-block text-center">
+                                        Đặt hàng</button>
                                 </div>
                             </div>
 

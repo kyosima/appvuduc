@@ -108,13 +108,10 @@
                     </div>
                     <div class="cart-collaterals clearfix">
                         <div class="cart_totals ">
-                           
                             <div class="proceed-to-checkout py-3">
                                 <a href="{{route('checkout.index')}}" class="checkout-button btn btn-readmore btn-block text-center">
                                     Thanh Toán</a>
                             </div>
-
-
                         </div>
                     </div>
                     @else
