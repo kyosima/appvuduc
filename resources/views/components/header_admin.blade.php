@@ -23,11 +23,18 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
         integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous">
     </script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.js"></script>
+    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.js"></script> --}}
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.1/b-2.0.0/b-colvis-2.0.0/b-html5-2.0.0/b-print-2.0.0/sb-1.2.1/datatables.min.css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.1/b-2.0.0/b-colvis-2.0.0/b-html5-2.0.0/b-print-2.0.0/sb-1.2.1/datatables.min.js">
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
-        integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"
         integrity="sha512-XZEy8UQ9rngkxQVugAdOuBRDmJ5N4vCuNXCh8KlniZgDKTvf7zl75QBtaVG1lEhMFe2a2DuA22nZYY+qsI2/xA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -36,6 +43,8 @@
     <link rel="stylesheet" href="{{ asset('/resources/css/header.css') }}">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{{ asset('/resources/css/responsive.css') }}" type="text/css">
+    <meta name="url-home" content="{{ URL::to('/') }}" />
+
 </head>
 
 <body>
@@ -98,11 +107,11 @@
                             class="fa fa-angle-double-right float-end" aria-hidden="true"></i></span>
                 </a>
                 <span class="dropdown-content">
-                    <a href="/appvuduc/admin/don-hang-cnpp">Đơn hàng CN NPP</a>
-                    <a href="/appvuduc/admin/don-hang-tra-chi-nhanh-npp">Đơn hàng trả CN NPP</a>
-                    <a href="/appvuduc/admin/don-hang-dai-ly">Đơn hàng đại lý</a>
-                    <a href="/appvuduc/admin/don-hang-tra-dai-ly">Đơn hàng trả đại lý</a>
-                    <a href="/appvuduc/admin/don-hang-doi-thu-dai-ly">Đơn hàng đối thủ đại lý</a>
+                    <a href="{{route('orderadmin.CNNPP')}}">Đơn hàng CN NPP</a>
+                    <a href="{{route('orderadmin.backCNNPP')}}">Đơn hàng trả CN NPP</a>
+                    <a href="{{route('orderadmin.agency')}}">Đơn hàng đại lý</a>
+                    <a href="{{route('orderadmin.backAgency')}}">Đơn hàng trả đại lý</a>
+                    <a href="{{route('orderadmin.doithuAgency')}}">Đơn hàng đối thủ đại lý</a>
                 </span>
             </li>
             <li class="dropdown">

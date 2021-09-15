@@ -190,6 +190,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.min.js"
+    integrity="sha512-cWEytOR8S4v/Sd3G5P1Yb7NbYgF1YAUzlg1/XpDuouZVo3FEiMXbeWh4zewcYu/sXYQR5PgYLRbhf18X/0vpRg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{asset('/resources/js/colorbox-master/jquery.colorbox-min.js')}}"></script>
     <script src="{{asset('/resources/js/main.js')}}"></script>
     <script src="{{asset('/resources/js/sidebar.js')}}"></script>

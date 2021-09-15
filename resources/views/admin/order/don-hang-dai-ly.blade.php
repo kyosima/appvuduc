@@ -5,7 +5,10 @@
 			$("#datepicker2").datepicker();
 		});
 	</script>
+	<script src="{{asset('/resources/js/admin/order.js')}}"></script>
+
 	<link rel="stylesheet" href="{{asset('/resources/css/khuyenmai.css')}}">
+	<link rel="stylesheet" href="{{asset('/resources/css/order-admin.css')}}">
 
 
 
@@ -231,113 +234,58 @@
 											<div class="row">
 												<div class="col-sm-12" style="overflow-x: auto;">
 													<table class="table table-hover align-middle">
-														<thread>
+														<thead>
 															<tr>
-																<th class="title">STT</th>
+																<th class="title">ID</th>
 																<th class="title"><input class="form-check" type="checkbox"></th>
-																<th class="title">Mã đơn hàng</th>
-
-																<th class="title">Chi nhánh</th>
-																<th class="title">Kênh</th>
-
-																<th class="title">Chi nhánh NPP</th>
-																<th class="title">Địa điểm</th>
-																<th class="title">Phụ trách</th>
+																<th class="title">Người đặt</th>
+																<th class="title">Số lượng</th>
+																<th class="title">Tiền ship</th>
+																<th class="title">Tiền hàng</th>
 																<th class="title">Tổng tiền</th>
+																<th class="title">Phụ trách</th>
 																<th class="title">Ngày bán</th>
 																<th class="title">Trạng thái</th>
+																<th class="title">Thao tác</th>
 															</tr>
-														</thread>
+														</thead>
 														<tbody style="color: #748092; font-size: 14px;">
+															@foreach ( $orders as $order)
 															<tr>
-																<td>1</td>
+																<td>{{$order->id}}</td>
 																<td><input type="checkbox" name="" id=""></td>
-																<td><a href="">2107081028451</a></td>
-																<td>Văn phòng tập đoàn</td>
-																<td>MT</td>
-																<td>VINMART</td>
-																<td>Số 1 đào duy anh</td>
-																<td>Salerep01</td>
-																<td>1,320,000</td>
-																<td>08-07-2021 10:28:45</td>
+																<td>{{$order->order_info()->value('fullname')}}</td>
+																<td>{{$order->order_products()->count()}}</td>
+																<td>{{formatPrice($order->shipping_total)}}</td>
+																<td>{{formatPrice($order->total)}}</td>
+																<td>{{formatPrice($order->total+$order->shipping_total)}}</td>
+																<td>@if(!$order->handler) Chưa có @else {{$order->handler}}@endif</td>
+																<td>{{date('Y-m-d H:i:s', strtotime($order->created_at))}}</td>
+																<td>@switch($order->status)
+																	@case(1)
+																		<span class="text-success">Hoàn thành</span>
+																		@break
+																
+																	@case(2)
+																		<span class="text-danger">Đã hủy</span>
+																		@break
+																
+																	@default
+																		<span class="text-seconday">Đang xử lý</span>
+																		@break
+																@endswitch</td>
 																<td>
 																	<div class="input-group">
-																		<span class="btn_trangthai status_active">Hoạt động</span>
+																		<button type="button" class="btn_trangthai status_active" data-id="{{$order->id}}" data-url="{{route('order.detail')}}" onclick="viewDetailOrder(this)">Xem</button>
 																		<button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-angle-down"></i></button>
 																		<ul class="dropdown-menu dropdown-menu-end">
-																		  <li><a class="dropdown-item" href="#">Xóa</a></li>
-																		  <li><a class="dropdown-item" href="#">Ngừng</a></li>
+																			<li><a class="dropdown-item" href="#">Hủy</a></li>
+																		 	<li><a class="dropdown-item" href="#">Xóa</a></li>
 																		</ul>
 																	</div>
 																</td>
 															</tr>
-															<tr>
-																<td>2</td>
-																<td><input type="checkbox" name="" id=""></td>
-																<td><a href="">2107081028451</a></td>
-																<td>Văn phòng tập đoàn</td>
-																<td>MT</td>
-																<td>VINMART</td>
-																<td>Số 1 đào duy anh</td>
-																<td>Salerep01</td>
-																<td>1,320,000</td>
-																<td>08-07-2021 10:28:45</td>
-																<td>
-																	<div class="input-group">
-																		<span class="btn_trangthai status_active">Hoạt động</span>
-																		<button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-angle-down"></i></button>
-																		<ul class="dropdown-menu dropdown-menu-end">
-																		  <li><a class="dropdown-item" href="#">Xóa</a></li>
-																		  <li><a class="dropdown-item" href="#">Ngừng</a></li>
-																		</ul>
-																	</div>
-																</td>
-															</tr>
-															<tr>
-																<td>3</td>
-																<td><input type="checkbox" name="" id=""></td>
-																<td><a href="">2107081028451</a></td>
-																<td>Văn phòng tập đoàn</td>
-																<td>MT</td>
-																<td>VINMART</td>
-																<td>Số 1 đào duy anh</td>
-																<td>Salerep01</td>
-																<td>1,320,000</td>
-																<td>08-07-2021 10:28:45</td>
-																<td>
-																	<div class="input-group">
-																		<span class="btn_trangthai status_inactive">Hủy</span>
-																		<button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-angle-down"></i></button>
-																		<ul class="dropdown-menu dropdown-menu-end">
-																		  <li><a class="dropdown-item" href="#">Xóa</a></li>
-																		  <li><a class="dropdown-item" href="#">Ngừng</a></li>
-																		</ul>
-																	</div>
-																</td>
-															</tr>
-															<tr>
-																<td>4</td>
-																<td><input type="checkbox" name="" id=""></td>
-																<td>2105210955470</td>
-																<td>Văn phòng tập đoàn</td>
-																<td>GT</td>
-																<td>VINMART</td>
-																<td>Đại lý Anh Dũng</td>
-																<td>Salerep01</td>
-																<td>5,940,000</td>
-																<td>21-05-2021 09:55:47</td>
-
-																<td>
-																	<div class="input-group">
-																		<span class="btn_trangthai status_new">Mới</span>
-																		<button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-angle-down"></i></button>
-																		<ul class="dropdown-menu dropdown-menu-end">
-																		  <li><a class="dropdown-item" href="#">Xóa</a></li>
-																		  <li><a class="dropdown-item" href="#">Ngừng</a></li>
-																		</ul>
-																	</div>
-																</td>
-															</tr>
+															@endforeach
 														</tbody>
 													</table>
 												</div>

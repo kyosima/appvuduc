@@ -39,18 +39,20 @@ h1.product_title {
 .social-list li {
     display: inline-block;
     margin: 0 8px;
-    line-height: 30px;
 }
 
 .social-list li a {
     display: inline-block;
     height: 30px;
     width: 30px;
-    line-height: 30px;
     text-align: center;
     background-color: #f3f3f3;
     border-radius: 100%;
     border: solid 1px #ccc;
+}
+
+.social-list li a i, .social_list a i {
+    line-height: 28px;
 }
 
 /* long desc */
