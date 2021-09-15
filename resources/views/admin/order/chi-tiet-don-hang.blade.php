@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="{{asset('/resources/css/shipping.css')}}">
 
-<div class="modal fade show" id="calculation_unit_update" tabindex="-1" aria-hidden="true" style="display:block;">
+<div class="modal fade show" id="order-detail-view" tabindex="-1" aria-hidden="true" style="display:block;">
     <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
