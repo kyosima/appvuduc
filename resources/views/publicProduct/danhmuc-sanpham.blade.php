@@ -5,9 +5,20 @@
             <section class="pt-3">
                 <div class="container">
                     <div class="page-title">
-                        @if ($proCat->typeof_category == 2)
+                        @if ($proCat->typeof_category == 1)
                             <h1 class="tborder">
-                                <a href="{{route('product.indexCategory', $proCat->parentCategories->slug)}}">{{$proCat->parentCategories->name}}</a> / {{$proCat->name}}
+                                <a href="{{route('product.indexCategory', $proCat->parentCategories->slug)}}">
+                                    {{$proCat->parentCategories->name}}
+                                </a> / {{$proCat->name}}
+                            </h1>
+                        @elseif ($proCat->typeof_category == 2)
+                            <h1 class="tborder">
+                                <a href="{{route('product.indexCategory', $proCat->parentCategories->megaParentCategories->slug)}}">
+                                    {{$proCat->parentCategories->megaParentCategories->name}}
+                                </a> /
+                                <a href="{{route('product.indexCategory', $proCat->parentCategories->slug)}}">
+                                    {{$proCat->parentCategories->name}}
+                                </a> / {{$proCat->name}}
                             </h1>
                         @else
                             <h1 class="tborder">{{$proCat->name}}</h1>

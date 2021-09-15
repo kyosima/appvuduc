@@ -47,8 +47,8 @@ class CheckoutController extends Controller
                     'note' => $request->note,
                     'shipping_method' => $request->shipping_method,
                     'shipping_total' => $request->in_shipping,
-                    'sub_total' => intval(str_replace(".", "", Cart::instance('shopping')->subtotal())),
-                    'total' => intval(str_replace(".", "", Cart::instance('shopping')->total()))
+                    'sub_total' => intval(str_replace(",", "", Cart::instance('shopping')->subtotal())),
+                    'total' => intval(str_replace(",", "", Cart::instance('shopping')->total()))
                 ]);
 
                 $order_address = new OrderAddress();

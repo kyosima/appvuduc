@@ -4,6 +4,9 @@ use App\Admin\Controllers\BrandController;
 use App\Admin\Controllers\CalculationUnitController;
 use App\Admin\Controllers\ProductCategoryController;
 use App\Admin\Controllers\ProductController;
+use App\Admin\Controllers\WarehouseController;
+use App\Admin\Controllers\OrderController;
+
 use App\Http\Controllers\PublicProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicProductCategoryController;
@@ -44,25 +47,6 @@ Route::get('/admin/doi-nhom', function () {
     return view('admin.doi-nhom');
 });
 
-Route::get('/admin/don-hang-cnpp', function () {
-    return view('admin.don-hang-cnpp');
-});
-
-Route::get('/admin/don-hang-dai-ly', function () {
-    return view('admin.don-hang-dai-ly');
-});
-
-Route::get('/admin/don-hang-doi-thu-dai-ly', function () {
-    return view('admin.don-hang-doi-thu-dai-ly');
-});
-
-Route::get('/admin/don-hang-tra-chi-nhanh-npp', function () {
-    return view('admin.don-hang-tra-chi-nhanh-npp');
-});
-
-Route::get('/admin/don-hang-tra-dai-ly', function () {
-    return view('admin.don-hang-tra-dai-ly');
-});
 
 // Route::get('/admin/don-vi-tinh', function () {
 //     return view('admin.don-vi-tinh');
@@ -80,6 +64,30 @@ Route::get('/admin/loai-khuyen-mai', function () {
 });
 
 Route::prefix('admin')->group(function () {
+    Route::prefix('don-hang')->group(function () {
+
+        Route::get('don-hang-cnpp', function () {
+            return view('admin.order.don-hang-cnpp');
+        })->name('orderadmin.CNNPP');
+        
+        Route::get('don-hang-dai-ly', [OrderController::class, 'getOrderAgency'])->name('orderadmin.agency');
+        
+        Route::get('don-hang-doi-thu-dai-ly', function () {
+            return view('admin.order.don-hang-doi-thu-dai-ly');
+        })->name('orderadmin.doithuAgency');
+        
+        Route::get('don-hang-tra-chi-nhanh-npp', function () {
+            return view('admin.order.don-hang-tra-chi-nhanh-npp');
+        })->name('orderadmin.backCNNPP');
+        
+        Route::get('don-hang-tra-dai-ly', function () {
+            return view('admin.order.don-hang-tra-dai-ly');
+        })->name('orderadmin.backAgency');
+
+        Route::get('/chi-tiet', [OrderController::class, 'getOrderDetail'])->name('order.detail');
+    });
+
+
     // ĐƠN VỊ TÍNH
     Route::get('/don-vi-tinh', [CalculationUnitController::class, 'index'])->name('don-vi-tinh.index');
     Route::get('/don-vi-tinh/getDatatable', [CalculationUnitController::class, 'indexDatatable'])->name('don-vi-tinh.indexDatatable');
@@ -116,18 +124,19 @@ Route::prefix('admin')->group(function () {
     Route::put('/thuong-hieu', [BrandController::class, 'updateStatus'])->name('thuong-hieu.updateStatus');
     Route::delete('/thuong-hieu', [BrandController::class, 'destroy'])->name('thuong-hieu.delete');
 
+    Route::get('/ton-kho-CNNPP', function () {
+        return view('admin.warehouse.ton-kho-CNNPP');
+    });
+    
+    Route::get('/ton-kho-dai-ly', [WarehouseController::class, 'index'])->name('warehouse.index');
+    Route::post('/ton-kho-dai-ly', [WarehouseController::class, 'store'])->name('warehouse.store');
+    Route::put('/ton-kho-dai-ly', [WarehouseController::class, 'update'])->name('warehouse.update');
+    Route::delete('/ton-kho-dai-ly', [WarehouseController::class, 'delete'])->name('warehouse.destroy');
+
 });
 
 Route::get('/admin/thong-tin-ban-hang', function () {
     return view('admin.thong-tin-ban-hang');
-});
-
-Route::get('/admin/ton-kho-CNNPP', function () {
-    return view('admin.ton-kho-CNNPP');
-});
-
-Route::get('/admin/ton-kho-dai-ly', function () {
-    return view('admin.ton-kho-dai-ly');
 });
 
 //------------------------------------------------------------------------------------------------------

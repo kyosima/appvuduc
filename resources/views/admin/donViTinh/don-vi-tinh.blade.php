@@ -284,6 +284,20 @@
 
         var table = $('#table-calculation-unit').DataTable({
             ordering: false,
+            language: {
+                    search: "Tìm kiếm:",
+                    lengthMenu: "Hiển thị _MENU_ kết quả",
+                    info: "Hiển thị _START_ đến _END_ trong _TOTAL_ kết quả",
+                    infoEmpty: "Hiển thị 0 trên 0 trong 0 kết quả",
+                    zeroRecords: "Không tìm thấy",
+                    emptyTable: "Hiện tại chưa có dữ liệu",
+                    paginate: {
+                        first: ">>",
+                        last: "<<",
+                        next: ">",
+                        previous: "<"
+                    },
+            },
             dom: '<"wrapper d-flex justify-content-between mb-3"lf>tip',
             ajax: "{{ route('don-vi-tinh.indexDatatable') }}",
             columns: [{

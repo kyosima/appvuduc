@@ -43,6 +43,8 @@
     <link rel="stylesheet" href="{{ asset('/resources/css/header.css') }}">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{{ asset('/resources/css/responsive.css') }}" type="text/css">
+    <meta name="url-home" content="{{ URL::to('/') }}" />
+
 </head>
 
 <body>
@@ -105,11 +107,11 @@
                             class="fa fa-angle-double-right float-end" aria-hidden="true"></i></span>
                 </a>
                 <span class="dropdown-content">
-                    <a href="/appvuduc/admin/don-hang-cnpp">Đơn hàng CN NPP</a>
-                    <a href="/appvuduc/admin/don-hang-tra-chi-nhanh-npp">Đơn hàng trả CN NPP</a>
-                    <a href="/appvuduc/admin/don-hang-dai-ly">Đơn hàng đại lý</a>
-                    <a href="/appvuduc/admin/don-hang-tra-dai-ly">Đơn hàng trả đại lý</a>
-                    <a href="/appvuduc/admin/don-hang-doi-thu-dai-ly">Đơn hàng đối thủ đại lý</a>
+                    <a href="{{route('orderadmin.CNNPP')}}">Đơn hàng CN NPP</a>
+                    <a href="{{route('orderadmin.backCNNPP')}}">Đơn hàng trả CN NPP</a>
+                    <a href="{{route('orderadmin.agency')}}">Đơn hàng đại lý</a>
+                    <a href="{{route('orderadmin.backAgency')}}">Đơn hàng trả đại lý</a>
+                    <a href="{{route('orderadmin.doithuAgency')}}">Đơn hàng đối thủ đại lý</a>
                 </span>
             </li>
             <li class="dropdown">

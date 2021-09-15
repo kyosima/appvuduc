@@ -93,7 +93,7 @@ class ShippingController extends Controller
         $length = 0;
         foreach($products as $value){
             $weight += $value->model->weight*$value->qty;
-            $height += $height < $value->model->height ? $value->model->height : $height;
+            $height = $height < $value->model->height ? $value->model->height : $height;
             $width += $value->model->width*$value->qty;
             $length = $length < $value->model->length ? $value->model->length : $length;
         }

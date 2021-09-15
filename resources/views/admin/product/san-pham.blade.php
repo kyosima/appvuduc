@@ -276,6 +276,7 @@
         ordering: false,
         columnDefs: [
             { "type": "string", "targets": [1, 3] },
+            { "type": "html", "targets": [4, 5, 6, 7] },
             { "orderable": false, "targets": 1 },
         ],
 		searchBuilder: {
@@ -331,7 +332,7 @@
                             startsWith: 'Bắt đầu bằng ký tự',
                             endsWith: 'Kết thúc bằng ký tự',
                         },
-                        string: {
+                        html: {
                             equals: '=',
                             startsWith: '',
                             endsWith: '',

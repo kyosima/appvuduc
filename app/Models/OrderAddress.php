@@ -48,4 +48,18 @@ class OrderAddress extends Model
 	{
 		return $this->belongsTo(Order::class, 'id_order');
 	}
+
+	public function productCategory() {
+        return $this->belongsto(ProductCategory::class, 'category_id', 'id');
+    } 
+
+	public function province() {
+        return $this->belongsto(Province::class, 'id_province', 'matinhthanh');
+    } 
+	public function district() {
+        return $this->belongsto(District::class, 'id_district', 'maquanhuyen');
+    } 
+	public function ward() {
+        return $this->belongsto(Ward::class, 'id_ward', 'maphuongxa');
+    } 
 }

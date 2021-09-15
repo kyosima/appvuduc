@@ -57,6 +57,13 @@
     <!-- end menu mobile -->
     <div class="m-3">
         <div class="wrapper bg-white p-4">
+            @if (session('success'))
+                <div class="portlet-status">
+                    <div class="caption bg-success p-3">
+                        <span class="caption-subject bold uppercase text-light">{{session('success')}}</span>
+                    </div>
+                </div>
+            @endif
             <div class="portlet-title">
                 <div class="title-name">
                     <div class="caption">
@@ -243,11 +250,19 @@
                                             </select>
                                         </div>
                                     </div>
+                                    {{-- <div class="form-group">
+                                        <label class="col-md-12 control-label text-left">Tồn kho<span
+                                                class="required" aria-required="true">(*)</span>:</label>
+                                        <div class="col-md-12">
+                                            <input type="number" step="1" name="product_quantity" class="form-control"
+                                                min="1" value="{{ old('product_quantity', $product->quantity) }}">
+                                        </div>
+                                    </div> --}}
                                     <div class="form-group">
                                         <label class="col-md-12 control-label text-left">Khối lượng (g)<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
-                                            <input type="number" step="0.1" name="product_weight" class="form-control"
+                                            <input type="number" step="0.1" max="1000000" min="1" name="product_weight" class="form-control"
                                                 placeholder="" value="{{ old('product_weight', $product->weight) }}">
                                         </div>
                                     </div>
@@ -257,7 +272,7 @@
                                                 <label class="col-md-12 control-label text-left">Chiều dài (cm)<span
                                                         class="required" aria-required="true">(*)</span>:</label>
                                                 <div class="col-md-12">
-                                                    <input type="number" step="0.1" name="product_length"
+                                                    <input type="number" step="0.1" max="10000" min="1" name="product_length"
                                                         class="form-control" placeholder=""
                                                         value="{{ old('product_length', $product->length) }}">
                                                 </div>
@@ -266,7 +281,7 @@
                                                 <label class="col-md-12 control-label text-left">Chiều cao (cm)<span
                                                         class="required" aria-required="true">(*)</span>:</label>
                                                 <div class="col-md-12">
-                                                    <input type="number" step="0.1" name="product_height"
+                                                    <input type="number" step="0.1" max="10000" min="1" name="product_height"
                                                         class="form-control" placeholder=""
                                                         value="{{ old('product_height', $product->height) }}">
                                                 </div>
@@ -275,7 +290,7 @@
                                                 <label class="col-md-12 control-label text-left">Chiều rộng (cm)<span
                                                         class="required" aria-required="true">(*)</span>:</label>
                                                 <div class="col-md-12">
-                                                    <input type="number" step="0.1" name="product_width"
+                                                    <input type="number" step="0.1" max="10000" min="1" name="product_width"
                                                         class="form-control" placeholder=""
                                                         value="{{ old('product_width', $product->width) }}">
                                                 </div>
@@ -289,7 +304,7 @@
                                         <label class="col-md-12 control-label text-left">Đơn giá bán lẻ<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
-                                            <input type="number" step="0.1" name="product_regular_price"
+                                            <input type="number" step="1" min="1" name="product_regular_price"
                                                 class="form-control" required
                                                 value="{{ old('product_regular_price', $product->productPrice->regular_price) }}">
                                         </div>
@@ -298,7 +313,7 @@
                                         <label class="col-md-12 control-label text-left">Điểm Vpoint bán lẻ<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
-                                            <input type="number" step="0.1" name="product_vpoint"
+                                            <input type="number" step="0.1" min="0.1" name="product_vpoint"
                                                 class="form-control" required value="{{ old('product_vpoint', $product->productPrice->vpoint_retail) }}">
                                         </div>
                                     </div>
@@ -306,7 +321,7 @@
                                         <label class="col-md-12 control-label text-left">Chiết khấu cổ đông 2<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
-                                            <input type="number" step="0.1" name="product_discount_2"
+                                            <input type="number" step="0.1" min="0.1" name="product_discount_2"
                                                 class="form-control" required
                                                 value="{{ old('product_discount_2', $product->productPrice->vpoint_2_star) }}">
                                         </div>
@@ -315,7 +330,7 @@
                                         <label class="col-md-12 control-label text-left">Chiết khấu cổ đông 1<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
-                                            <input type="number" step="0.1" name="product_discount_1"
+                                            <input type="number" step="0.1" min="0.1" name="product_discount_1"
                                                 class="form-control" required
                                                 value="{{ old('product_discount_1', $product->productPrice->vpoint_1_star) }}">
                                         </div>
@@ -324,7 +339,7 @@
                                         <label class="col-md-12 control-label text-left">Chiết khấu Platinum<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
-                                            <input type="number" step="0.1" name="product_discount_platinum"
+                                            <input type="number" step="0.1" min="0.1" name="product_discount_platinum"
                                                 class="form-control" required
                                                 value="{{ old('product_discount_platinum',$product->productPrice->vpoint_platinum) }}">
                                         </div>
@@ -333,7 +348,7 @@
                                         <label class="col-md-12 control-label text-left">Chiết khấu Diamond<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
-                                            <input type="number" step="0.1" name="product_discount_diamond"
+                                            <input type="number" step="0.1" min="0.1" name="product_discount_diamond"
                                                 class="form-control" required
                                                 value="{{ old('product_discount_diamond', $product->productPrice->vpoint_diamond) }}">
                                         </div>
@@ -342,7 +357,7 @@
                                         <label class="col-md-12 control-label text-left">Chiết khấu Gold<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
-                                            <input type="number" step="0.1" name="product_discount_gold"
+                                            <input type="number" step="0.1" min="0.1" name="product_discount_gold"
                                                 class="form-control" required
                                                 value="{{ old('product_discount_gold', $product->productPrice->vpoint_gold) }}">
                                         </div>
@@ -351,7 +366,7 @@
                                         <label class="col-md-12 control-label text-left">Chiết khấu Silver<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
-                                            <input type="number" step="0.1" name="product_discount_silver"
+                                            <input type="number" step="0.1" min="0.1" name="product_discount_silver"
                                                 class="form-control" required
                                                 value="{{ old('product_discount_silver', $product->productPrice->vpoint_silver) }}">
                                         </div>
@@ -360,7 +375,7 @@
                                         <label class="col-md-12 control-label text-left">Chiết khấu Member<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
-                                            <input type="number" step="0.1" name="product_discount_member"
+                                            <input type="number" step="0.1" min="0.1" name="product_discount_member"
                                                 class="form-control" required
                                                 value="{{ old('product_discount_member', $product->productPrice->vpoint_member) }}">
                                         </div>
@@ -415,6 +430,10 @@
 <script>
     $(document).ready(function() {
         $('select.selectpicker').select2();
+
+        setInterval(() => {
+            $('.portlet-status').remove();
+        }, 1500);
 
         CKEDITOR.replace('description', {
             toolbar :
