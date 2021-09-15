@@ -95,7 +95,6 @@ class ShippingController extends Controller
         //EMS: chuyển phát nhanh, BK: chuyển phát thường
         return response(array('EMS' => $response_shippinh_fee[0]["TongCuocBaoGomDVCT"], 'BK' => $response_shippinh_fee[1]["TongCuocBaoGomDVCT"]));
     }
-
     //Tính toán cân nặng, chiều dài, chiều rộng, chiều cao của tất cả sp trong giỏ hàng.
     public function calculateProductShipping($products){
         $weight = 0;
