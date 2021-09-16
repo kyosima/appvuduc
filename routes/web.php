@@ -1,5 +1,7 @@
 <?php
 
+use App\Admin\Controllers\BlogCategoryController;
+use App\Admin\Controllers\BlogController;
 use App\Admin\Controllers\BrandController;
 use App\Admin\Controllers\CalculationUnitController;
 use App\Admin\Controllers\ProductCategoryController;
@@ -121,6 +123,25 @@ Route::prefix('admin')->group(function () {
     Route::post('/ton-kho-dai-ly', [WarehouseController::class, 'store'])->name('warehouse.store');
     Route::put('/ton-kho-dai-ly', [WarehouseController::class, 'update'])->name('warehouse.update');
     Route::delete('/ton-kho-dai-ly', [WarehouseController::class, 'delete'])->name('warehouse.destroy');
+    Route::get('/get-location', [WarehouseController::class, 'getLocation'])->name('warehouse.getLocation');
+    Route::get('/ton-kho-dai-ly/modal-edit', [WarehouseController::class, 'modalEdit'])->name('warehouse.modalEdit');
+
+    // BLOG CATEGORY
+    Route::get('/chuyen-muc-bai-viet', [BlogCategoryController::class, 'index'])->name('chuyenmuc-baiviet.index');
+    Route::get('/chuyen-muc-bai-viet/getDatatable', [BlogCategoryController::class, 'indexDatatable'])->name('chuyenmuc-baiviet.indexDatatable');
+    Route::get('/chuyen-muc-bai-viet/modal-edit', [BlogCategoryController::class, 'modalEdit'])->name('chuyenmuc-baiviet.modalEdit');
+    Route::post('/chuyen-muc-bai-viet', [BlogCategoryController::class, 'store'])->name('chuyenmuc-baiviet.store');
+    Route::put('/chuyen-muc-bai-viet/update', [BlogCategoryController::class, 'update'])->name('chuyenmuc-baiviet.update');
+    Route::delete('/chuyen-muc-bai-viet', [BlogCategoryController::class, 'destroy'])->name('chuyenmuc-baiviet.delete');
+    
+    // BLOG
+    Route::get('/tat-ca-bai-viet', [BlogController::class, 'index'])->name('baiviet.index');
+    Route::get('/tat-ca-bai-viet/create', [BlogController::class, 'create'])->name('baiviet.create');
+    Route::get('/tat-ca-bai-viet/edit/{id}', [BlogController::class, 'edit'])->name('baiviet.edit');
+    Route::post('/tat-ca-bai-viet', [BlogController::class, 'store'])->name('baiviet.store');
+    Route::put('/tat-ca-bai-viet/update/{id}', [BlogController::class, 'update'])->name('baiviet.update');
+    Route::put('/tat-ca-bai-viet/{id}', [BlogController::class, 'updateStatus'])->name('baiviet.updateStatus');
+    Route::delete('/tat-ca-bai-viet/{id}', [BlogController::class, 'destroy'])->name('baiviet.delete');
 
 });
 

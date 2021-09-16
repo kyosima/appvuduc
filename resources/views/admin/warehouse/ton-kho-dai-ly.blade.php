@@ -81,10 +81,41 @@
                                 <label class="col-md-3 control-label">Địa chỉ kho:<span class="required"
                                     aria-required="true">(*)</span></label>
                                 <div class="col-md-9">
-                                    <textarea class="form-control" name="warehouseAddress" rows="3"
-                                        value="{{ old('warehouseAddress') }}" required></textarea>
+                                    <input type="text" name="warehouseAddress" class="form-control" required
+                                        value="{{ old('warehouseAddress') }}">
                                 </div>
                             </div>
+                            <div class="form-group d-flex mb-2">
+                                <label class="col-md-3 control-label">Thành phố:<span class="required"
+                                    aria-required="true">(*)</span></label>
+                                <div class="col-md-9">
+                                    <select class="js-location" id="selectCity" name="id_province" data-type="city">
+                                        <option value="-1">Chọn thành phố</option>
+                                        @foreach ($cities as $city)
+                                            <option value="{{$city->matinhthanh}}">{{$city->matinhthanh}} - {{$city->tentinhthanh}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group d-flex mb-2">
+                                <label class="col-md-3 control-label">Quận/ huyện:<span class="required"
+                                aria-required="true">(*)</span></label>
+                                <div class="col-md-9">
+                                    <select class="js-location" id="selectDistrict" name="id_district" data-type="district">
+                                        <option value="-1">Chọn quận/huyện</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group d-flex mb-2">
+                                <label class="col-md-3 control-label">Phường/ Xã:<span class="required"
+                                    aria-required="true">(*)</span></label>
+                                <div class="col-md-9">
+                                    <select id="selectWard" name="id_ward" data-type="ward">
+                                        <option value="-1">Chọn phường/xã</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
                             <div class="form-group d-flex mb-2">
                                 <label class="col-md-3 control-label">Sản phẩm<span class="required"
                                         aria-required="true">(*)</span></label>
@@ -137,7 +168,7 @@
 										<p>
 											<span class="caption-subject"><i class="far fa-hourglass"></i> DANH SÁCH TỒN KHO</span>
 											<a href="#warehouse_create" data-toggle="modal" class="btn btn_success"><i
-                                                class="fa fa-plus"></i> Thêm mới </a>
+                                                class="fa fa-plus"></i> Thêm mới kho hàng</a>
 											{{-- <button class="btn btn_success"><i class="fas fa-plus"></i> Import</button> --}}
 										</p>
 	
@@ -289,7 +320,13 @@
                                                         @endif
                                                         <td>{{$product->getOriginal('pivot_quantity')}}</td>
                                                         <td>{{$product->getOriginal('pivot_created_at')}}</td>
-                                                        <td><a href=""><i class="fas fa-history"></i></a></td>
+                                                        <td>
+                                                            <button class="btn modal-edit-unit" data-route="{{route('warehouse.modalEdit')}}"
+                                                            data-productid="{{$product->id}}"
+                                                            data-warehouseid="{{$item->id}}">
+                                                                <i class="fas fa-pen"></i>
+                                                            </button>
+                                                        </td>
                                                     </tr>
                                                     <?php $index++; ?>
                                                     @endforeach
@@ -418,7 +455,129 @@
                 productQuantity: "Không được để trống",
             }
         });
+
+        $('#warehouse_create select').select2({
+            width: '100%',
+            dropdownParent: $('#warehouse_create')
+        })
+
+        $('.js-location').change(function(e) {
+            e.preventDefault();
+            let route = '{{route('warehouse.getLocation')}}';
+            let type = $(this).attr('data-type');
+            let parentId = $(this).val();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: route,
+                data: {
+                    type: type,
+                    parent: parentId
+                },
+                success: function(response) {
+                    if(response.data){
+                        let html = '';
+                        let element = '';
+                        if(type == 'city'){
+                            html = "<option>Mời bạn chọn Quận/Huyện</option>";
+                            element = '#selectDistrict';
+                            $.each(response.data, function(idx, val){
+                                html += "<option value='"+val.maquanhuyen+"'>"+val.maquanhuyen+" - "+val.tenquanhuyen+"</option>"; 
+                            });
+                            $(element).html('').append(html);
+                        }
+                        else {
+                            html = "<option>Mời bạn chọn Phường/Xã</option>";
+                            element = '#selectWard';
+                            $.each(response.data, function(idx, val){
+                                html += "<option value='"+val.maphuongxa+"'>"+val.maphuongxa+" - "+val.tenphuongxa+"</option>"; 
+                            });
+                            $(element).html('').append(html);
+                        }
+                        
+                    }
+                }
+            });
+        });
+
+        $(document).on('change', '.js-edit-location', function(e){
+            e.preventDefault();
+            let route = '{{route('warehouse.getLocation')}}';
+            let type = $(this).attr('data-type');
+            let parentId = $(this).val();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: route,
+                data: {
+                    type: type,
+                    parent: parentId
+                },
+                success: function(response) {
+                    if(response.data){
+                        let html = '';
+                        let element = '';
+                        if(type == 'city'){
+                            html = "<option>Mời bạn chọn Quận/Huyện</option>";
+                            element = '#select-editDistrict';
+                            $.each(response.data, function(idx, val){
+                                html += "<option value='"+val.maquanhuyen+"'>"+val.maquanhuyen+" - "+val.tenquanhuyen+"</option>"; 
+                            });
+                            $(element).html('').append(html);
+                            $('#select-editWard').html('');
+                        }
+                        else {
+                            html = "<option>Mời bạn chọn Phường/Xã</option>";
+                            element = '#select-editWard';
+                            $.each(response.data, function(idx, val){
+                                html += "<option value='"+val.maphuongxa+"'>"+val.maphuongxa+" - "+val.tenphuongxa+"</option>"; 
+                            });
+                            $(element).html('').append(html);
+                        }
+                        
+                    }
+                }
+            });
+        })
+
+        // SHOW MODAL WHEN CLICK ELEMENT TO UPDATE
+        $(document).on('click', '.modal-edit-unit', function () {
+            $.ajax({
+                type: "GET",
+                url: $(this).data('route'),
+                data: {
+                    warehouse_id: $(this).data('warehouseid'),
+                    product_id: $(this).data('productid'),
+                },
+                success: function (response) {
+                    $('#warehouse_create').after(response.html)
+                    $('#calculation_unit_update').modal('show')
+                    $('#calculation_unit_update select').select2({
+                        width: '100%',
+                        dropdownParent: $('#calculation_unit_update')
+                    })
+                }
+            });
+        })
+
+        $('body').click(function (e) {
+            if (!$('#calculation_unit_update').hasClass('show')) {
+                $('#calculation_unit_update').remove();
+            }
+        });
     });
+
+    function destroyModal() {
+        $('#calculation_unit_update').remove();
+    }
 
 </script>
 
