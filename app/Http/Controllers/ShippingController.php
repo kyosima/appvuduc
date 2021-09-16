@@ -8,6 +8,7 @@ use App\Models\Province;
 use App\Models\District;
 use App\Models\Ward;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Models\Order;
 
 class ShippingController extends Controller
 {
@@ -37,9 +38,23 @@ class ShippingController extends Controller
     }
 
     public function postShippingFee(Request $request){
-        
-        $shipping_fee = json_decode($this->calculateCartShipping($request->district, $request->province)->getContent(), true);
-        $cart_total = (int)str_replace(",", "", Cart::instance('shopping')->total());
+
+        //id_order: 0 tính phí từ khách hàng, ngược lại là của admin trong đơn hàng
+        if($request->id_order == 0){
+            //tổng tiền đơn hàng
+            $order_total = (int)str_replace(",", "", Cart::instance('shopping')->subtotal());
+            $products = Cart::instance('shopping')->content();
+            //tính toán cân nặng, chiều dài, chiều rộng, chiều cao của tất cả sp trong giỏ hàng.
+            $calc = $this->calculateProductShipping($products);
+        }else{
+            $order = Order::find($request->id_order);
+            $order_total = $order->sub_total; 
+            $products = $order->products()->select('height', 'weight', 'length', 'width')->get();
+            $calc = $this->calculateProductShippingAdmin($products);
+        }
+
+        $shipping_fee = json_decode($this->calculateCartShipping($request->district, $request->province, $order_total, $calc)->getContent(), true);
+
         return view('public.template-render.calc-shipping')
             ->with('EMS', $shipping_fee['EMS'])
             ->with('BK', $shipping_fee['BK'])
@@ -47,7 +62,7 @@ class ShippingController extends Controller
     }
 
     // Tính phí ship tất cả sp trong giỏ hàng
-    public function calculateCartShipping($district, $province){
+    public function calculateCartShipping($district, $province, $order_total, $calc){
 
         //kiểm tra user vnpost và lấy token user
         $user_vnpost = Http::accept('application/json')->post('https://donhang.vnpost.vn/api/api/MobileAuthentication/GetAccessToken', [
@@ -58,13 +73,6 @@ class ShippingController extends Controller
         if(!$user_vnpost['IsSuccess']){
             return;
         }
-
-        //tổng tiền trong giỏ hàng chưa thuế
-        $cart_subtotal = (int)str_replace(",", "", Cart::instance('shopping')->subtotal());
-
-        //tính toán cân nặng, chiều dài, chiều rộng, chiều cao của tất cả sp trong giỏ hàng.
-        $calc = $this->calculateProductShipping(Cart::instance('shopping')->content());
-
         //Tính phí vận chuyển bên vnpost
         $response_shippinh_fee = Http::withHeaders([
             'Content-Type' => 'application/json',
@@ -78,7 +86,7 @@ class ShippingController extends Controller
             "Width" => $calc['width'],
             "Length" => $calc['length'],
             "Height" => $calc['height'],
-            "CodAmount" => $cart_subtotal,
+            "CodAmount" => $order_total,
             "IsReceiverPayFreight" => true,
             "OrderAmount" => 0,
             "UseBaoPhat" => false,
@@ -106,6 +114,20 @@ class ShippingController extends Controller
             $height = $height < $value->model->height ? $value->model->height : $height;
             $width += $value->model->width*$value->qty;
             $length = $length < $value->model->length ? $value->model->length : $length;
+        }
+        return array("weight" => $weight, "height" => $height, "width" => $width, "length" => $length);
+    }
+
+    public function calculateProductShippingAdmin($products){
+        $weight = 0;
+        $height = 0;
+        $width = 0;
+        $length = 0;
+        foreach($products as $value){
+            $weight += $value->weight*$value->pivot->quantity;
+            $height = $height < $value->height ? $value->height : $height;
+            $width += $value->width*$value->pivot->quantity;
+            $length = $length < $value->length ? $value->length : $length;
         }
         return array("weight" => $weight, "height" => $height, "width" => $width, "length" => $length);
     }

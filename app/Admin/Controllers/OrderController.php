@@ -19,25 +19,41 @@ class OrderController extends Controller
         return view('admin.order.don-hang-dai-ly', ['orders' => $orders]);
     }
 
-    public function getOrderDetail(Request $request){
-        $id_order = $_GET['id_order'];
-        $order = Order::find($id_order)->firstorfail();
-        $order_address = $order->order_address()->first();
-        $provinces = Province::where('matinhthanh', '<>',$order_address->id_province)->select('matinhthanh', 'tentinhthanh')->get();
-        $districts = District::where('maquanhuyen', '<>',$order_address->id_district)->select('maquanhuyen', 'tenquanhuyen')->get();
-        $wards = Ward::where('maphuongxa', '<>',$order_address->id_ward)->select('maphuongxa', 'tenphuongxa')->get();
-
+    public function getOrderDetail(Order $order){
         
-        $html = view('admin.order.chi-tiet-don-hang', [
-            'order'=>$order, 
-            'order_info'=>$order->order_info()->first(), 
-            'order_address'=>$order_address, 
-            'order_products'=>$order->order_products()->get(),
-            'provinces'=>$provinces,
-            'districts'=>$districts,
-            'wards'=>$wards])->render();
-        return response()->json([
-            'html' => $html
-        ], 200);
+        $order_address = $order->order_address()->first();
+
+        $provinces = Province::where('matinhthanh', '<>',$order_address->id_province)
+        ->select('matinhthanh', 'tentinhthanh')->get();
+
+        $districts = District::where([['maquanhuyen', '<>',$order_address->id_district], ['matinhthanh', '=', $order_address->id_province]])
+        ->select('maquanhuyen', 'tenquanhuyen')->get();
+        
+        $wards = Ward::where([['maphuongxa', '<>',$order_address->id_ward], ['maquanhuyen', '=', $order_address->id_district]])
+        ->select('maphuongxa', 'tenphuongxa')->get();
+        
+        $shipping_bill = $order->order_shipping()->get();
+
+        return view('admin.order.chi-tiet-don-hang', [
+                'order'=>$order, 
+                'order_info'=>$order->order_info()->first(), 
+                'order_address'=>$order_address, 
+                'order_products'=>$order->order_products()->get(),
+                'provinces'=>$provinces,
+                'districts'=>$districts,
+                'wards'=>$wards,
+                'shipping_bill' => $shipping_bill
+            ]);
+        // $html = view('admin.order.chi-tiet-don-hang', [
+        //     'order'=>$order, 
+        //     'order_info'=>$order->order_info()->first(), 
+        //     'order_address'=>$order_address, 
+        //     'order_products'=>$order->order_products()->get(),
+        //     'provinces'=>$provinces,
+        //     'districts'=>$districts,
+        //     'wards'=>$wards])->render();
+        // return response()->json([
+        //     'html' => $html
+        // ], 200);
     }
 }

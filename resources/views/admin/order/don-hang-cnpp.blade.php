@@ -51,7 +51,6 @@
 				  <a href="#" class="list-group-item-link p-3"><i class="fa fa-bar-chart-o"></i> Setting</a>
 			  </li>
 		  </ul>
-		</div>
 			<div class="m-3">
 				<div class="row">
 					<div class="col-sm-12">

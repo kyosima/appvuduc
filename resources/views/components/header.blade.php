@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="{{asset('/resources/css/gio-hang.css')}}">
     <link rel="stylesheet" href="{{asset('/resources/css/shipping.css')}}">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta name="url-home" content="{{ URL::to('/') }}" />
 

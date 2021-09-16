@@ -89,11 +89,17 @@ $(document).on('change', 'select[name="sel_district"]', function(event) {
 
         
         var province = $('select[name="sel_province"]').val();
+
+        var id_order = $('input[name="in_id_order"]').val();
+        if(!id_order){
+            id_order = 0;
+        }
+        
         $.ajax({
             url: urlHome+'/tinh-phi-van-chuyen',
             type: 'POST',
             dataType: 'html',
-            data: {_token: token, district: district, province: province},
+            data: {_token: token, district: district, province: province, id_order: id_order},
         })
         .done(function(data) {
             $(".checkout-shipping-label").after(data);
@@ -106,10 +112,11 @@ $(document).on('change', 'select[name="sel_district"]', function(event) {
 
     })
     .fail(function() {
-        console.log("error");
+        RecieveAjax();
     });
     
 });
 $(document).on('change', 'input[name="in_shipping"]', function(event) {
+    $('input[name="shipping_method"]').val($(this).data('method'));
     $(".order-total .amount").text(formatNumber(order_total + parseInt($(this).val())) + 'đ');
 });

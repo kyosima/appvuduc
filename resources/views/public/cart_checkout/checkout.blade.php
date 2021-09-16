@@ -116,7 +116,7 @@
                                             <td>Vui lòng chọn địa chỉ</td>
                                         </tr>
                                         <tr>
-                                            <input type="hidden" name="shipping_method" value="shipping-ems">
+                                            <input type="hidden" name="shipping_method" value="EMS">
                                         </tr>
                                         <tr class="order-total">
                                             <th>Tổng cộng</th>
@@ -152,4 +152,5 @@
             </section>
         </div>
     </main>
+    <script src="{{asset('/resources/js/shipping/shipping.js')}}"></script>
 <x-footer />

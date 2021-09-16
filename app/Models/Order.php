@@ -36,7 +36,8 @@ class Order extends Model
 		'shipping_total' => 'float',
 		'sub_total' => 'float',
 		'total' => 'float',
-		'status' => 'int'
+		'status' => 'int',
+		'status_shipping' => 'int'
 	];
 
 	protected $fillable = [
@@ -45,7 +46,8 @@ class Order extends Model
 		'shipping_total',
 		'sub_total',
 		'total',
-		'status'
+		'status',
+		'status_shipping'
 	];
 
 	public function order_address()
@@ -61,6 +63,9 @@ class Order extends Model
 		return $this->hasOne(OrderInfo::class, 'id_order');
 	}
 
+	public function order_shipping(){
+        return $this->hasMany(ShippingBill::class, 'order_id', 'id');
+    }
 
 	public function products()
 	{
