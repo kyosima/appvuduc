@@ -138,6 +138,17 @@
             <li class="dropdown">
                 <a href="#" class="dropbtn">
                     <i class="fa fa-frown-o" aria-hidden="true"></i>
+                    <span class="links_name w-100 align-items-center d-flex">Bài viết <i
+                            class="fa fa-angle-double-right float-end" aria-hidden="true"></i></span>
+                </a>
+                <span class="dropdown-content">
+                    <a href="/appvuduc/admin/chuyen-muc-bai-viet">Chuyên mục bài viết</a>
+                    <a href="/appvuduc/admin/tat-ca-bai-viet">Tất cả bài viết</a>
+                </span>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">
+                    <i class="fa fa-frown-o" aria-hidden="true"></i>
                     <span class="links_name">Setting</span>
                 </a>
             </li>

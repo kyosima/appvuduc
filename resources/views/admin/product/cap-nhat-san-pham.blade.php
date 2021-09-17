@@ -173,6 +173,7 @@
                                         <div class="col-md-12">
                                             <select class="selectpicker form-control selectCategory nhomsp" name="category_parent"
                                                 required data-placeholder="Nhóm sản phẩm" data-type="parent">
+                                                <option value="-1">Chọn nhóm sản phẩm</option>
                                                 @if ( $product->productCategory->typeof_category == 2 )
                                                     @php
                                                         $cates = \App\Models\ProductCategory::where('category_parent', $product->productCategory->parentCategories->megaParentCategories->id)
@@ -213,6 +214,7 @@
                                                 @else
                                                     @php
                                                         $cates = \App\Models\ProductCategory::where('typeof_category', 2)
+                                                                                            ->where('category_parent', $product->productCategory->id)
                                                                                                 ->get(); 
                                                     @endphp
                                                     @foreach ($cates as $item)
@@ -550,25 +552,25 @@
                 success: function(response) {
                     if (response.data.length > 0) {
                         if ( type == 'megaParent') {
-                            html = "<option value='-1' selected>Chọn nhóm sản phẩm</option>";
+                            html = `<option value="-1" selected>Chọn nhóm sản phẩm</option>`;
                             $.each(response.data, function(idx, val) {
-                                html += "<option value=" + val.id + ">" + val.name +
-                                    "</option>"
+                                html += `<option value="${val.id}">${val.name}</option>`
                             });
                             $('select.nhomsp').html('').append(html);
                             $('select.nhomspcon').html('');
                         } else {
                             html = "<option value='-1' selected>Chọn nhóm sản phẩm con</option>";
                             $.each(response.data, function(idx, val) {
-                                html += "<option value=" + val.id + ">" + val.name +
-                                    "</option>"
+                                html += `<option value="${val.id}">${val.name}</option>`
                             });
                             $('select.nhomspcon').html('').append(html);
                         }
                     } else {
                         if ( type == 'megaParent') {
-                            $('select.nhomsp').html('')
+                            $('select.nhomsp').html('').append(html);
                             $('select.nhomspcon').html('');
+                        } else {
+                            $('select.nhomsp').html('').append(html);
                         }
                     }
                 }
