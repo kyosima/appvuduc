@@ -49,7 +49,7 @@
     <div class="m-3">
         <div class="row">
             <div class="col-sm-12">
-                <div class="card content-checkout">
+                <div class="card content-checkout content-order">
                     <div class="card-body">	
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
@@ -67,16 +67,15 @@
                             </div>
                             <div>
                                  @if(count($shipping_bill) == 0)
-                                 <a  href={{route('post.shipping.create', ['order' => $order->id])}} class="btn btn-success">
-                                        <i class="fas fa-shipping-fast"></i>Tạo đơn vận Chuyển</a>
+                                 <button id="btn-order-shipping-create" type="button" class="btn btn-success" data-id="{{$order->id}}" data-url={{route('get.shipping.create')}} onClick="viewShippingOrder(this)">
+                                    <i class="fas fa-shipping-fast"></i> Tạo đơn vận Chuyển
+                                </button>&nbsp;
                                 @else
                                 <button class="btn btn-success">
                                         <i class="fas fa-shipping-fast"></i> Đã tạo đơn vận chuyển</button>
                                 @endif
                                 
-                                <!-- <button id="btn-order-shipping-create" type="button" class="btn btn-success" data-id="{{$order->id}}" data-url={{route('get.shipping.create')}} onClick="viewShippingOrder(this)">
-                                    <i class="fas fa-shipping-fast"></i> Tạo đơn vận Chuyển
-                                </button>&nbsp; -->
+                                
                                 <span data-bs-toggle="collapse" class="btn btn-primary" href="#collapseExample" role="button"
                                     aria-expanded="false" aria-controls="collapseExample">
                                     <i class="fas fa-chevron-down"></i>
@@ -177,7 +176,7 @@
                                                                 </td>
 
                                                                 <td class="product-total" data-title="Tổng cộng">
-                                                                    <span class="amount">{{formatPrice($item->price *$item->quantity)}}</span>
+                                                                    <span class="amount">{{formatPrice($item->price *$item->quantity)}} đ</span>
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -185,11 +184,11 @@
                                                     <tfoot>
                                                         <tr class="cart-subtotal">
                                                             <th>Tạm tính</th>
-                                                            <td><span class="amount">{{formatPrice($order->sub_total)}}</span></td>
+                                                            <td><span class="amount">{{formatPrice($order->sub_total)}} đ</span></td>
                                                         </tr>
                                                         <tr class="checkout-shipping-label-curent">
                                                             <th>Phí ship hiện tại</th>
-                                                            <td>{{formatPrice($order->shipping_total)}}</td>
+                                                            <td>{{formatPrice($order->shipping_total)}} đ</td>
                                                         </tr>
                                                         <tr class="checkout-shipping-label-curent">
                                                             <th>Phương thức hiện tại</th>
@@ -204,7 +203,7 @@
                                                         </tr>
                                                         <tr class="order-total">
                                                             <th>Tổng cộng</th>
-                                                            <td><strong><span class="amount" data-total={{number_format($order->total)}}>{{number_format($order->total + $order->shipping_total)}}₫</span></strong> </td>
+                                                            <td><strong><span class="amount" data-total={{number_format($order->total)}}>{{number_format($order->total + $order->shipping_total)}} ₫</span></strong> </td>
                                                         </tr>
                                                     </tfoot>
                                                 </table>
@@ -223,7 +222,7 @@
                 </div>
 
                 @if(count($shipping_bill) > 0)
-                <div class="card content-checkout mt-5 mb-5">
+                <div class="card has-shipping-bill content-checkout mt-5 mb-5">
                     <div class="card-body">	
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
@@ -233,8 +232,9 @@
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>Mã đơn hàng</th>
                                     <th class="product-name">Tên gói hàng</th>
-                                    <th class="product-total">Giá trị</th>
+                                    <th class="product-total">Tiền COD</th>
                                     <th class="product-total">Phí giao hàng</th>
                                     <th class="product-total">Trạng thái</th>
                                 </tr>
@@ -242,14 +242,15 @@
                             <tbody>
                                 @foreach ( $shipping_bill as $item)      
                                     <tr class="cart_item">
+                                        <td>{{$item->item_code}}</td>
                                         <td class="product-name" data-title="Sản phẩm">
                                             {{$item->shipping_name}}
                                         </td>
                                         <td class="product-total" data-title="Tổng cộng">
-                                            <span class="amount">{{formatPrice($item->order()->first()->total)}}</span>
+                                            <span class="amount">{{formatPrice($item->origin_cod_amount)}}</span>
                                         </td>
                                         <td class="product-total" data-title="Tổng cộng">
-                                            <span class="amount">{{formatPrice($item->order()->first()->shipping_total)}}</span>
+                                            <span class="amount">{{formatPrice($item->shipping_fee_total)}}</span>
                                         </td>
                                         <td class="product-total" data-title="Tổng cộng">
                                             Chờ lấy hàng
@@ -262,8 +263,6 @@
                     </div>
                 </div>
                 @endif
-
-
             </div>
             
         </div>

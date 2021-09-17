@@ -13,7 +13,3 @@ function viewDetailOrder(e){
         }
     });
 }
-
-function destroyModal() {
-    $('#order-detail-view').remove();
-}

@@ -13,6 +13,6 @@ class District extends Model
     protected $guarded = [];
 
     public function ward() {
-        return $this->hasOne(Ward::class, 'maquanhuyen', 'maquanhuyen');
+        return $this->hasMany(Ward::class, 'maquanhuyen', 'maquanhuyen');
     }
 }

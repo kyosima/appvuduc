@@ -8,81 +8,29 @@
                 <button type="button" class="btn-close" onclick="destroyModal()"></button>
             </div>
             <div class="modal-body content-checkout">
-               <form id="form-order-shipping-create" class="form" method="post" action="{{'shipping.create'}}">
-                    <p>Thông tin người đặt</p>
+               <form id="form-order-shipping-create" class="form" method="post" data-action="{{route('post.shipping.create')}}">
+                    @csrf
+                    <input type="hidden" name="in_id_order" value="{{$order->id}}">
+                    <h4>Thông tin người đặt</h4>
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
-                            <div class="form-group w-100">
-                                <label for="fullname">Họ và Tên <abbr class="required"
-                                        title="bắt buộc">*</abbr></label>
-                                <input type="text" class="form-control" id="fullname" name="fullname" value="{{$order_info->fullname}}" required>
-                            </div>
-                            <div class="form-group w-100">
-                                <label for="fullname">Số điện thoại <abbr class="required"
-                                        title="bắt buộc">*</abbr></label>
-                                <input type="text" class="form-control" id="fullname" name="fullname" value="{{$order_info->phone}}" required>
-                            </div>
-                            <div class="form-group w-100">
-                                <label for="fullname">Email <abbr class="required"
-                                        title="bắt buộc">*</abbr></label>
-                                <input type="text" class="form-control" id="fullname" name="fullname" value="{{$order_info->email}}" required>
-                            </div>
+                        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                            
+                            <p><b>Họ và tên:</b> {{$order_info->fullname}}</p>
+                            <p><b>Số điện thoại:</b> {{$order_info->phone}}</p>
+                            <p><b>Email:</b> {{$order_info->email}}</p>
+                            
                         </div>
-                        <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
-                            <div class="form-group w-100">
-                                <label for="">Tỉnh thành <abbr class="required"
-                                            title="bắt buộc">*</abbr></label>
-                                    <select name="sel_province" class="form-control" required>
-                                        <option value="{{$order_address->province()->value('matinhthanh')}}">{{$order_address->province()->value('tentinhthanh')}}</option>
-                                        @foreach($provinces as $value)
-                                            <option value="{{$value->matinhthanh}}">{{$value->tentinhthanh}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-12 col-lg-6">
-                                    <label for="">Quận huyện <abbr class="required"
-                                            title="bắt buộc">*</abbr></label>
-                                        <select class="form-control" name="sel_district" required>
-                                            <option value="{{$order_address->district()->value('maquanhuyen')}}">{{$order_address->district()->value('tenquanhuyen')}}</option>
-                                            @foreach($districts as $value)
-                                                <option value="{{$value->maquanhuyen}}">{{$value->tenquanhuyen}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-sm-12 col-lg-6">
-                                    <label for="">Phường xã <abbr class="required"
-                                            title="bắt buộc">*</abbr></label>
-                                        <select class="form-control" name="sel_ward" required>
-                                            <option value="{{$order_address->ward()->value('maphuongxa')}}">{{$order_address->ward()->value('tenphuongxa')}}</option>
-                                            @foreach($wards as $value)
-                                                <option value="{{$value->maphuongxa}}">{{$value->tenphuongxa}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group w-100">
-                                    <label for="address">Địa chỉ <abbr class="required"
-                                            title="bắt buộc">*</abbr></label>
-                                    <input type="text" class="form-control" id="address" name="address" value="{{$order_address->address}}" required>
-                                    <small class="text-danger">Địa chỉ không bao gồm phường xã, quận huyện, tỉnh thành.</small>
-                                </div>
-                        </div>
-                    </div>     
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-                            <div class="form-group w-100">
-                                <label for="fullname">Ghi chú <abbr class="required"
-                                        title="bắt buộc">*</abbr></label>
-                                <textarea name="note" id="note" style="width:100%" rows="5">{{$order_info->note}}</textarea>
-                            </div>
+                        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                        <p><b>Địa chỉ:</b> {{$address}} </p>
+                        <p><b>Ghi chú:</b> {{$order_info->note}} </p>
                         </div>
                     </div>
-                    <p>Thông tin sản phẩm</p>
+                    <hr>  
+                    <h4>Thông tin sản phẩm</h4>   
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-                            <div class="order-detail-table-product">
-                                <table class="">
+                            <div class="form-group w-100">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th class="product-name">Sản phẩm</th>
@@ -109,23 +57,16 @@
                                             <td><span class="amount">{{formatPrice($order->sub_total)}}</span></td>
                                         </tr>
                                         <tr class="checkout-shipping-label-curent">
-                                            <th>Phí ship hiện tại</th>
+                                            <th>Phí giao hàng</th>
                                             <td>{{formatPrice($order->shipping_total)}}</td>
                                         </tr>
                                         <tr class="checkout-shipping-label-curent">
-                                            <th>Phương thức hiện tại</th>
+                                            <th>Phương thức giao hàng</th>
                                             <td>@if($order->shipping_method == 'shipping-ems')Chuyển phát nhanh @else Chuyển phát thường @endif</td>
-                                        </tr>
-                                        <tr class="checkout-shipping-label">
-                                            <th>Phí ship mới</th>
-                                            <td>Chọn lại địa chỉ</td>
-                                        </tr>
-                                        <tr>
-                                            <input type="hidden" name="shipping_method" value="{{$order->shipping_method}}">
                                         </tr>
                                         <tr class="order-total">
                                             <th>Tổng cộng</th>
-                                            <td><strong><span class="amount" data-total={{$order->total}}>{{$order->total}}₫</span></strong> </td>
+                                            <td><strong><span class="amount" data-total={{$order->total}}>{{formatPrice($order->shipping_total+$order->total)}}₫</span></strong> </td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -133,15 +74,11 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal" onclick="destroyModal()">Hủy</button>
-                        <button type="submit" class="btn btn-info btn-submit-unit">Cập nhật</button>
+                        <button type="button" class="btn btn-dark" onclick="destroyModal()">Hủy</button>
+                        <button type="submit" class="btn btn-info btn-submit-unit">Tạo đơn</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="{{asset('/resources/js/admin/shipping.js')}}"></script>

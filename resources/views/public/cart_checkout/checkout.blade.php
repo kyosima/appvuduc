@@ -76,7 +76,7 @@
                                         <h3 class="tborder">Thông tin bổ sung</h3>
                                         <div class="form-group">
                                             <label for="exampleFormControlTextarea1">Ghi chú</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1"
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" name="note"
                                                 placeholder="Ghi chú đơn hàng, Thời gian nhận hàng ..." rows="5"></textarea>
                                         </div>
                                     </div>

@@ -18,8 +18,8 @@ use App\Http\Controllers\ShippingController as CallShippingController;
 
 class ShippingController extends Controller
 {
-    public function create(Order $order){
-        
+
+    public function create(Request $request){
         $response = Http::accept('application/json')->post('https://donhang-uat.vnpost.vn/api/api/MobileAuthentication/GetAccessToken', [
             'TenDangNhap' => '01234567890',
             'MatKhau' => '01234567890'
@@ -27,6 +27,7 @@ class ShippingController extends Controller
         if(!$response['IsSuccess']){
             return;
         }
+        $order = Order::find($request->in_id_order);
         $package_content = '';
         $order_total = $order->sub_total; 
         $products = $order->products()->select('height', 'weight', 'length', 'width', 'name')->get();
@@ -41,13 +42,14 @@ class ShippingController extends Controller
         $order_address = $order->order_address()->first();
         $shippingController = new CallShippingController;
         $calc = $shippingController->calculateProductShippingAdmin($products);
+
         $response_create = Http::withHeaders([
             'Content-Type' => 'application/json',
             'h-token' => $response['Token']
         ])->post('https://donhang-uat.vnpost.vn/api/api/CustomerConnect/CreateOrder', [
             "SenderTel" => "0987818811",
             "SenderFullname" => "công ty dược vũ đức test",
-            "SenderAddress" => "15 đường số 7 kdc cityland trần thị nghỉ, Số 7, Gò Vấp, Hồ Chí Minh",
+            "SenderAddress" => "15 đường số 7 kdc cityland trần thị nghỉ",
             "SenderWardId" => "72710",
             "SenderDistrictId" => "7270",
             "SenderProvinceId" => "70",
@@ -79,50 +81,83 @@ class ShippingController extends Controller
         ]);
         
         $response_create = json_decode($response_create, true);
-        if(gettype($response_create) == 'string'){
-            Session::flash('error', 'Tạo không thành công đơn vận chuyển.');
-            // return 'hello';
-            return back();
-        }
-        ShippingBill::create([
-            'order_id' => $order->id,
-            'shipping_id' => $response_create['Id'],
-            'status' => $response_create['OrderStatusId'],
-            'service_name_code' => $response_create['ServiceName'],
-            'shipping_name' => $response_create['PackageContent'],
-            'created_at' => Carbon::now('Asia/Ho_Chi_Minh'), 
-        ]);
+
+        $this->createShippingBill($order, $response_create);
+
         $order->update([
             'status' => 1, 
             'status_shipping' => $response_create['OrderStatusId'],
         ]);
-        Session::flash('success', 'Tạo thành công đơn vận chuyển.');
-        return back();
+        $order->update([
+            'status' => 1, 
+            'status_shipping' => $response_create['OrderStatusId'],
+            'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')
+        ]);
+
+        $shipping_bill = ShippingBill::where('order_id', $order->id)->get();
+
+        $html = view('admin.template-render.create-order-shipping-success', 
+                    ['shipping_bill' => $shipping_bill])->render();
+
+        return $html;
     }
+
     public function getInfoShipping(Request $request){
 
         $order = Order::findOrFail($request->id_order);
         $order_address = $order->order_address()->first();
 
-        $provinces = Province::where('matinhthanh', '<>',$order_address->id_province)
-        ->select('matinhthanh', 'tentinhthanh')->get();
+        $province = Province::where('matinhthanh', $order_address->id_province)->first();
 
-        $districts = District::where([['maquanhuyen', '<>',$order_address->id_district], ['matinhthanh', '=', $order_address->id_province]])
-        ->select('maquanhuyen', 'tenquanhuyen')->get();
+        $district = $province->district()->where('maquanhuyen', $order_address->id_district)->first();
+
+        $ward = $district->ward()->where('maphuongxa', $order_address->id_ward)->first();
         
-        $wards = Ward::where([['maphuongxa', '<>',$order_address->id_ward], ['maquanhuyen', '=', $order_address->id_district]])
-        ->select('maphuongxa', 'tenphuongxa')->get();
-
+        $address = $order_address->address.', '.$ward->tenphuongxa.', '.$district->tenquanhuyen.', '.$province->tentinhthanh;
+        
         $html = view('admin.template-render.create-order-shipping', [
             'order'=>$order, 
             'order_info'=>$order->order_info()->first(), 
             'order_address'=>$order_address, 
             'order_products'=>$order->order_products()->get(),
-            'provinces'=>$provinces,
-            'districts'=>$districts,
-            'wards'=>$wards])->render();
-        return response()->json([
-            'html' => $html
-        ], 200);
+            'address'=>$address,
+            ])->render();
+        return $html;
+    }
+
+    public function createShippingBill($order, $response_create){
+
+        $province_send = Province::where('matinhthanh', $response_create['SenderProvinceId'])->first();
+        $district_send = $province_send->district()->where('maquanhuyen', $response_create['SenderDistrictId'])->first();
+        $ward_send = $district_send->ward()->where('maphuongxa', $response_create['SenderWardId'])->first();
+
+        $province_received = Province::where('matinhthanh', $response_create['ReceiverProvinceId'])->first();
+        $district_received = $province_received->district()->where('maquanhuyen', $response_create['ReceiverDistrictId'])->first();
+        $ward_received = $district_received->ward()->where('maphuongxa', $response_create['ReceiverWardId'])->first();
+
+        $send_address = $response_create['SenderAddress'].', '.$ward_send->tenphuongxa.', '.$district_send->tenquanhuyen.', '.$province_send->tentinhthanh;
+
+        $received_address = $response_create['ReceiverAddress'].', '.$ward_received->tenphuongxa.', '.$district_received->tenquanhuyen.', '.$province_received->tentinhthanh;
+
+        return ShippingBill::create([
+            'order_id' => $order->id,
+            'shipping_id' => $response_create['Id'],
+            'item_code' => $response_create['ItemCode'],
+            'status' => $response_create['OrderStatusId'],
+            'service_name_code' => $response_create['ServiceName'],
+            'shipping_name' => $response_create['PackageContent'],
+            'shipping_fee_total' => $response_create['TotalFreightIncludeVatEvaluation'],
+            'pickup_type' => $response_create['PickupType'] == 1 ? 'Thu gom tận nơi' : 'Gửi hàng tại bưu cục',
+            'package_viewable' => $response_create['IsPackageViewable'] ? 'Cho xem hàng' : 'Không cho xem hàng',
+            'send_fullname' => $response_create['SenderFullname'],
+            'send_address' => $send_address,
+            'send_tel' => $response_create['SenderTel'],
+            'receiver_fullname' => $response_create['ReceiverFullname'],
+            'receiver_address' => $received_address,
+            'receiver_phone' => $response_create['ReceiverTel'],
+            'origin_cod_amount' => $response_create['OriginalCodAmountEvaluation'],
+            'order_amount' => $response_create['OrderAmountEvaluation'],
+            'created_at' => Carbon::now('Asia/Ho_Chi_Minh'), 
+        ]);
     }
 }

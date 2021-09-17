@@ -89,8 +89,8 @@ Route::prefix('admin')->group(function () {
     });
 
     Route::prefix('van-chuyen')->group(function () {
-        // Route::post('/tao-don-hang', [AdminShippingController::class, 'create'])->name('post.shipping.create');
-        Route::get('/tao-don-hang/{order:id}', [AdminShippingController::class, 'create'])->name('post.shipping.create');
+        Route::post('/tao-don-hang', [AdminShippingController::class, 'create'])->name('post.shipping.create');
+        // Route::get('/tao-don-hang/{order:id}', [AdminShippingController::class, 'getCreate'])->name('post.shipping.create');
         Route::get('/tao-don-hang', [AdminShippingController::class, 'getInfoShipping'])->name('get.shipping.create');
     });
 
