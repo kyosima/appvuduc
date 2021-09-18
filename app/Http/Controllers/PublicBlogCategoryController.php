@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
-use App\Models\ProductCategory;
+use App\Models\BlogCategory;
 
-class PublicProductCategoryController extends Controller
+class PublicBlogCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,6 +16,7 @@ class PublicProductCategoryController extends Controller
     {
         //
         return redirect()->route('home');
+
     }
 
     /**
@@ -48,16 +48,9 @@ class PublicProductCategoryController extends Controller
      */
     public function show($slug)
     {
-        //
-        $category = ProductCategory::whereSlug($slug)->firstorfail();
-        $categoryIds = ProductCategory::whereIn('category_parent', $parentId = ProductCategory::where('category_parent', $category->id)
-        ->pluck('id')->toArray())
-        ->pluck('id')
-        ->merge($parentId)
-        ->push($category->id)
-        ->toArray();
-        $products = Product::whereIn('category_id', $categoryIds)->latest()->paginate(9);
-        return view('public.products.shop', ['products' => $products, 'category'=>$category]);
+        $category = BlogCategory::whereSlug($slug)->firstorfail();
+        $blogs = $category->blogs()->latest()->paginate(6);
+        return view('public.blogs.blogs', ['blogs' => $blogs ,'category'=>$category]);
     }
 
     /**

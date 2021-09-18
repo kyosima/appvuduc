@@ -5,7 +5,7 @@
             <section class="pt-3">
                 <div class="container">
                     <div class="page-title">
-                        <h1 class="tborder">Sản phẩm</h1>
+                        <h1 class="tborder">@isset($category) {{ $category->name }}@else Tất cả sản phẩm @endisset</h1>
                     </div>
 
                     <!-- SLIDER -->

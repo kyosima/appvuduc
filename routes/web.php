@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Route;
 
 use App\Admin\Controllers\BlogCategoryController;
 use App\Admin\Controllers\BlogController;
@@ -10,11 +11,13 @@ use App\Admin\Controllers\WarehouseController;
 use App\Admin\Controllers\OrderController;
 
 use App\Http\Controllers\PublicProductController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicProductCategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ShippingController;
+use App\Http\Controllers\PublicBlogController;
+use App\Http\Controllers\PublicBlogCategoryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -168,7 +171,11 @@ Route::get('/', function () {
 Route::resources([
     'san-pham' => PublicProductController::class,
     'danh-muc' => PublicProductCategoryController::class,
+    'bai-viet' => PublicBlogController::class,
+    'danh-muc-bai-viet' =>PublicBlogCategoryController::class
 ]);
+Route::get('/tim-kiem-san-pham', [PublicProductController::class, 'searchProduct'])->name('tim-kiem-san-pham');
+Route::get('/tim-kiem-bai-viet', [PublicBlogController::class, 'searchBlog'])->name('tim-kiem-bai-viet');
 
 Route::prefix('gio-hang')->group(function () {
     Route::get('/', [CartController::Class, 'index'])->name('cart.index');
@@ -184,7 +191,6 @@ Route::prefix('thanh-toan')->group(function () {
 
 });
 
-Route::get('/tim-kiem-san-pham', [PublicProductController::class, 'searchProduct'])->name('tim-kiem-san-pham');
 
 Route::get('/blog', function () {
     return view('blog');

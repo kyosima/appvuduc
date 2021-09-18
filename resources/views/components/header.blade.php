@@ -29,6 +29,8 @@
     <link rel="stylesheet" href="{{asset('/resources/css/fotorama.css')}}">
     <link rel="stylesheet" href="{{asset('/resources/css/gio-hang.css')}}">
     <link rel="stylesheet" href="{{asset('/resources/css/shipping.css')}}">
+    <link rel="stylesheet" href="{{asset('/resources/css/blog.css')}}">
+
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta name="url-home" content="{{ URL::to('/') }}" />
@@ -74,7 +76,7 @@
                     <nav class="navbar navbar-expanded-lg p-0 bg-white">
                         <div class="container">
                             <div class="navbar-header">
-                                <a href="#" class="navbar-brand">
+                                <a href="{{route('home')}}" class="navbar-brand">
                                     <img src="https://mevivu.com/wp-content/uploads/2016/11/logomevivumoi.png"
                                         alt="Logo" class="app-logo">
                                 </a>
@@ -124,7 +126,7 @@
                                         </ul>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="./blog">Tin tức - sự kiện</a>
+                                        <a href="{{route('bai-viet.index')}}">Tin tức - sự kiện</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="./blog">Thư viện</a>

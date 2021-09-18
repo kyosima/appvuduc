@@ -84,9 +84,10 @@
 }
 
 .search-wrap{
-    background: #fff;
 }
 .sidebar section{
     margin-bottom: 20px;
+    background: #fff;
+
     border: 1px solid #ddd;
 }

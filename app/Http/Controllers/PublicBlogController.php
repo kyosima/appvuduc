@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Blog;
+use App\Models\BlogCategory;
 use App\Models\Product;
-use App\Models\ProductCategory;
 
-class PublicProductCategoryController extends Controller
+class PublicBlogController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +17,8 @@ class PublicProductCategoryController extends Controller
     public function index()
     {
         //
-        return redirect()->route('home');
+        $blogs = Blog::latest()->paginate(6);
+        return view('public.blogs.blogs', ['blogs' => $blogs]);
     }
 
     /**
@@ -48,16 +50,23 @@ class PublicProductCategoryController extends Controller
      */
     public function show($slug)
     {
-        //
-        $category = ProductCategory::whereSlug($slug)->firstorfail();
-        $categoryIds = ProductCategory::whereIn('category_parent', $parentId = ProductCategory::where('category_parent', $category->id)
-        ->pluck('id')->toArray())
-        ->pluck('id')
-        ->merge($parentId)
-        ->push($category->id)
-        ->toArray();
-        $products = Product::whereIn('category_id', $categoryIds)->latest()->paginate(9);
-        return view('public.products.shop', ['products' => $products, 'category'=>$category]);
+        $blog = Blog::whereSlug($slug)->firstorfail();
+        $category = $blog->blogCategory()->first();
+        $new_products = Product::latest()->paginate(3);
+        $related_blogs = Blog::inRandomOrder()->paginate(3);
+        $new_blogs = Blog::latest()->paginate(5);
+        $mostview_blogs = Blog::inRandomOrder()->paginate(5);
+        $recent_blogs = Blog::inRandomOrder()->paginate(5);
+        return view('public.blogs.blog_detail', [
+            'blog' => $blog, 
+            'category' => $category, 
+            'new_products'=>$new_products,
+            'related_blogs' => $related_blogs,
+            'new_blogs' => $new_blogs,
+            'mostview_blogs'=> $mostview_blogs,
+            'recent_blogs' => $recent_blogs
+        ]);
+
     }
 
     /**
@@ -92,5 +101,10 @@ class PublicProductCategoryController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function searchBlog(Request $request){
+        $keyword = $_GET['keyword'];
+        $blogs = Blog::where('name', 'LIKE', '%' . $keyword . '%')->latest()->paginate(6);
+        return view('public.blogs.blogs', ['blogs' => $blogs]);
     }
 }

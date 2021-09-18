@@ -12,4 +12,7 @@ class BlogCategory extends Model
     protected $table = 'blog_category';
 
     protected $guarded = [];
+    public function blogs(){
+        return $this->hasMany(Blog::class, 'id_ofcategory');
+    }
 }
