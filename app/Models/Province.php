@@ -13,6 +13,6 @@ class Province extends Model
     protected $guarded = [];
 
     public function district() {
-        return $this->hasOne(District::class, 'matinhthanh', 'matinhthanh');
+        return $this->hasMany(District::class, 'matinhthanh', 'matinhthanh');
     }
 }

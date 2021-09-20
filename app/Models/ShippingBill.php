@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class District extends Model
+class ShippingBill extends Model
 {
     use HasFactory;
-    protected $table = 'district';
-
+    protected $table = 'shipping_bill';
     protected $guarded = [];
 
-    public function ward() {
-        return $this->hasMany(Ward::class, 'maquanhuyen', 'maquanhuyen');
-    }
+    public function order(){
+		return $this->belongsTo(Order::class, 'order_id');
+	}
 }

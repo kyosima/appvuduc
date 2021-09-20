@@ -8,14 +8,14 @@
                     </div>
                     <div class="content-checkout">
                         @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form action="{{route('checkout.post')}}" method="post">
                             @csrf
                             <div class="row col2-set" id="customer_details">
@@ -30,7 +30,7 @@
                                         <div class="form-group w-100">
                                         <label for="">Tỉnh thành <abbr class="required"
                                                     title="bắt buộc">*</abbr></label>
-                                            <select name="sel_province" class="form-control" required>
+                                            <select name="sel_province" class="form-control select2" data-placeholder="---Chọn tỉnh thành---" required>
                                                 <option value="">---Chọn tỉnh thành---</option>
                                                 @foreach($province as $value)
                                                     <option value="{{$value->matinhthanh}}">{{$value->tentinhthanh}}</option>
@@ -41,14 +41,14 @@
                                             <div class="form-group col-sm-12 col-lg-6">
                                             <label for="">Quận huyện <abbr class="required"
                                                     title="bắt buộc">*</abbr></label>
-                                                <select class="form-control" name="sel_district" required>
+                                                <select class="form-control select2" name="sel_district" data-placeholder="---Chọn quận huyên---" required>
                                                     <option value="">---Chọn quận huyên---</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-sm-12 col-lg-6">
                                             <label for="">Phường xã <abbr class="required"
                                                     title="bắt buộc">*</abbr></label>
-                                                <select class="form-control" name="sel_ward" required>
+                                                <select class="form-control select2" name="sel_ward" data-placeholder="---Chọn phường xã---" required>
                                                     <option value="">---Chọn phường xã---</option>
                                                 </select>
                                             </div>
@@ -76,7 +76,7 @@
                                         <h3 class="tborder">Thông tin bổ sung</h3>
                                         <div class="form-group">
                                             <label for="exampleFormControlTextarea1">Ghi chú</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1"
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" name="note"
                                                 placeholder="Ghi chú đơn hàng, Thời gian nhận hàng ..." rows="5"></textarea>
                                         </div>
                                     </div>
@@ -116,7 +116,7 @@
                                             <td>Vui lòng chọn địa chỉ</td>
                                         </tr>
                                         <tr>
-                                            <input type="hidden" name="shipping_method" value="shipping-ems">
+                                            <input type="hidden" name="shipping_method" value="EMS">
                                         </tr>
                                         <tr class="order-total">
                                             <th>Tổng cộng</th>
@@ -152,5 +152,5 @@
             </section>
         </div>
     </main>
-
-    <x-footer />
+    <script src="{{asset('/resources/js/shipping/shipping.js')}}"></script>
+<x-footer />

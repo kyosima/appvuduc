@@ -9,6 +9,7 @@ use App\Admin\Controllers\ProductCategoryController;
 use App\Admin\Controllers\ProductController;
 use App\Admin\Controllers\WarehouseController;
 use App\Admin\Controllers\OrderController;
+use App\Admin\Controllers\ShippingController as AdminShippingController;
 
 use App\Http\Controllers\PublicProductController;
 use App\Http\Controllers\PublicProductCategoryController;
@@ -89,9 +90,14 @@ Route::prefix('admin')->group(function () {
             return view('admin.order.don-hang-tra-dai-ly');
         })->name('orderadmin.backAgency');
 
-        Route::get('/chi-tiet', [OrderController::class, 'getOrderDetail'])->name('order.detail');
+        Route::get('/chi-tiet/{order:id}', [OrderController::class, 'getOrderDetail'])->name('order.detail');
     });
 
+    Route::prefix('van-chuyen')->group(function () {
+        Route::post('/tao-don-hang', [AdminShippingController::class, 'create'])->name('post.shipping.create');
+        // Route::get('/tao-don-hang/{order:id}', [AdminShippingController::class, 'getCreate'])->name('post.shipping.create');
+        Route::get('/tao-don-hang', [AdminShippingController::class, 'getInfoShipping'])->name('get.shipping.create');
+    });
 
     // ĐƠN VỊ TÍNH
     Route::get('/don-vi-tinh', [CalculationUnitController::class, 'index'])->name('don-vi-tinh.index');
@@ -221,7 +227,7 @@ Route::get('/thongtin', function () {
     return view('thongtin');
 });
 //----------------vận chuyển---------------
-Route::get('test-van-chuyen', [ShippingController::class, 'postShippingFee']);
+Route::get('test-van-chuyen', [ShippingController::class, 'test']);
 
 Route::get('lay-quan-huyen-theo-tinh-thanh', [ShippingController::class, 'districtOfProvince']);
 

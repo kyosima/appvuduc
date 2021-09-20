@@ -32,3 +32,15 @@
     -webkit-animation: spinner-border .75s linear infinite;
     animation: spinner-border .75s linear infinite;
   }
+.select2-container .select2-selection--single{
+    height: 38px;
+}
+.select2-container--classic .select2-selection--single .select2-selection__clear{
+    height: 36px;
+}
+.select2-container--classic .select2-selection--single .select2-selection__rendered {
+    line-height: 38px;
+}
+.select2-container--classic .select2-selection--single .select2-selection__arrow {
+    height: 36px;
+}
