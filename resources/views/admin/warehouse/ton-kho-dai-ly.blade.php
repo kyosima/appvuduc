@@ -48,7 +48,7 @@
 		</div>
 
 
-    <!-- Modal -->
+    <!-- Modal TẠO KHO HÀNG MỚI -->
     <div class="modal fade" id="warehouse_create" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -116,7 +116,7 @@
                                 </div>
                             </div>
                             
-                            <div class="form-group d-flex mb-2">
+                            {{-- <div class="form-group d-flex mb-2">
                                 <label class="col-md-3 control-label">Sản phẩm<span class="required"
                                         aria-required="true">(*)</span></label>
                                 <div class="col-md-9">
@@ -134,6 +134,73 @@
                                 <div class="col-md-9">
                                     <input type="number" name="productQuantity" class="form-control" required
                                         value="{{ old('productQuantity', 1) }}" min="1">
+                                </div>
+                            </div> --}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-info btn-submit-unit">Lưu</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- END MODAL -->
+
+    <!-- Modal THÊM MỚI SẢN PHẨM VÀO KHO HÀNG CÓ SẴN -->
+    <div class="modal fade" id="warehouse_add_product" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="fas fa-anchor"></i> Thêm sản phẩm vào chi nhánh NPP </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="formAddProduct" action="{{ route('warehouse.addProductToWarehouse') }}"
+                        role="form" method="POST">
+                        @csrf
+                        <div class="form-body">
+                            <div class="form-group d-flex mb-2">
+                                <label class="col-md-3 control-label">Mã chi nhánh:<span class="required"
+                                        aria-required="true">(*)</span></label>
+                                <div class="col-md-9">
+                                    <select class="form-control js-warehouse" name="warehouseCode">
+                                        <option value="-1">Chọn kho hàng</option>
+                                        @foreach ($warehouseCodes as $warehouse)
+                                            <option value="{{$warehouse->code}}">{{$warehouse->code}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group d-flex mb-2">
+                                <label class="col-md-3 control-label">Tên chi nhánh NPP:<span class="required"
+                                        aria-required="true">(*)</span></label>
+                                <div class="col-md-9">
+                                    <select class="form-control" id="warehouseName" name="warehouseName">
+                                        <option value="-1">Chọn chi nhánh</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group d-flex mb-2">
+                                <label class="col-md-3 control-label">Sản phẩm<span class="required"
+                                        aria-required="true">(*)</span></label>
+                                <div class="col-md-9">
+                                    <select name="product" class="form-control productId">
+                                        <option value="-1" selected>Chọn sản phẩm</option>
+                                        @foreach ($products as $item)
+                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group d-flex mb-2">
+                                <label class="col-md-3 control-label">Số lượng:<span class="required"
+                                        aria-required="true">(*)</span></label>
+                                <div class="col-md-9">
+                                    <input type="number" name="productQuantity" class="form-control" required
+                                        value="{{ old('productQuantity', 1) }}" min="0">
                                 </div>
                             </div>
                         </div>
@@ -169,7 +236,8 @@
 											<span class="caption-subject"><i class="far fa-hourglass"></i> DANH SÁCH TỒN KHO</span>
 											<a href="#warehouse_create" data-toggle="modal" class="btn btn_success"><i
                                                 class="fa fa-plus"></i> Thêm mới kho hàng</a>
-											{{-- <button class="btn btn_success"><i class="fas fa-plus"></i> Import</button> --}}
+											<a href="#warehouse_add_product" data-toggle="modal" class="btn btn-info text-light" style="border-radius:55px;">
+                                                <i class="fa fa-plus"></i> Thêm mới sản phẩm vào kho hàng</a>
 										</p>
 	
 										<span>
@@ -182,105 +250,6 @@
 									</div>
 							</ul>
                             <div class="collapse show" id="collapseExample">
-
-                                {{-- <div class="row g-2">
-                                    <div class="col-sm-1">
-                                        <select class="form-select" name="" id="">
-                                            <option value="">10</option>
-                                            <option value="">20</option>
-                                            <option value="">30</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="dropdown">
-                                            <button class="form-select" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                Chi nhánh NPP
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        <input type="text" class="form-control" name=""
-                                                            id="">
-                                                    </a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="#">Perfectone Ha Noi(VINMART_MB)</a></li>
-
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2 mb-3">
-                                        <div class="dropdown">
-                                            <button class="form-select" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                Kho
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        <input type="text" class="form-control" name=""
-                                                            id="">
-                                                    </a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="#">Product</a></li>
-                                                <li><a class="dropdown-item" href="#">Exhibit</a></li>
-                                                <li><a class="dropdown-item" href="#">Promotion</a></li>
-                                                <li><a class="dropdown-item" href="#">POSM</a></li>
-
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="dropdown">
-                                            <button class="form-select" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                Sản phẩm
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        <input type="text" class="form-control" name=""
-                                                            id="">
-                                                    </a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="#">Đèn sưởi nhà tắm (2 bóng) model KG256(KG256)</a></li>
-                                                <li><a class="dropdown-item" href="#">Đèn sưởi nhà tắm (2 bóng) model KG256(KG256)</a></li>
-                                                <li><a class="dropdown-item" href="#">Đèn sưởi nhà tắm (2 bóng) model KG256(KG256)</a></li>
-                                                <li><a class="dropdown-item" href="#">Đèn sưởi nhà tắm (2 bóng) model KG256(KG256)</a></li>
-                                                <li><a class="dropdown-item" href="#">Đèn sưởi nhà tắm (2 bóng) model KG256(KG256)</a></li>
-
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="dropdown">
-                                            <button class="form-select" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                Ngành hàng
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        <input type="text" class="form-control" name=""
-                                                            id="">
-                                                    </a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="#">Đèn sưởi nhà tắm (2 bóng) model KG256(KG256)</a></li>
-                                                <li><a class="dropdown-item" href="#">Đèn sưởi nhà tắm (2 bóng) model KG256(KG256)</a></li>
-                                                <li><a class="dropdown-item" href="#">Đèn sưởi nhà tắm (2 bóng) model KG256(KG256)</a></li>
-                                                <li><a class="dropdown-item" href="#">Đèn sưởi nhà tắm (2 bóng) model KG256(KG256)</a></li>
-                                                <li><a class="dropdown-item" href="#">Đèn sưởi nhà tắm (2 bóng) model KG256(KG256)</a></li>
-
-
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                </div> --}}
-
                                 <div class="row">
                                     <div class="col-sm-12" style="overflow-x: auto;">
                                         <table id="warehouse_table" class="table table-hover align-middle">
@@ -504,6 +473,45 @@
             });
         });
 
+        // SHOW WAREHOUSE NAME WHEN CHOSING WAREHOUSE CODE
+        $(document).on('change', '.js-warehouse', function(e) {
+            e.preventDefault();
+            let route = '{{route('warehouse.getWarehouse')}}';
+            let code = $(this).val();
+            let type = $(this).data('type');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: route,
+                data: {
+                    code: code
+                },
+                success: function(response) {
+                    if(response.data){
+                        let html = '';
+                        if(type != 'update'){
+                            html = "<option>Mời bạn chọn chi nhánh</option>";
+                            $.each(response.data, function(idx, val){
+                                html += `<option value="${val.name}">${val.name}</option>`; 
+                            });
+                            $('#formAddProduct select#warehouseName').html('').append(html);
+                        } else {
+                            html = "<option>Mời bạn chọn chi nhánh</option>";
+                            $.each(response.data, function(idx, val){
+                                html += `<option value="${val.name}">${val.name}</option>`; 
+                            });
+                            $('#formUpdateUnit select#warehouseName').html('').append(html);
+                        }
+                    }
+                }
+            });
+        })
+
+        // SHOW LOCATION ON UPDATE FORM
         $(document).on('change', '.js-edit-location', function(e){
             e.preventDefault();
             let route = '{{route('warehouse.getLocation')}}';

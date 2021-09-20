@@ -121,9 +121,11 @@ Route::prefix('admin')->group(function () {
     
     Route::get('/ton-kho-dai-ly', [WarehouseController::class, 'index'])->name('warehouse.index');
     Route::post('/ton-kho-dai-ly', [WarehouseController::class, 'store'])->name('warehouse.store');
+    Route::post('/ton-kho-dai-ly/add-product', [WarehouseController::class, 'addProductToWarehouse'])->name('warehouse.addProductToWarehouse');
     Route::put('/ton-kho-dai-ly', [WarehouseController::class, 'update'])->name('warehouse.update');
     Route::delete('/ton-kho-dai-ly', [WarehouseController::class, 'delete'])->name('warehouse.destroy');
     Route::get('/get-location', [WarehouseController::class, 'getLocation'])->name('warehouse.getLocation');
+    Route::get('/get-warehouse', [WarehouseController::class, 'getWarehouse'])->name('warehouse.getWarehouse');
     Route::get('/ton-kho-dai-ly/modal-edit', [WarehouseController::class, 'modalEdit'])->name('warehouse.modalEdit');
 
     // BLOG CATEGORY

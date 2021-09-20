@@ -10,21 +10,40 @@
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="id" value="{{$unit->id}}">
+                    <input type="hidden" name="product_id_old" value="{{$productEdit->product_id}}">
                     <div class="form-body">
                         <div class="form-group d-flex mb-2">
                             <label class="col-md-3 control-label">Mã chi nhánh:<span class="required"
                                     aria-required="true">(*)</span></label>
                             <div class="col-md-9">
-                                <input type="text" name="warehouseCode" class="form-control" required
-                                    value="{{ old('warehouseCode', $unit->code) }}">
+                                {{-- <input type="text" name="warehouseCode" class="form-control" required
+                                    value="{{ old('warehouseCode', $unit->code) }}"> --}}
+                                <select class="form-control js-warehouse" name="warehouseCode" data-type="update">
+                                    <option value="-1">Chọn kho hàng</option>
+                                    @foreach ($warehouseCodes as $warehouse)
+                                        <option value="{{$warehouse->code}}"
+                                            @if ($unit->code == $warehouse->code)
+                                                selected
+                                            @endif
+                                            >{{$warehouse->code}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="form-group d-flex mb-2">
                             <label class="col-md-3 control-label">Tên chi nhánh NPP:<span class="required"
                                     aria-required="true">(*)</span></label>
                             <div class="col-md-9">
-                                <input type="text" name="warehouseName" class="form-control" required
-                                    value="{{ old('warehouseName', $unit->name) }}">
+                                <select class="form-control" id="warehouseName" name="warehouseName">
+                                    <option value="-1">Chọn chi nhánh</option>
+                                    @foreach ($warehouseNames as $warehouse)
+                                        <option value="{{$warehouse->name}}"
+                                            @if ($unit->name == $warehouse->name)
+                                                selected
+                                            @endif
+                                            >{{$warehouse->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="form-group d-flex mb-2">
@@ -112,7 +131,7 @@
                                     aria-required="true">(*)</span></label>
                             <div class="col-md-9">
                                 <input type="number" name="productQuantity" class="form-control" required
-                                    value="{{ old('productQuantity', $productEdit->quantity) }}" min="1">
+                                    value="{{ old('productQuantity', $productEdit->quantity) }}" min="0">
                             </div>
                         </div>
                     </div>
