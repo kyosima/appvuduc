@@ -41,11 +41,31 @@ $(document).on('submit', '#form-order-shipping-create', function(event){
         
         $(".content-order").after(data);
 
-        alert('Tạo đơn vận chuyển thành công');
+        $.toast({
+            heading: 'Colors',
+            text: 'Đã tạo đơn vận chuyển thành công',
+            position: 'top-right',
+            icon: 'success'
+        });
+        
+    })
+    .fail(function() {
+        $.toast({
+            heading: 'Thành công',
+            text: 'Đã tạo đơn vận chuyển thành công',
+            position: 'top-right',
+            icon: 'error'
+        });
     })
     .always(function() {
         RecieveAjax();
     });
+});
+$.toast({
+    heading: 'Thất bại',
+    text: 'Tạo đơn vận chuyển không thành công',
+    position: 'top-right',
+    icon: 'error'
 });
 
 

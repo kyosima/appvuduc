@@ -1,5 +1,5 @@
 <x-header_admin />
-<link rel="stylesheet" href="{{asset('/resources/css/khuyenmai.css')}}">
+<!-- <link rel="stylesheet" href="{{asset('/resources/css/khuyenmai.css')}}"> -->
 <link rel="stylesheet" href="{{asset('/resources/css/shipping.css')}}">
 <section class="home-section">
     <div class="header bg-white shadow-sm header_mobile">
@@ -237,24 +237,26 @@
                                     <th class="product-total">Tiền COD</th>
                                     <th class="product-total">Phí giao hàng</th>
                                     <th class="product-total">Trạng thái</th>
+                                    <th class="product-total">Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ( $shipping_bill as $item)      
-                                    <tr class="cart_item">
+                                    <tr>
                                         <td>{{$item->item_code}}</td>
-                                        <td class="product-name" data-title="Sản phẩm">
+                                        <td>
                                             {{$item->shipping_name}}
                                         </td>
-                                        <td class="product-total" data-title="Tổng cộng">
+                                        <td>
                                             <span class="amount">{{formatPrice($item->origin_cod_amount)}}</span>
                                         </td>
-                                        <td class="product-total" data-title="Tổng cộng">
+                                        <td>
                                             <span class="amount">{{formatPrice($item->shipping_fee_total)}}</span>
                                         </td>
-                                        <td class="product-total" data-title="Tổng cộng">
+                                        <td class="shipping-status">
                                             Chờ lấy hàng
                                         </td>
+                                        <td><button type="button" class="btn btn-danger">Hủy</button></td>
                                     </tr>
                                 @endforeach
                             </tbody>

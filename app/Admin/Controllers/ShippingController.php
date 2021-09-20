@@ -83,11 +83,6 @@ class ShippingController extends Controller
         $response_create = json_decode($response_create, true);
 
         $this->createShippingBill($order, $response_create);
-
-        $order->update([
-            'status' => 1, 
-            'status_shipping' => $response_create['OrderStatusId'],
-        ]);
         $order->update([
             'status' => 1, 
             'status_shipping' => $response_create['OrderStatusId'],
@@ -123,6 +118,16 @@ class ShippingController extends Controller
             'address'=>$address,
             ])->render();
         return $html;
+    }
+
+    public function destroyShippingOrder(Request $request){
+        $response = Http::accept('application/json')->post('https://donhang-uat.vnpost.vn/api/api/MobileAuthentication/GetAccessToken', [
+            'TenDangNhap' => '01234567890',
+            'MatKhau' => '01234567890'
+        ]);
+        if(!$response['IsSuccess']){
+            return;
+        }
     }
 
     public function createShippingBill($order, $response_create){
