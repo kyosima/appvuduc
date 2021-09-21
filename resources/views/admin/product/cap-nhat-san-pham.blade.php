@@ -301,7 +301,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-12">
+                                {{-- <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="col-md-12 control-label text-left">Đơn giá bán lẻ<span
                                                 class="required" aria-required="true">(*)</span>:</label>
@@ -382,7 +382,7 @@
                                                 value="{{ old('product_discount_member', $product->productPrice->vpoint_member) }}">
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
 
@@ -426,8 +426,8 @@
     </div>
 </section>
 
-<script src={{ url('/public/packages/ckeditor/ckeditor.js') }}></script>
-<script src={{ url('/public/packages/ckfinder/ckfinder.js') }}></script>
+<script src={{ asset('/public/packages/ckeditor/ckeditor.js') }}></script>
+<script src={{ asset('/public/packages/ckfinder/ckfinder.js') }}></script>
 
 <script>
     $(document).ready(function() {

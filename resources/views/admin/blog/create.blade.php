@@ -149,8 +149,8 @@
     </div>
 </section>
 
-<script src={{ url('/public/packages/ckeditor/ckeditor.js') }}></script>
-<script src={{ url('/public/packages/ckfinder/ckfinder.js') }}></script>
+<script src={{ asset('/public/packages/ckeditor/ckeditor.js') }}></script>
+<script src={{ asset('/public/packages/ckfinder/ckfinder.js') }}></script>
 
 <script>
     $(document).ready(function() {

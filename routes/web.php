@@ -4,6 +4,7 @@ use App\Admin\Controllers\BlogCategoryController;
 use App\Admin\Controllers\BlogController;
 use App\Admin\Controllers\BrandController;
 use App\Admin\Controllers\CalculationUnitController;
+use App\Admin\Controllers\CourseController;
 use App\Admin\Controllers\ProductCategoryController;
 use App\Admin\Controllers\ProductController;
 use App\Admin\Controllers\WarehouseController;
@@ -105,6 +106,14 @@ Route::prefix('admin')->group(function () {
     Route::put('/san-pham/update/{id}', [ProductController::class, 'update'])->name('san-pham.update');
     Route::delete('/san-pham/delete/{id}', [ProductController::class, 'destroy'])->name('san-pham.delete');
     Route::get('/san-pham/get-category', [ProductController::class, 'getCategory'])->name('san-pham.getCategory');
+
+    // COURSES
+    Route::get('/khoa-hoc', [CourseController::class, 'index'])->name('course.index');
+    Route::get('/tao-khoa-hoc', [CourseController::class, 'create'])->name('course.create');
+    Route::get('/cap-nhat-khoa-hoc/{id}', [CourseController::class, 'edit'])->name('course.edit');
+    Route::post('/khoa-hoc', [CourseController::class, 'store'])->name('course.store');
+    Route::put('/khoa-hoc/{id}', [CourseController::class, 'update'])->name('course.update');
+    Route::delete('/khoa-hoc/{id}', [CourseController::class, 'destroy'])->name('course.delete');
 
     // BRAND
     Route::get('/thuong-hieu', [BrandController::class, 'index'])->name('thuong-hieu.index');

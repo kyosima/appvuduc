@@ -90,6 +90,16 @@
             <li class="dropdown">
                 <a href="#" class="dropbtn">
                     <i class="fa fa-frown-o" aria-hidden="true"></i>
+                    <span class="links_name w-100 align-items-center d-flex">Quản lý khóa học <i
+                            class="fa fa-angle-double-right float-end" aria-hidden="true"></i></span>
+                </a>
+                <span class="dropdown-content">
+                    <a href="/appvuduc/admin/khoa-hoc">Thông tin khóa học</a>
+                </span>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">
+                    <i class="fa fa-frown-o" aria-hidden="true"></i>
                     <span class="links_name w-100 align-items-center d-flex">Cài đặt khuyến mãi <i
                             class="fa fa-angle-double-right float-end" aria-hidden="true"></i></span>
                 </a>
