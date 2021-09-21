@@ -56,4 +56,11 @@ class OrderController extends Controller
         //     'html' => $html
         // ], 200);
     }
+
+    public function patchOrderDestroy(Request $request){
+        Order::find($request->order_id)->update([
+            'status' => 3
+        ]);
+        return true;
+    }
 }

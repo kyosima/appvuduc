@@ -21,8 +21,8 @@
                             
                         </div>
                         <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                        <p><b>Địa chỉ:</b> {{$address}} </p>
-                        <p><b>Ghi chú:</b> {{$order_info->note}} </p>
+                            <p><b>Địa chỉ:</b> {{$address}} </p>
+                            <p><b>Ghi chú:</b> {{$order_info->note}} </p>
                         </div>
                     </div>
                     <hr>  
@@ -62,7 +62,7 @@
                                         </tr>
                                         <tr class="checkout-shipping-label-curent">
                                             <th>Phương thức giao hàng</th>
-                                            <td>@if($order->shipping_method == 'shipping-ems')Chuyển phát nhanh @else Chuyển phát thường @endif</td>
+                                            <td>{{shippingMethod($order->shipping_method)}}</td>
                                         </tr>
                                         <tr class="order-total">
                                             <th>Tổng cộng</th>
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-dark" onclick="destroyModal()">Hủy</button>
+                        <button type="button" class="btn btn-dark" onclick="destroyModal()">Đóng</button>
                         <button type="submit" class="btn btn-info btn-submit-unit">Tạo đơn</button>
                     </div>
                 </form>

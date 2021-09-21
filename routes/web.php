@@ -14,7 +14,7 @@ use App\Http\Controllers\PublicProductCategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ShippingController;
-
+use App\Models\ShippingBill;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -63,6 +63,10 @@ Route::get('/admin/ket-qua-dao-tao', function () {
 Route::get('/admin/loai-khuyen-mai', function () {
     return view('admin.loai-khuyen-mai');
 });
+Route::get('/admin/test', function () {
+    
+    return ShippingBill::find(1)->status()->first();
+});
 
 Route::prefix('admin')->group(function () {
     Route::prefix('don-hang')->group(function () {
@@ -86,12 +90,14 @@ Route::prefix('admin')->group(function () {
         })->name('orderadmin.backAgency');
 
         Route::get('/chi-tiet/{order:id}', [OrderController::class, 'getOrderDetail'])->name('order.detail');
+        Route::patch('/huy-don-hang', [OrderController::class, 'patchOrderDestroy']);
     });
 
     Route::prefix('van-chuyen')->group(function () {
         Route::post('/tao-don-hang', [AdminShippingController::class, 'create'])->name('post.shipping.create');
         // Route::get('/tao-don-hang/{order:id}', [AdminShippingController::class, 'getCreate'])->name('post.shipping.create');
         Route::get('/tao-don-hang', [AdminShippingController::class, 'getInfoShipping'])->name('get.shipping.create');
+        Route::delete('/huy-don-hang', [AdminShippingController::class, 'destroyShippingOrder'])->name('delete.shipping.destroy');
     });
 
     // ĐƠN VỊ TÍNH

@@ -128,6 +128,20 @@ class ShippingController extends Controller
         if(!$response['IsSuccess']){
             return;
         }
+        $response_create = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'h-token' => $response['Token']
+        ])->post('https://donhang-uat.vnpost.vn/api/api/CustomerConnect/CancelOrder', [
+            "OrderId" => $request->shipping_id
+        ]);
+        $shipping_bill = ShippingBill::where('shipping_id', $request->shipping_id)->first();
+        $shipping_bill->update(['status' => 60, 'note' => $request->text_note]);
+        $shipping_bill->order()->update([
+            'status' => 3,
+        ]);
+        // $response_create = json_decode($response_create, true);
+        return $response_create->status();
+
     }
 
     public function createShippingBill($order, $response_create){

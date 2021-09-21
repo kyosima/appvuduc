@@ -53,7 +53,7 @@
                     <div class="card-body">	
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h3>Đơn hàng #{{$order->id}}
+                                <h3 class="card-title">Đơn hàng #{{$order->id}}
                                 @if($order->status == 0)
                                     (<span class="text-warning">Chưa xử lý</span>)
                                 @elseif($order->status == 1)
@@ -61,11 +61,12 @@
                                 @elseif($order->status == 2)
                                     (<span class="text-success">Đã hoàn thành</span>)
                                 @else
-                                    (<span class="text-info">Đã hủy</span>)
+                                    (<span class="text-danger">Đã hủy</span>)
                                 @endif
                                 </h3>
                             </div>
-                            <div>
+                            @if($order->status !=3 )
+                            <div class="content-shipping-create">
                                  @if(count($shipping_bill) == 0)
                                  <button id="btn-order-shipping-create" type="button" class="btn btn-success" data-id="{{$order->id}}" data-url={{route('get.shipping.create')}} onClick="viewShippingOrder(this)">
                                     <i class="fas fa-shipping-fast"></i> Tạo đơn vận Chuyển
@@ -81,6 +82,7 @@
                                     <i class="fas fa-chevron-down"></i>
                                 </span>
                             </div>
+                            @endif
                         </div>
                         <div class="collapse show" id="collapseExample">
                             <div class="row">
@@ -192,7 +194,7 @@
                                                         </tr>
                                                         <tr class="checkout-shipping-label-curent">
                                                             <th>Phương thức hiện tại</th>
-                                                            <td>@if($order->shipping_method == 'EMS')Chuyển phát nhanh @else Chuyển phát thường @endif</td>
+                                                            <td>{{shippingMethod($order->shipping_method)}}</td>
                                                         </tr>
                                                         <tr class="checkout-shipping-label">
                                                             <th>Phí ship mới</th>
@@ -210,10 +212,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal" onclick="destroyModal()">Hủy</button>
+                                    @if($order->status == 0)
+                                    <div class="card-footer">
+                                        <button type="button" class="btn btn-dark" onclick="orderDestroy({{$order->id}})">Hủy</button>
                                         <button type="submit" class="btn btn-info btn-submit-unit">Cập nhật</button>
                                     </div>
+                                    @endif
                                 </form>
                                 </div>
                             </div>
@@ -229,39 +233,26 @@
                                 <h3>Đơn vận chuyển</h3>
                             </div>
                         </div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Mã đơn hàng</th>
-                                    <th class="product-name">Tên gói hàng</th>
-                                    <th class="product-total">Tiền COD</th>
-                                    <th class="product-total">Phí giao hàng</th>
-                                    <th class="product-total">Trạng thái</th>
-                                    <th class="product-total">Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ( $shipping_bill as $item)      
-                                    <tr>
-                                        <td>{{$item->item_code}}</td>
-                                        <td>
-                                            {{$item->shipping_name}}
-                                        </td>
-                                        <td>
-                                            <span class="amount">{{formatPrice($item->origin_cod_amount)}}</span>
-                                        </td>
-                                        <td>
-                                            <span class="amount">{{formatPrice($item->shipping_fee_total)}}</span>
-                                        </td>
-                                        <td class="shipping-status">
-                                            Chờ lấy hàng
-                                        </td>
-                                        <td><button type="button" class="btn btn-danger">Hủy</button></td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                            
-                        </table>
+                        @foreach ( $shipping_bill as $item)  
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                                
+                                <p><b>Mã đơn hàng:</b> {{$item->item_code}}</p>
+                                <p><b>Tên gói hàng:</b> {{$item->shipping_name}}</p>
+                                <p><b>Tiền COD:</b> {{formatPrice($item->origin_cod_amount)}} vnđ</p>
+                                <p><b>Phí giao hàng:</b> {{formatPrice($item->shipping_fee_total)}} vnđ</p>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                                <p class="status_shipping"><b>Trạng thái:</b> {!! shippingStatus($item->status()->first()->status_step) !!} </p>
+                                <p><b>Ghi chú:</b> {{$item->note}} </p>
+                            </div>
+                        </div>
+                        @if($item->status == 20)
+                        <div class="modal-footer">
+                            <button type="button" id="btn-destroy-shipping-order" class="btn btn-danger" data-shipping_id="{{$item->shipping_id}}">Hủy</button>
+                        </div>
+                        @endif
+                        @endforeach
                     </div>
                 </div>
                 @endif
@@ -269,7 +260,38 @@
             
         </div>
     </div>
-
+  <!-- The Modal -->
+  <div class="modal" id="modal-shipping-destroy">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Hủy đơn vận chuyển</h4>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+            <form action="#" id="form-shipping-order-destroy">
+                @csrf
+                <input type="hidden" name="shipping_id" value="">
+                <div class="form-group mb-3">
+                    <textarea name="text_note" class="form-control" placeholder="Ghi chú"></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Hủy đơn</button>
+            </form>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" onClick="modalClose('#modal-shipping-destroy');">Đóng</button>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
 </section>
 <script src="{{asset('/resources/js/shipping/shipping.js')}}"></script>
 <script src="{{asset('/resources/js/admin/shipping.js')}}"></script>

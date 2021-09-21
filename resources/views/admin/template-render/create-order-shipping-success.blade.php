@@ -23,14 +23,15 @@
                             {{$item->shipping_name}}
                         </td>
                         <td class="product-total" data-title="Tổng cộng">
-                            <span class="amount">{{formatPrice($item->origin_cod_amount)}}</span>
+                            <span class="amount">{{formatPrice($item->origin_cod_amount)}} đ</span>
                         </td>
                         <td class="product-total" data-title="Tổng cộng">
-                            <span class="amount">{{formatPrice($item->shipping_fee_total)}}</span>
+                            <span class="amount">{{formatPrice($item->shipping_fee_total)}} đ</span>
                         </td>
                         <td class="product-total" data-title="Tổng cộng">
                             Chờ lấy hàng
                         </td>
+                        <td><button type="button" id="btn-destroy-shipping-order" class="btn btn-danger" data-shipping_id="{{$item->shipping_id}}">Hủy</button></td>
                     </tr>
                 @endforeach
             </tbody>
