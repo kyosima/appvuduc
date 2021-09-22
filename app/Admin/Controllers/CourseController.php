@@ -52,10 +52,12 @@ class CourseController extends Controller
 
                 $course->coursePrice()->save($coursePrice);
 
-                DB::table('course_product')->insert([
-                    'course_id' => $course->id,
-                    'product_id' => $request->course_product,
-                ]);
+                foreach ($request->course_product as $productId) {
+                    DB::table('course_product')->insert([
+                        'course_id' => $course->id,
+                        'product_id' => $productId,
+                    ]);
+                }
 
                 return redirect()->route('course.edit', $course->id)->with('success', 'Tạo khóa học thành công');
             } catch (\Throwable $th) {
@@ -101,10 +103,17 @@ class CourseController extends Controller
                     'vpoint_member' => $request->course_discount_member,
                 ]);
 
-                DB::table('course_product')->where('course_id', $id)->update([
-                    'course_id' => $id,
-                    'product_id' => $request->course_product,
-                ]);
+                // DELETE OLD RECORD
+                DB::table('course_product')->where('course_id', $id)->delete();
+
+                // INSERT NEW RECORD
+                foreach ($request->course_product as $productId) {
+                    DB::table('course_product')->insert([
+                        'course_id' => $id,
+                        'product_id' => $productId,
+                    ]);
+                }
+
                 return redirect()->route('course.edit', $id)->with('success', 'Cập nhật khóa học thành công');
             } catch (\Throwable $th) {
                 throw new \Exception('Đã có lỗi xảy ra vui lòng thử lại');

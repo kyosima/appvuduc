@@ -92,7 +92,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group d-flex">
                                                 <div class="input-group-btn" id="blog-status">
-                                                    <select name="course_status" class="selectpicker form-control">
+                                                    <select name="course_status" class="form-control">
                                                         <option value="0">Ngưng hoạt động</option>
                                                         <option value="1" selected>Hoạt động</option>
                                                     </select>
@@ -112,9 +112,8 @@
                                         <label class="col-md-12 control-label text-left">Sản phẩm đi kèm<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
-                                            <select class="selectpicker form-control" name="course_product"
-                                                required>
-                                                <option value="-1">Sản phẩm đi kèm</option>
+                                            <select class="selectpicker form-control" name="course_product[]"
+                                                required multiple>
                                                 @foreach ($products as $item)
                                                     <option value="{{$item->id}}">{{$item->id}} - {{$item->name}}</option>
                                                 @endforeach
@@ -229,6 +228,9 @@
     $(document).ready(function() {
         $('select.selectpicker').select2({
             width: '100%',
+            multiple: true,
+            placeholder: "Sản phẩm đi kèm",
+            allowClear: true,
         });
 
         CKEDITOR.replace('description', {
