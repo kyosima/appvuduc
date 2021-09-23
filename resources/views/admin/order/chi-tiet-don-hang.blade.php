@@ -45,7 +45,6 @@
             <a href="#" class="list-group-item-link p-3"><i class="fa fa-bar-chart-o"></i> Setting</a>
         </li>
     </ul>
-    <x-alert />
     <div class="m-3">
         <div class="row">
             <div class="col-sm-12">
@@ -53,16 +52,8 @@
                     <div class="card-body">	
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h3 class="card-title">Đơn hàng #{{$order->id}}
-                                @if($order->status == 0)
-                                    (<span class="text-warning">Chưa xử lý</span>)
-                                @elseif($order->status == 1)
-                                    (<span class="text-info">Đang xử lý</span>)
-                                @elseif($order->status == 2)
-                                    (<span class="text-success">Đã hoàn thành</span>)
-                                @else
-                                    (<span class="text-danger">Đã hủy</span>)
-                                @endif
+                                <h3 class="card-title change-status-{{$order->id}}">Đơn hàng #{{$order->id}} 
+                                    ( {!! orderStatus($order->status) !!} )
                                 </h3>
                             </div>
                             @if($order->status !=3 )
@@ -75,8 +66,6 @@
                                 <button class="btn btn-success">
                                         <i class="fas fa-shipping-fast"></i> Đã tạo đơn vận chuyển</button>
                                 @endif
-                                
-                                
                                 <span data-bs-toggle="collapse" class="btn btn-primary" href="#collapseExample" role="button"
                                     aria-expanded="false" aria-controls="collapseExample">
                                     <i class="fas fa-chevron-down"></i>
@@ -87,7 +76,9 @@
                         <div class="collapse show" id="collapseExample">
                             <div class="row">
                                 <div class="col-sm-12" style="overflow-x: auto;">
-                                <form id="form-order-detail" class="form" method="post" action="{{'order.update'}}">
+                                <form id="form-order-detail" class="form" method="post" action="{{route('order.update')}}">
+                                    @csrf
+                                    @method('PUT')
                                     <input type="hidden" name="in_id_order" value="{{$order->id}}">
                                     <p>Thông tin người đặt</p>
                                     <div class="row">
@@ -100,12 +91,12 @@
                                             <div class="form-group w-100">
                                                 <label for="fullname">Số điện thoại <abbr class="required"
                                                         title="bắt buộc">*</abbr></label>
-                                                <input type="text" class="form-control" id="fullname" name="fullname" value="{{$order_info->phone}}" required>
+                                                <input type="text" class="form-control" id="phone" name="phone" value="{{$order_info->phone}}" required>
                                             </div>
                                             <div class="form-group w-100">
                                                 <label for="fullname">Email <abbr class="required"
                                                         title="bắt buộc">*</abbr></label>
-                                                <input type="text" class="form-control" id="fullname" name="fullname" value="{{$order_info->email}}" required>
+                                                <input type="text" class="form-control" id="email" name="email" value="{{$order_info->email}}" required>
                                             </div>
                                         </div>
                                         <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
@@ -295,6 +286,7 @@
 </section>
 <script src="{{asset('/resources/js/shipping/shipping.js')}}"></script>
 <script src="{{asset('/resources/js/admin/shipping.js')}}"></script>
+<script src="{{asset('/resources/js/admin/order.js')}}"></script>
 <x-footer_admin />
 
 

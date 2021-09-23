@@ -22,39 +22,6 @@ function modalClose(element){
     $(element).modal('hide');
 }
 
-function orderDestroy(order_id){
-    if(!confirm('Bạn có chắc muốn hủy đơn hàng không ?')){
-        return;
-    }
-    $.ajax({
-        url: urlHome+'/admin/don-hang/huy-don-hang',
-        type: 'PATCH',
-        data: {_token: token, order_id: order_id},
-    })
-    .done(function(data) {
-        
-        $(".has-shipping-bill").remove();
-
-        $(".card-title span").replaceWith('<span class="text-danger">Đã hủy</span>');
-
-        $("#btn-order-shipping-create").remove();
-        $(".card-footer").remove();
-        $.toast({
-            heading: 'Thành công',
-            text: 'Đã hủy đơn hàng thành công',
-            position: 'top-right',
-            icon: 'success'
-        });
-    })
-    .fail(function() {
-        $.toast({
-            heading: 'Thất bại',
-            text: 'Hủy đơn hàng không thành công',
-            position: 'top-right',
-            icon: 'error'
-        });
-    });
-}
 
 $(document).on('submit', '#form-order-shipping-create', function(event){
     $(".content-checkout").prepend('<div class="submit-overlay"><div class="spinner-border text-primary"></div></div>');

@@ -14,7 +14,10 @@ use App\Http\Controllers\PublicProductCategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ShippingController;
-use App\Models\ShippingBill;
+use App\Http\Controllers\OrderController as CustomOrderController;
+use Illuminate\Support\Facades\DB;
+use App\Admin\Controllers\ConfigShippingController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -65,7 +68,7 @@ Route::get('/admin/loai-khuyen-mai', function () {
 });
 Route::get('/admin/test', function () {
     
-    return ShippingBill::find(1)->status()->first();
+    return DB::table('shipping_config')->first()->package_viewable == true ? true : false ;
 });
 
 Route::prefix('admin')->group(function () {
@@ -88,9 +91,10 @@ Route::prefix('admin')->group(function () {
         Route::get('don-hang-tra-dai-ly', function () {
             return view('admin.order.don-hang-tra-dai-ly');
         })->name('orderadmin.backAgency');
-
+        Route::put('/cap-nhat-don-hang', [OrderController::class, 'puthOrderUpdate'])->name('order.update');
         Route::get('/chi-tiet/{order:id}', [OrderController::class, 'getOrderDetail'])->name('order.detail');
         Route::patch('/huy-don-hang', [OrderController::class, 'patchOrderDestroy']);
+        Route::delete('/xoa-don-hang', [OrderController::class, 'deleteOrderDelete']);
     });
 
     Route::prefix('van-chuyen')->group(function () {
@@ -145,6 +149,10 @@ Route::prefix('admin')->group(function () {
     Route::put('/ton-kho-dai-ly', [WarehouseController::class, 'update'])->name('warehouse.update');
     Route::delete('/ton-kho-dai-ly', [WarehouseController::class, 'delete'])->name('warehouse.destroy');
 
+
+    //setting
+    Route::get('/cau-hinh-van-chuyen', [ConfigShippingController::class, 'index']);
+    Route::put('/cau-hinh-van-chuyen', [ConfigShippingController::class, 'update'])->name('put.config.shipping');
 });
 
 Route::get('/admin/thong-tin-ban-hang', function () {
@@ -174,6 +182,10 @@ Route::prefix('thanh-toan')->group(function () {
     Route::get('thanh-cong', [CheckoutController::Class, 'orderSuccess'])->name('checkout.orderSuccess');
 
 });
+
+Route::get('/theo-doi-don-hang', [CustomOrderController::class, 'getDetectOrder']);
+
+Route::post('/theo-doi-don-hang', [CustomOrderController::class, 'postDetectOrder'])->name('post.detect.order');
 
 Route::get('/tim-kiem-san-pham', [PublicProductController::class, 'searchProduct'])->name('tim-kiem-san-pham');
 

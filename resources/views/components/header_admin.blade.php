@@ -48,7 +48,7 @@
     <meta name="url-home" content="{{ URL::to('/') }}" />
 
 </head>
-
+<x-alert />
 <body>
     <!--sidebar  -->
     <div class="sidebar">
@@ -140,8 +140,12 @@
             <li class="dropdown">
                 <a href="#" class="dropbtn">
                     <i class="fa fa-frown-o" aria-hidden="true"></i>
-                    <span class="links_name">Setting</span>
+                    <span class="links_name w-100 align-items-center d-flex">Setting <i
+                            class="fa fa-angle-double-right float-end" aria-hidden="true"></i></span>
                 </a>
+                <span class="dropdown-content">
+                    <a href="{{URL::to('admin/cau-hinh-van-chuyen')}}">Cấu hình vận chuyển</a>
+                </span>
             </li>
             <li class="profile">
                 <div class="profile-details">

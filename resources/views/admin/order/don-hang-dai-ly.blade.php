@@ -1,10 +1,4 @@
 <x-header_admin />
-	<script>
-		$(function () {
-			$("#datepicker1").datepicker();
-			$("#datepicker2").datepicker();
-		});
-	</script>
 	<script src="{{asset('/resources/js/admin/order.js')}}"></script>
 
 	<link rel="stylesheet" href="{{asset('/resources/css/khuyenmai.css')}}">
@@ -237,7 +231,7 @@
 												<thead>
 													<tr>
 														<th class="title">ID</th>
-														<th class="title"><input class="form-check" type="checkbox"></th>
+														<!-- <th class="title"><input class="form-check" type="checkbox"></th> -->
 														<th class="title">Người đặt</th>
 														<th class="title">Số lượng</th>
 														<th class="title">Tiền ship</th>
@@ -253,7 +247,7 @@
 													@foreach ( $orders as $order)
 													<tr>
 														<td>{{$order->id}}</td>
-														<td><input type="checkbox" name="" id=""></td>
+														<!-- <td><input type="checkbox" name="" id=""></td> -->
 														<td>{{$order->order_info()->value('fullname')}}</td>
 														<td>{{$order->order_products()->count()}}</td>
 														<td>{{formatPrice($order->shipping_total)}}</td>
@@ -261,29 +255,14 @@
 														<td>{{formatPrice($order->total+$order->shipping_total)}}</td>
 														<td>@if(!$order->handler) Chưa có @else {{$order->handler}}@endif</td>
 														<td>{{date('Y-m-d H:i:s', strtotime($order->created_at))}}</td>
-														<td>@switch($order->status)
-															@case(1)
-																<span class="text-success">Đang xử lý</span>
-																@break
-															@case(2)
-																<span class="text-success">Hoàn thành</span>
-																@break
-														
-															@case(3)
-																<span class="text-danger">Đã hủy</span>
-																@break
-														
-															@default
-																<span class="text-seconday">chưa xử lý</span>
-																@break
-														@endswitch</td>
+														<td class="change-status-{{$order->id}}">{!! orderStatus($order->status) !!}</td>
 														<td>
 															<div class="input-group">
-																<a href="{{route('order.detail', ['order' => $order->id])}}" class="btn btn-info"  onclick="viewDetailOrder(this)">Xem</a>
+																<a href="{{route('order.detail', ['order' => $order->id])}}" class="btn btn-info">Xem</a>
 																<button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-angle-down"></i></button>
 																<ul class="dropdown-menu dropdown-menu-end">
-																	<li><a class="dropdown-item" href="#">Hủy</a></li>
-																	<li><a class="dropdown-item" href="#">Xóa</a></li>
+																	<li><a class="dropdown-item" href="#" onclick="orderDestroy({{$order->id}})">Hủy</a></li>
+																	<li><a class="dropdown-item" href="#" onclick="orderDelete(this,{{$order->id}})">Xóa</a></li>
 																</ul>
 															</div>
 														</td>
@@ -301,4 +280,6 @@
 		</div>
 	</div>
 </section>
+<script src="{{asset('/resources/js/shipping/shipping.js')}}"></script>
+<script src="{{asset('/resources/js/admin/order.js')}}"></script>
 <x-footer_admin />
