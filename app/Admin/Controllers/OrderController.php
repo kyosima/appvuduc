@@ -16,8 +16,16 @@ use Illuminate\Support\Facades\Session;
 class OrderController extends Controller
 {
     public function getOrderAgency(Request $request){
-        $orders = Order::latest()->get();
-        return view('admin.order.don-hang-dai-ly', ['orders' => $orders]);
+
+        $orders = DB::table('orders')
+        ->leftJoin('order_address', 'orders.id', '=', 'order_address.id_order')
+        ->leftJoin('order_info', 'orders.id', '=', 'order_info.id_order')
+        ->join('order_products', 'orders.id', '=', 'order_products.id_order')
+        ->select("orders.id", "order_info.fullname", "orders.shipping_total", "orders.total", "orders.handler", "orders.created_at", "orders.status", DB::raw("count(order_products.id) as count_product"))
+        ->groupBy("orders.id", "order_info.fullname", "orders.shipping_total", "orders.total", "orders.handler", "orders.created_at", "orders.status")
+        ->get();
+        $doanh_thu = Order::where('status', 3)->whereMonth('created_at', '=', Carbon::now('Asia/Ho_Chi_Minh')->month)->sum('total');
+        return view('admin.order.don-hang-dai-ly', ['orders' => $orders, 'doanh_thu' => $doanh_thu]);
     }
 
     public function getOrderDetail(Order $order){
@@ -39,7 +47,7 @@ class OrderController extends Controller
                 'order'=>$order, 
                 'order_info'=>$order->order_info()->first(), 
                 'order_address'=>$order_address, 
-                'order_products'=>$order->order_products()->get(),
+                'order_products'=>$order->products()->get(),
                 'provinces'=>$provinces,
                 'districts'=>$districts,
                 'wards'=>$wards,

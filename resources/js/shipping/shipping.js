@@ -3,8 +3,10 @@
 var urlHome = jQuery('meta[name="url-home"]').attr('content');
 
 var token = jQuery('meta[name="csrf-token"]').attr('content');
+if($(".order-total .amount").length > 0){
+    var order_total = parseInt($(".order-total .amount").data('total').replace(",",""));
+}
 
-var order_total = parseInt($(".order-total .amount").data('total').replace(",",""));
 
 var flag = false;
 

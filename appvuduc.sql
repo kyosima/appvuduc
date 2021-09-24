@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th9 18, 2021 lúc 01:55 PM
+-- Thời gian đã tạo: Th9 24, 2021 lúc 10:53 AM
 -- Phiên bản máy phục vụ: 10.4.14-MariaDB
 -- Phiên bản PHP: 7.4.10
 
@@ -824,7 +824,6 @@ CREATE TABLE `orders` (
   `sub_total` double NOT NULL,
   `total` double NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
-  `status_shipping` int(11) NOT NULL DEFAULT 0,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `handler` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -834,19 +833,24 @@ CREATE TABLE `orders` (
 -- Đang đổ dữ liệu cho bảng `orders`
 --
 
-INSERT INTO `orders` (`id`, `payment_method`, `id_user`, `shipping_method`, `shipping_total`, `sub_total`, `total`, `status`, `status_shipping`, `updated_at`, `handler`, `created_at`) VALUES
-(5, 1, NULL, 'EMS', 131300, 25, 30, 1, 0, '2021-09-16 09:52:29', NULL, '2021-09-14 00:56:17'),
-(6, 1, NULL, 'EMS', 42086, 25, 30, 1, 0, '2021-09-16 09:48:43', NULL, '2021-09-14 01:02:19'),
-(7, 1, NULL, 'EMS', 114030, 25000, 25000, 0, 0, '2021-09-16 10:01:22', NULL, '2021-09-14 02:07:11'),
-(8, 1, NULL, 'EMS', 257600, 75000, 75000, 0, 0, '2021-09-16 09:21:21', NULL, '2021-09-16 08:58:26'),
-(9, 1, NULL, 'BK', 93795, 75000, 75000, 1, 0, '2021-09-16 09:53:54', NULL, '2021-09-16 09:53:35'),
-(10, 1, NULL, 'BK', 72345, 50000, 50000, 0, 0, '2021-09-16 23:56:59', NULL, '2021-09-16 23:56:59'),
-(11, 1, NULL, 'BK', 58980, 50000, 50000, 1, 20, '2021-09-17 00:06:27', NULL, '2021-09-17 00:06:12'),
-(12, 1, NULL, 'EMS', 216990, 75000, 75000, 1, 20, '2021-09-17 00:58:59', NULL, '2021-09-17 00:12:09'),
-(13, 1, NULL, 'EMS', 131300, 25000, 25000, 1, 20, '2021-09-17 01:05:22', NULL, '2021-09-17 01:03:33'),
-(14, 1, NULL, 'BK', 48893, 25000, 25000, 1, 20, '2021-09-17 01:08:10', NULL, '2021-09-17 01:07:45'),
-(15, 1, NULL, 'BK', 55900, 25000, 25000, 1, 20, '2021-09-17 01:12:00', NULL, '2021-09-17 01:11:13'),
-(16, 1, NULL, 'EMS', 120449, 50000, 50000, 1, 20, '2021-09-17 01:37:39', NULL, '2021-09-17 01:37:07');
+INSERT INTO `orders` (`id`, `payment_method`, `id_user`, `shipping_method`, `shipping_total`, `sub_total`, `total`, `status`, `updated_at`, `handler`, `created_at`) VALUES
+(6, 1, NULL, 'EMS', 42086, 25, 30, 1, '2021-09-16 09:48:43', NULL, '2021-09-14 01:02:19'),
+(7, 1, NULL, 'EMS', 114030, 25000, 25000, 0, '2021-09-16 10:01:22', NULL, '2021-09-14 02:07:11'),
+(8, 1, NULL, 'EMS', 257600, 75000, 75000, 0, '2021-09-16 09:21:21', NULL, '2021-09-16 08:58:26'),
+(9, 1, NULL, 'BK', 93795, 75000, 75000, 1, '2021-09-16 09:53:54', NULL, '2021-09-16 09:53:35'),
+(10, 1, NULL, 'BK', 72345, 50000, 50000, 0, '2021-09-16 23:56:59', NULL, '2021-09-16 23:56:59'),
+(11, 1, NULL, 'BK', 58980, 50000, 50000, 1, '2021-09-17 00:06:27', NULL, '2021-09-17 00:06:12'),
+(12, 1, NULL, 'EMS', 216990, 75000, 75000, 1, '2021-09-17 00:58:59', NULL, '2021-09-17 00:12:09'),
+(13, 1, NULL, 'EMS', 131300, 25000, 25000, 4, '2021-09-21 20:58:32', NULL, '2021-09-17 01:03:33'),
+(14, 1, NULL, 'BK', 48893, 25000, 25000, 1, '2021-09-17 01:08:10', NULL, '2021-09-17 01:07:45'),
+(15, 1, NULL, 'BK', 55900, 25000, 25000, 3, '2021-09-21 20:46:40', NULL, '2021-09-17 01:11:13'),
+(16, 1, NULL, 'EMS', 120449, 50000, 50000, 3, '2021-09-20 00:26:57', NULL, '2021-09-17 01:37:07'),
+(17, 1, NULL, 'EMS', 114030, 25000, 25000, 3, '2021-09-21 00:52:50', NULL, '2021-09-20 20:45:15'),
+(20, 1, NULL, 'EMS', 184814, 50000, 50000, 3, '2021-09-21 01:39:15', NULL, '2021-09-20 21:38:19'),
+(21, 1, NULL, 'BK', 47485, 25000, 25000, 3, '2021-09-22 09:44:13', NULL, '2021-09-20 21:41:11'),
+(22, 1, NULL, 'EMS', 131300, 25000, 25000, 1, '2021-09-23 02:11:45', NULL, '2021-09-23 02:06:20'),
+(23, 1, NULL, 'BK', 49300, 25000, 25000, 1, '2021-09-23 02:16:28', NULL, '2021-09-23 02:15:10'),
+(24, 1, NULL, 'EMS', 328384, 100000, 100000, 0, '2021-09-24 00:40:54', NULL, '2021-09-24 00:40:54');
 
 -- --------------------------------------------------------
 
@@ -861,6 +865,7 @@ CREATE TABLE `order_address` (
   `id_district` int(11) NOT NULL,
   `id_ward` int(11) NOT NULL,
   `address` varchar(255) NOT NULL,
+  `address_full` text DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -869,19 +874,24 @@ CREATE TABLE `order_address` (
 -- Đang đổ dữ liệu cho bảng `order_address`
 --
 
-INSERT INTO `order_address` (`id`, `id_order`, `id_province`, `id_district`, `id_ward`, `address`, `updated_at`, `created_at`) VALUES
-(1, 5, 44, 4532, 45325, '28, đường số 27, phường Tân Quy', '2021-09-14 00:56:17', '2021-09-14 00:56:17'),
-(2, 6, 70, 7200, 71650, '28, đường số 27, phường Tân Quy', '2021-09-14 01:02:19', '2021-09-14 01:02:19'),
-(3, 7, 16, 1632, 16322, '998/42/15 quang trung, phường 8, Gò Vấp', '2021-09-14 02:07:11', '2021-09-14 02:07:11'),
-(4, 8, 62, 6232, 62326, '954, quang trung', '2021-09-16 08:58:26', '2021-09-16 08:58:26'),
-(5, 9, 16, 1613, 16144, 'Quang trung, go vap', '2021-09-16 09:53:35', '2021-09-16 09:53:35'),
-(6, 10, 43, 4339, 43417, '954, quang trung', '2021-09-16 23:56:59', '2021-09-16 23:56:59'),
-(7, 11, 60, 6053, 60541, 'Quang trung', '2021-09-17 00:06:12', '2021-09-17 00:06:12'),
-(8, 12, 55, 5510, 55300, 'Quang trung', '2021-09-17 00:12:09', '2021-09-17 00:12:09'),
-(9, 13, 57, 5715, 57164, 'Quang trung', '2021-09-17 01:03:33', '2021-09-17 01:03:33'),
-(10, 14, 81, 8161, 81621, 'Quang trung', '2021-09-17 01:07:45', '2021-09-17 01:07:45'),
-(11, 15, 62, 6222, 62222, 'Quang trung', '2021-09-17 01:11:13', '2021-09-17 01:11:13'),
-(12, 16, 83, 8336, 83364, '954, quang trung', '2021-09-17 01:37:07', '2021-09-17 01:37:07');
+INSERT INTO `order_address` (`id`, `id_order`, `id_province`, `id_district`, `id_ward`, `address`, `address_full`, `updated_at`, `created_at`) VALUES
+(2, 6, 70, 7200, 71650, '28, đường số 27, phường Tân Quy', NULL, '2021-09-14 01:02:19', '2021-09-14 01:02:19'),
+(3, 7, 16, 1632, 16322, '998/42/15 quang trung, phường 8, Gò Vấp', NULL, '2021-09-14 02:07:11', '2021-09-14 02:07:11'),
+(4, 8, 62, 6232, 62326, '954, quang trung', NULL, '2021-09-16 08:58:26', '2021-09-16 08:58:26'),
+(5, 9, 16, 1613, 16144, 'Quang trung, go vap', NULL, '2021-09-16 09:53:35', '2021-09-16 09:53:35'),
+(6, 10, 43, 4339, 43417, '954, quang trung', NULL, '2021-09-16 23:56:59', '2021-09-16 23:56:59'),
+(7, 11, 60, 6053, 60541, 'Quang trung', NULL, '2021-09-17 00:06:12', '2021-09-17 00:06:12'),
+(8, 12, 55, 5510, 55300, 'Quang trung', NULL, '2021-09-17 00:12:09', '2021-09-17 00:12:09'),
+(9, 13, 57, 5715, 57164, 'Quang trung', NULL, '2021-09-17 01:03:33', '2021-09-17 01:03:33'),
+(10, 14, 81, 8161, 81621, 'Quang trung', NULL, '2021-09-17 01:07:45', '2021-09-17 01:07:45'),
+(11, 15, 62, 6222, 62222, 'Quang trung', NULL, '2021-09-17 01:11:13', '2021-09-17 01:11:13'),
+(12, 16, 83, 8336, 83364, '954, quang trung', NULL, '2021-09-17 01:37:07', '2021-09-17 01:37:07'),
+(13, 17, 59, 5920, 59222, '954, quang trung', NULL, '2021-09-20 20:45:15', '2021-09-20 20:45:15'),
+(14, 20, 18, 1851, 18519, '954, quang trung', '954, quang trung, Ngọc Sơn, Kiến An, Hải Phòng', '2021-09-20 21:38:19', '2021-09-20 21:38:19'),
+(15, 21, 10, 1240, 12410, 'Quang trung', 'Quang trung, Phú Thượng, Tây Hồ, Hà Nội', '2021-09-22 05:01:20', '2021-09-20 21:41:11'),
+(16, 22, 53, 5364, 53652, 'Quang trung', 'Quang trung, Thượng Long, Nam Đông, Thừa Thiên Huế', '2021-09-23 02:06:20', '2021-09-23 02:06:20'),
+(17, 23, 62, 6210, 62119, '954, quang trung', '954, quang trung, Số 6, Tuy Hoà, Phú Yên', '2021-09-23 09:16:03', '2021-09-23 02:15:10'),
+(18, 24, 16, 1616, 16167, '954, quang trung', '954, quang trung, Nhật Quang, Phù Cừ, Hưng Yên', '2021-09-24 00:40:54', '2021-09-24 00:40:54');
 
 -- --------------------------------------------------------
 
@@ -905,7 +915,6 @@ CREATE TABLE `order_info` (
 --
 
 INSERT INTO `order_info` (`id`, `id_order`, `fullname`, `phone`, `email`, `note`, `updated_at`, `created_at`) VALUES
-(1, 5, 'Nguyễn Chính Hưng', '0338927456', 'nc.hung0806@gmail.com', NULL, '2021-09-14 00:56:17', '2021-09-14 00:56:17'),
 (2, 6, 'Nguyễn Chính Hưng', '0338927456', 'nc.hung0806@gmail.com', NULL, '2021-09-14 01:02:19', '2021-09-14 01:02:19'),
 (3, 7, 'Kim Anh Tuấn Trần', '0934177422', 'anhtuan199590@gmail.com', NULL, '2021-09-14 02:07:11', '2021-09-14 02:07:11'),
 (4, 8, 'Trần Văn Trường', '0342909557', 'trantruong1797@gmail.com', NULL, '2021-09-16 08:58:26', '2021-09-16 08:58:26'),
@@ -916,7 +925,13 @@ INSERT INTO `order_info` (`id`, `id_order`, `fullname`, `phone`, `email`, `note`
 (9, 13, 'Duong tesst Thuy test', '0342909557', 'trantruong1797@gmail.com', NULL, '2021-09-17 01:03:33', '2021-09-17 01:03:33'),
 (10, 14, 'Test', '0342909557', 'ittranvantruong@gmail.com', 'sđsdsad', '2021-09-17 01:07:45', '2021-09-17 01:07:45'),
 (11, 15, 'Duong tesst Thuy test', '0342909557', 'trantruong1797@gmail.com', NULL, '2021-09-17 01:11:13', '2021-09-17 01:11:13'),
-(12, 16, 'Trần Trường', '0342909557', 'trantruong1797@gmail.com', NULL, '2021-09-17 01:37:07', '2021-09-17 01:37:07');
+(12, 16, 'Trần Trường', '0342909557', 'trantruong1797@gmail.com', NULL, '2021-09-17 01:37:07', '2021-09-17 01:37:07'),
+(13, 17, 'Trần Văn Trường', '0342909557', 'trantruong1797@gmail.com', NULL, '2021-09-20 20:45:15', '2021-09-20 20:45:15'),
+(14, 20, 'Trần Trường', '0342909557', 'trantruong1797@gmail.com', 'dsadsad', '2021-09-20 21:38:19', '2021-09-20 21:38:19'),
+(15, 21, 'Trần Trường', '0342909557', 'trantruong1797@gmail.com', 'fsfsf', '2021-09-22 05:01:20', '2021-09-20 21:41:11'),
+(16, 22, 'Duong tesst', '0342909557', 'trantruong1797@gmail.com', NULL, '2021-09-23 02:06:20', '2021-09-23 02:06:20'),
+(17, 23, 'Test Now', '0342909557', 'trantruong1797@gmail.com', 'oke', '2021-09-23 09:16:03', '2021-09-23 02:15:10'),
+(18, 24, 'Trần Trường', '0342909557', 'trantruong1797@gmail.com', NULL, '2021-09-24 00:40:54', '2021-09-24 00:40:54');
 
 -- --------------------------------------------------------
 
@@ -939,7 +954,6 @@ CREATE TABLE `order_products` (
 --
 
 INSERT INTO `order_products` (`id`, `id_order`, `id_product`, `quantity`, `price`, `updated_at`, `created_at`) VALUES
-(1, 5, 17, 1, 25000, '2021-09-14 00:56:17', '2021-09-14 00:56:17'),
 (2, 6, 13, 1, 25000, '2021-09-14 01:02:19', '2021-09-14 01:02:19'),
 (3, 7, 17, 1, 25000, '2021-09-14 02:07:11', '2021-09-14 02:07:11'),
 (4, 8, 13, 2, 25000, '2021-09-16 08:58:26', '2021-09-16 08:58:26'),
@@ -957,7 +971,16 @@ INSERT INTO `order_products` (`id`, `id_order`, `id_product`, `quantity`, `price
 (16, 14, 18, 1, 25000, '2021-09-17 01:07:45', '2021-09-17 01:07:45'),
 (17, 15, 18, 1, 25000, '2021-09-17 01:11:13', '2021-09-17 01:11:13'),
 (18, 16, 17, 1, 25000, '2021-09-17 01:37:07', '2021-09-17 01:37:07'),
-(19, 16, 21, 1, 25000, '2021-09-17 01:37:07', '2021-09-17 01:37:07');
+(19, 16, 21, 1, 25000, '2021-09-17 01:37:07', '2021-09-17 01:37:07'),
+(20, 17, 18, 1, 25000, '2021-09-20 20:45:15', '2021-09-20 20:45:15'),
+(21, 20, 17, 2, 25000, '2021-09-20 21:38:19', '2021-09-20 21:38:19'),
+(22, 21, 13, 1, 25000, '2021-09-20 21:41:11', '2021-09-20 21:41:11'),
+(23, 22, 21, 1, 25000, '2021-09-23 02:06:20', '2021-09-23 02:06:20'),
+(24, 23, 13, 1, 25000, '2021-09-23 02:15:10', '2021-09-23 02:15:10'),
+(25, 24, 13, 1, 25000, '2021-09-24 00:40:54', '2021-09-24 00:40:54'),
+(26, 24, 21, 1, 25000, '2021-09-24 00:40:54', '2021-09-24 00:40:54'),
+(27, 24, 19, 1, 25000, '2021-09-24 00:40:54', '2021-09-24 00:40:54'),
+(28, 24, 20, 1, 25000, '2021-09-24 00:40:54', '2021-09-24 00:40:54');
 
 -- --------------------------------------------------------
 
@@ -1243,6 +1266,7 @@ CREATE TABLE `shipping_bill` (
   `receiver_phone` text CHARACTER SET utf8 DEFAULT NULL,
   `origin_cod_amount` int(11) DEFAULT NULL,
   `order_amount` int(11) DEFAULT NULL,
+  `note` text CHARACTER SET utf8 DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -1251,16 +1275,49 @@ CREATE TABLE `shipping_bill` (
 -- Đang đổ dữ liệu cho bảng `shipping_bill`
 --
 
-INSERT INTO `shipping_bill` (`id`, `order_id`, `shipping_id`, `item_code`, `status`, `service_name_code`, `shipping_name`, `shipping_fee_total`, `pickup_type`, `package_viewable`, `send_fullname`, `send_address`, `send_tel`, `receiver_fullname`, `receiver_address`, `receiver_phone`, `origin_cod_amount`, `order_amount`, `created_at`, `updated_at`) VALUES
-(1, 6, 'efd1a4f7-3849-4cf1-9604-94d1465c5270', NULL, 20, 'EMS', 'Nước rửa chén Sunlight x1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-09-16 16:48:43', '2021-09-16 09:48:43'),
-(2, 5, '5e5872d8-ada4-49a9-83d0-b892f7a418bd', NULL, 20, 'EMS', 'Nước rửa chén Sunlight x1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-09-16 16:52:29', '2021-09-16 09:52:29'),
-(3, 9, 'a76ffee5-5fb8-4a08-a54d-e1daf5140fa8', NULL, 20, 'BK', 'Nước rửa chén Sunlight x1, Nước rửa chén Sunlight x2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-09-16 16:53:54', '2021-09-16 09:53:54'),
-(4, 11, '39dfbf3b-86e0-4286-b3bf-7bbe57d4b20b', 'CC004080448VN', 20, 'BK', 'Nước rửa chén Sunlight x1, Nước rửa chén Sunlight x1', 58980, 'Thu gom tận nơi', 'Không cho xem hàng', 'công ty dược vũ đức test', '15 đường số 7 kdc cityland trần thị nghỉ, Hồ Chí Minh, Gò Vấp, Số 7', '0987818811', 'Duong tesst', 'Quang trung, Gia Lai, Ayun Pa, Hoà Bình', '0342909557', NULL, 0, '2021-09-17 07:06:27', '2021-09-17 00:06:27'),
-(5, 12, '9e7b19c3-05d0-46da-8403-effd484593e6', 'EL016049363VN', 20, 'EMS', 'Nước rửa chén Sunlight x1, Nước rửa chén Sunlight x1, Nước rửa chén Sunlight x1', 216990, 'Thu gom tận nơi', 'Không cho xem hàng', 'công ty dược vũ đức test', '15 đường số 7 kdc cityland trần thị nghỉ, Số 7, Gò Vấp, Hồ Chí Minh', '0987818811', 'Duong tesst', 'Quang trung, Hòa Cường Bắc, Hải Châu, Đà Nẵng', '0342909557', NULL, 0, '2021-09-17 07:58:59', '2021-09-17 00:58:59'),
-(6, 13, '2d93f72f-c20e-4d59-a498-29d4fed8116d', 'EL016049521VN', 20, 'EMS', 'Nước rửa chén Sunlight x1', 131300, 'Thu gom tận nơi', 'Không cho xem hàng', 'công ty dược vũ đức test', '15 đường số 7 kdc cityland trần thị nghỉ, Số 7, Gò Vấp, Hồ Chí Minh', '0987818811', 'Duong tesst Thuy test', 'Quang trung, Tịnh Hà, Sơn Tịnh, Quảng Ngãi', '0342909557', NULL, 0, '2021-09-17 08:05:22', '2021-09-17 01:05:22'),
-(7, 14, 'ebc411b3-9a71-4919-9ebc-53ebc7859288', 'CC004081880VN', 20, 'BK', 'Nước rửa chén Sunlight x1', 48893, 'Thu gom tận nơi', 'Không cho xem hàng', 'công ty dược vũ đức test', '15 đường số 7 kdc cityland trần thị nghỉ, Số 7, Gò Vấp, Hồ Chí Minh', '0987818811', 'Test', 'Quang trung, Xuân Quế, Cẩm Mỹ, Đồng Nai', '0342909557', NULL, 0, '2021-09-17 08:08:10', '2021-09-17 01:08:10'),
-(8, 15, '2c3c9f9f-4da5-4c70-9adb-7eba4df2f39c', 'CC004082777VN', 20, 'BK', 'Nước rửa chén Sunlight x1', 55900, 'Thu gom tận nơi', 'Không cho xem hàng', 'công ty dược vũ đức test', '15 đường số 7 kdc cityland trần thị nghỉ, Số 7, Gò Vấp, Hồ Chí Minh', '0987818811', 'Duong tesst Thuy test', 'Quang trung, Xuân Long, Đồng Xuân, Phú Yên', '0342909557', NULL, 0, '2021-09-17 08:12:00', '2021-09-17 01:12:00'),
-(9, 16, 'd9d8a797-5737-4c22-89d5-6b0a7e9c635b', 'EL016050155VN', 20, 'EMS', 'Nước rửa chén Sunlight x1, Nước rửa chén Sunlight x1', 120449, 'Thu gom tận nơi', 'Không cho xem hàng', 'công ty dược vũ đức test', '15 đường số 7 kdc cityland trần thị nghỉ, Số 7, Gò Vấp, Hồ Chí Minh', '0987818811', 'Trần Trường', '954, quang trung, Thanh Hoà, Bù Đốp, Bình Phước', '0342909557', NULL, 0, '2021-09-17 08:37:39', '2021-09-17 01:37:39');
+INSERT INTO `shipping_bill` (`id`, `order_id`, `shipping_id`, `item_code`, `status`, `service_name_code`, `shipping_name`, `shipping_fee_total`, `pickup_type`, `package_viewable`, `send_fullname`, `send_address`, `send_tel`, `receiver_fullname`, `receiver_address`, `receiver_phone`, `origin_cod_amount`, `order_amount`, `note`, `created_at`, `updated_at`) VALUES
+(1, 21, 'efd1a4f7-3849-4cf1-9604-94d1465c5270', NULL, 20, 'EMS', 'Nước rửa chén Sunlight x1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-09-16 16:48:43', '2021-09-16 09:48:43'),
+(2, 5, '5e5872d8-ada4-49a9-83d0-b892f7a418bd', NULL, 20, 'EMS', 'Nước rửa chén Sunlight x1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-09-16 16:52:29', '2021-09-16 09:52:29'),
+(3, 9, 'a76ffee5-5fb8-4a08-a54d-e1daf5140fa8', NULL, 20, 'BK', 'Nước rửa chén Sunlight x1, Nước rửa chén Sunlight x2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-09-16 16:53:54', '2021-09-16 09:53:54'),
+(4, 11, '39dfbf3b-86e0-4286-b3bf-7bbe57d4b20b', 'CC004080448VN', 20, 'BK', 'Nước rửa chén Sunlight x1, Nước rửa chén Sunlight x1', 58980, 'Thu gom tận nơi', 'Không cho xem hàng', 'công ty dược vũ đức test', '15 đường số 7 kdc cityland trần thị nghỉ, Hồ Chí Minh, Gò Vấp, Số 7', '0987818811', 'Duong tesst', 'Quang trung, Gia Lai, Ayun Pa, Hoà Bình', '0342909557', NULL, 0, NULL, '2021-09-17 07:06:27', '2021-09-17 00:06:27'),
+(5, 12, '9e7b19c3-05d0-46da-8403-effd484593e6', 'EL016049363VN', 20, 'EMS', 'Nước rửa chén Sunlight x1, Nước rửa chén Sunlight x1, Nước rửa chén Sunlight x1', 216990, 'Thu gom tận nơi', 'Không cho xem hàng', 'công ty dược vũ đức test', '15 đường số 7 kdc cityland trần thị nghỉ, Số 7, Gò Vấp, Hồ Chí Minh', '0987818811', 'Duong tesst', 'Quang trung, Hòa Cường Bắc, Hải Châu, Đà Nẵng', '0342909557', NULL, 0, NULL, '2021-09-17 07:58:59', '2021-09-17 00:58:59'),
+(6, 13, '2d93f72f-c20e-4d59-a498-29d4fed8116d', 'EL016049521VN', 20, 'EMS', 'Nước rửa chén Sunlight x1', 131300, 'Thu gom tận nơi', 'Không cho xem hàng', 'công ty dược vũ đức test', '15 đường số 7 kdc cityland trần thị nghỉ, Số 7, Gò Vấp, Hồ Chí Minh', '0987818811', 'Duong tesst Thuy test', 'Quang trung, Tịnh Hà, Sơn Tịnh, Quảng Ngãi', '0342909557', NULL, 0, NULL, '2021-09-17 08:05:22', '2021-09-17 01:05:22'),
+(7, 14, 'ebc411b3-9a71-4919-9ebc-53ebc7859288', 'CC004081880VN', 20, 'BK', 'Nước rửa chén Sunlight x1', 48893, 'Thu gom tận nơi', 'Không cho xem hàng', 'công ty dược vũ đức test', '15 đường số 7 kdc cityland trần thị nghỉ, Số 7, Gò Vấp, Hồ Chí Minh', '0987818811', 'Test', 'Quang trung, Xuân Quế, Cẩm Mỹ, Đồng Nai', '0342909557', NULL, 0, NULL, '2021-09-17 08:08:10', '2021-09-17 01:08:10'),
+(8, 15, '2c3c9f9f-4da5-4c70-9adb-7eba4df2f39c', 'CC004082777VN', 20, 'BK', 'Nước rửa chén Sunlight x1', 55900, 'Thu gom tận nơi', 'Không cho xem hàng', 'công ty dược vũ đức test', '15 đường số 7 kdc cityland trần thị nghỉ, Số 7, Gò Vấp, Hồ Chí Minh', '0987818811', 'Duong tesst Thuy test', 'Quang trung, Xuân Long, Đồng Xuân, Phú Yên', '0342909557', NULL, 0, NULL, '2021-09-17 08:12:00', '2021-09-17 01:12:00'),
+(9, 16, 'd9d8a797-5737-4c22-89d5-6b0a7e9c635b', 'EL016050155VN', 60, 'EMS', 'Nước rửa chén Sunlight x1, Nước rửa chén Sunlight x1', 120449, 'Thu gom tận nơi', 'Không cho xem hàng', 'công ty dược vũ đức test', '15 đường số 7 kdc cityland trần thị nghỉ, Số 7, Gò Vấp, Hồ Chí Minh', '0987818811', 'Trần Trường', '954, quang trung, Thanh Hoà, Bù Đốp, Bình Phước', '0342909557', NULL, 0, NULL, '2021-09-17 08:37:39', '2021-09-19 23:49:34'),
+(10, 17, '88466eb4-bb9a-43c7-9679-ebad3ad7c358', 'EL016132130VN', 60, 'EMS', 'Nước rửa chén Sunlight x1', 114030, 'Thu gom tận nơi', 'Không cho xem hàng', 'công ty dược vũ đức test', '15 đường số 7 kdc cityland trần thị nghỉ, Số 7, Gò Vấp, Hồ Chí Minh', '0987818811', 'Trần Văn Trường', '954, quang trung, Nhơn Hoà, An Nhơn, Bình Định', '0342909557', 25000, 0, 'Khách hàng hủy', '2021-09-21 06:49:19', '2021-09-21 00:52:50'),
+(11, 22, '07edcf81-6add-49ab-8f09-0556f1baef2b', 'EL016151517VN', 20, 'EMS', 'Nước rửa chén Sunlight x1', 131300, 'Thu gom tận nơi', 'Cho xem hàng', 'công ty dược vũ đức test', '15 đường số 7 kdc cityland trần thị nghỉ, Số 7, Gò Vấp, Hồ Chí Minh', '0987818811', 'Duong tesst', 'Quang trung, Thượng Long, Nam Đông, Thừa Thiên Huế', '0342909557', 25000, 0, NULL, '2021-09-23 09:11:45', '2021-09-23 02:11:45'),
+(12, 23, '261ed92d-791b-47ba-8f59-a871031a2113', 'CC004120466VN', 20, 'BK', 'Nước rửa chén Sunlight x1', 49300, 'Thu gom tận nơi', 'Cho xem hàng', 'công ty dược vũ đức test', '15 đường số 7 kdc cityland trần thị nghỉ, Số 7, Gò Vấp, Hồ Chí Minh', '0987818811', 'Test Now', '954, quang trung, Số 6, Tuy Hoà, Phú Yên', '0342909557', 25000, 0, NULL, '2021-09-23 09:16:28', '2021-09-23 02:16:28');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `shipping_config`
+--
+
+CREATE TABLE `shipping_config` (
+  `id` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `token` text CHARACTER SET utf8 DEFAULT NULL,
+  `production` tinyint(1) NOT NULL DEFAULT 0,
+  `package_viewable` tinyint(4) NOT NULL COMMENT '1: cho xem hàng, 0: không cho xem hàng',
+  `pickup_type` tinyint(4) NOT NULL COMMENT 'Hình thức thu gom *\r\n- 1: Pickup - Thu gom tận \r\nnơi \r\n- 2: Dropoff - Gửi hàng tại \r\nbưu cục',
+  `order_amount_evaluation` tinyint(1) NOT NULL COMMENT '1: khai giá, 0: không khai giá',
+  `use_bao_phat` tinyint(1) NOT NULL,
+  `use_hoa_don` tinyint(1) NOT NULL,
+  `use_nhan_tin_sms_nguoi_nhan_truoc_phat` tinyint(1) NOT NULL,
+  `use_nhan_tin_sms_nguoi_nhan_sau_phat` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Đang đổ dữ liệu cho bảng `shipping_config`
+--
+
+INSERT INTO `shipping_config` (`id`, `username`, `password`, `token`, `production`, `package_viewable`, `pickup_type`, `order_amount_evaluation`, `use_bao_phat`, `use_hoa_don`, `use_nhan_tin_sms_nguoi_nhan_truoc_phat`, `use_nhan_tin_sms_nguoi_nhan_sau_phat`, `created_at`, `updated_at`) VALUES
+(1, '01234567890', '01234567890', 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJTb0RpZW5UaG9haSI6IjAxMjM0NTY3ODkwIiwiRW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSIsIk1hQ1JNIjoiMTIzNDVBOTg3NDU2MzIxMTIiLCJFeHBpcmVkVGltZSI6NjQwODM0NTUwNTA5NDMuOTc3LCJSb2xlcyI6Wzk5OSwxMSw0XSwiTmd1b2lEdW5nSWQiOiJmYmFkMzBkMi05NjUzLTQ0YzEtYTE2MS05YTgzODE3ZDU3NmEiLCJNYVRpbmhUaGFuaCI6IjcwIiwiVGVuTmd1b2lEdW5nIjoiVMOgaSBraG_huqNuIHRlc3QgS2jDoWNoIGjDoG5nIEPDsyBNw6MgQ1JNIiwiTmdheVRhb1Rva2VuIjoiXC9EYXRlKDE2MzI0NzMwNTA5NDMpXC8iLCJUaW1lTGFzdFJlYWRDb21tZW50IjpudWxsLCJNYUJ1dUN1YyI6bnVsbCwiTWFUaW5oVGhhbmhRdWFuTHkiOm51bGwsIkNSTV9FbXBsb3llZUlkIjpudWxsLCJOZ2F5VGFvVG9rZW5UaW1lU3RhbXAiOjE2MzI0NzMwNTA5NDMsIklzTG9naW5XaXRoQXBwbGUiOmZhbHNlLCJFbWFpbEFwcGxlIjpudWxsfQ.JYR8FBJtP0N3607GxKfYZn4qVBwWT24ON59WyU6NNznbPzIXqRoLQAgVpxPa3YwMbfX66waznFgHdoA6JaSkP-GlttclVl9-IgMrpioZ0OvSz31zHTNuUMxspG_rLYFL6fyq0bELz0BhNIGn_BP-yuE1YFjSjPH7Rad1eAr2Q3E', 0, 0, 1, 0, 0, 0, 0, 0, NULL, '2021-09-24 01:44:21');
 
 -- --------------------------------------------------------
 
@@ -1270,7 +1327,7 @@ INSERT INTO `shipping_bill` (`id`, `order_id`, `shipping_id`, `item_code`, `stat
 
 CREATE TABLE `shipping_status` (
   `id` int(11) NOT NULL,
-  `status_id` tinyint(4) NOT NULL,
+  `status_id` int(4) NOT NULL,
   `status_step` tinyint(4) NOT NULL,
   `content` text CHARACTER SET utf8 DEFAULT NULL,
   `note` text CHARACTER SET utf8 DEFAULT NULL,
@@ -1285,7 +1342,30 @@ CREATE TABLE `shipping_status` (
 INSERT INTO `shipping_status` (`id`, `status_id`, `status_step`, `content`, `note`, `created_at`, `updated_at`) VALUES
 (1, 10, 0, 'Đã xóa', NULL, NULL, NULL),
 (2, 20, 1, 'Vào điều tin', 'Gửi sang hệ thống MyVNPOST \nthành công', NULL, NULL),
-(3, 30, 1, 'Bưu cục nhận tin', NULL, NULL, NULL);
+(3, 30, 1, 'Bưu cục nhận tin', NULL, NULL, NULL),
+(4, 33, 1, 'Thu gom không thành công lần 1', NULL, NULL, NULL),
+(5, 34, 1, 'Thu gom không thành công lần 2', NULL, NULL, NULL),
+(6, 36, 1, 'Thu gom không thành công trên 3 lần', NULL, NULL, NULL),
+(7, 41, 1, ' Bưu tá đi thu gom', NULL, NULL, NULL),
+(8, 43, 1, 'Bưu cục nhận tin không thành công', NULL, NULL, NULL),
+(9, 50, 1, 'Thu gom thành công', NULL, NULL, NULL),
+(10, 51, 1, 'Khai thác', NULL, NULL, NULL),
+(11, 60, 4, 'Hủy', 'Hủy', NULL, NULL),
+(12, 61, 4, 'Báo hủy', 'Hủy', NULL, NULL),
+(13, 62, 4, 'Đã nhận báo hủy', 'Hủy', NULL, NULL),
+(14, 70, 2, 'Vào BCCP', 'Bưu cục đã nhận Order và nhập vào hệ thống chuyển phát của VNPost', NULL, NULL),
+(15, 80, 2, 'Chuyển hàng giữa các bưu cục', NULL, NULL, NULL),
+(16, 90, 2, 'Bưu tá đi phát hàng', NULL, NULL, NULL),
+(17, 91, 2, 'Phát không thành công', 'Đã đi phát hàng cho người nhận nhưng không thành công', NULL, NULL),
+(18, 92, 2, 'Bưu cục nhận tin Phát không thành công', '', NULL, NULL),
+(19, 100, 3, 'Phát thành công', 'Hàng đã phát thành công cho người nhận', NULL, NULL),
+(20, 110, 3, 'Vào hệ thống Paypost/Chờ trả tiền', 'Bưu tá đã nhận tiền COD của người nhận và nhập vào hệ thống', NULL, NULL),
+(21, 120, 3, 'Đã trả tiền cho người gửi', 'Tiền COD đã trả cho người gửi', NULL, NULL),
+(22, 130, 5, 'Bưu cục yêu cầu phát hoàn', NULL, NULL, NULL),
+(23, 140, 5, 'Khách hàng đồng ý phát hoàn', NULL, NULL, NULL),
+(24, 150, 5, 'Chuyển hoàn giữa các bưu cục', NULL, NULL, NULL),
+(25, 160, 5, 'Bưu tá đi phát hoàn', NULL, NULL, NULL),
+(26, 161, 5, ' Phát hoàn không thành công', 'Phát hoàn không thành công', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -12619,6 +12699,12 @@ ALTER TABLE `shipping_bill`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `shipping_config`
+--
+ALTER TABLE `shipping_config`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Chỉ mục cho bảng `shipping_status`
 --
 ALTER TABLE `shipping_status`
@@ -12657,25 +12743,25 @@ ALTER TABLE `district`
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT cho bảng `order_address`
 --
 ALTER TABLE `order_address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `order_info`
 --
 ALTER TABLE `order_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `order_products`
 --
 ALTER TABLE `order_products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT cho bảng `products`
@@ -12717,13 +12803,19 @@ ALTER TABLE `province`
 -- AUTO_INCREMENT cho bảng `shipping_bill`
 --
 ALTER TABLE `shipping_bill`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT cho bảng `shipping_config`
+--
+ALTER TABLE `shipping_config`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `shipping_status`
 --
 ALTER TABLE `shipping_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT cho bảng `ward`
@@ -12763,20 +12855,20 @@ ALTER TABLE `coupon_promo`
 -- Các ràng buộc cho bảng `order_address`
 --
 ALTER TABLE `order_address`
-  ADD CONSTRAINT `fk_order_id_adress` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id`);
+  ADD CONSTRAINT `fk_order_id_adress` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `order_info`
 --
 ALTER TABLE `order_info`
-  ADD CONSTRAINT `fk_order_id_info` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id`);
+  ADD CONSTRAINT `fk_order_id_info` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `order_products`
 --
 ALTER TABLE `order_products`
-  ADD CONSTRAINT `fk_order_id` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id`),
-  ADD CONSTRAINT `fk_product_id` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`);
+  ADD CONSTRAINT `fk_order_id` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_product_id` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `products`

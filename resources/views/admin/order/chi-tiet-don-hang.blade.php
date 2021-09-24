@@ -164,12 +164,12 @@
                                                         @foreach ( $order_products as $item)      
                                                             <tr class="cart_item">
                                                                 <td class="product-name" data-title="Sản phẩm">
-                                                                    <a href="{{url('san-pham/'.$item->product()->value('slug'))}}">{{$item->product()->value('name')}}</a>
-                                                                    <strong class="product-quantity">× {{$item->quantity}}</strong>
+                                                                    <a href="{{url('san-pham/'.$item->slug)}}">{{$item->name}}</a>
+                                                                    <strong class="product-quantity">× {{$item->pivot->quantity}}</strong>
                                                                 </td>
 
                                                                 <td class="product-total" data-title="Tổng cộng">
-                                                                    <span class="amount">{{formatPrice($item->price *$item->quantity)}} đ</span>
+                                                                    <span class="amount">{{formatPrice($item->pivot->price *$item->pivot->quantity)}} đ</span>
                                                                 </td>
                                                             </tr>
                                                         @endforeach

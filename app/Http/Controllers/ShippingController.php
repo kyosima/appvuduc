@@ -9,6 +9,8 @@ use App\Models\District;
 use App\Models\Ward;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Models\Order;
+use App\Models\shippingConfig;
+use App\Admin\Controllers\ConfigShippingController;
 
 class ShippingController extends Controller
 {
@@ -64,20 +66,46 @@ class ShippingController extends Controller
     // Tính phí ship tất cả sp trong giỏ hàng
     public function calculateCartShipping($district, $province, $order_total, $calc){
 
-        //kiểm tra user vnpost và lấy token user
-        $user_vnpost = Http::accept('application/json')->post('https://donhang.vnpost.vn/api/api/MobileAuthentication/GetAccessToken', [
-            'TenDangNhap' => env('SHIPPING_USERNAME'),
-            'MatKhau' => env('SHIPPING_PASSWORD')
-        ]);
-        $user_vnpost = json_decode($user_vnpost, true);
-        if(!$user_vnpost['IsSuccess']){
-            return;
-        }
+        $shipping_config = ShippingConfig::select('production', 'username', 'password')->first();
+
+        $configShippingController = new ConfigShippingController;
+
+        //lấy link môi trường.
+        $get_link = $configShippingController->checkEnvironmentConfig($shipping_config->production);
+
         //Tính phí vận chuyển bên vnpost
+        $response_shippinh_fee = $this->callApiShippingFee($district, $province, $calc, $order_total, $get_link);
+
+        //token hết thời gian.
+        if($response_shippinh_fee->status() == 401){
+
+            //cập nhật lại token
+            $configShippingController->updateTokenVnPost($shipping_config->production, $shipping_config->username, $shipping_config->password);
+
+            //gọi lại hàm tạo đơn hàng vận chuyển
+            $response_shippinh_fee = $this->callApiShippingFee($district, $province, $calc, $order_total, $get_link);
+        }
+
+        //kết quả trả về: object -> array.
+        $response_shippinh_fee = json_decode($response_shippinh_fee, true);
+
+        //lấy 2 phương thức vận chuyển: chuyển phát nhanh, chuyển phát thường.
+        // unset($response_shippinh_fee[2], $response_shippinh_fee[3], $response_shippinh_fee[4], $response_shippinh_fee[5]);
+
+        //EMS: chuyển phát nhanh, BK: chuyển phát thường
+        return response(array('EMS' => $response_shippinh_fee[0]["TongCuocBaoGomDVCT"], 'BK' => $response_shippinh_fee[1]["TongCuocBaoGomDVCT"]));
+    }
+
+    //gọi api sang vnpost để tính phí
+    public function callApiShippingFee($district, $province, $calc, $order_total, $get_link){
+
+        //lấy cấu hình vận chuyển
+        $shipping_config = ShippingConfig::first();
+
         $response_shippinh_fee = Http::withHeaders([
             'Content-Type' => 'application/json',
-            'h-token' => $user_vnpost['Token']
-        ])->post('https://donhang.vnpost.vn/api/api/CustomerConnect/TinhCuocTatCaDichVu', [
+            'h-token' => $shipping_config->token
+        ])->post($get_link.'/api/api/CustomerConnect/TinhCuocTatCaDichVu', [
             "SenderDistrictId" => "7270",
             "SenderProvinceId" => "70",
             "ReceiverDistrictId" => $district,
@@ -88,21 +116,15 @@ class ShippingController extends Controller
             "Height" => $calc['height'],
             "CodAmount" => $order_total,
             "IsReceiverPayFreight" => true,
-            "OrderAmount" => 0,
-            "UseBaoPhat" => false,
-            "UseHoaDon" => false,
-            "UseNhanTinSmsNguoiNhanTruocPhat" => false,
-            "UseNhanTinSmsNguoiNhanSauPhat" => false
+            "OrderAmount" => $shipping_config->order_amount_evaluation == true ? $order->sub_total : 0,
+            "UseBaoPhat" => $shipping_config->use_bao_phat,
+            "UseHoaDon" => $shipping_config->use_hoa_don,
+            "UseNhanTinSmsNguoiNhanTruocPhat" => $shipping_config->use_nhan_tin_sms_nguoi_nhan_truoc_phat,
+            "UseNhanTinSmsNguoiNhanSauPhat" => $shipping_config->use_nhan_tin_sms_nguoi_nhan_sau_phat
         ]);
-        //kết quả trả về: object -> array.
-        $response_shippinh_fee = json_decode($response_shippinh_fee, true);
-
-        //lấy 2 phương thức vận chuyển: chuyển phát nhanh, chuyển phát thường.
-        // unset($response_shippinh_fee[2], $response_shippinh_fee[3], $response_shippinh_fee[4], $response_shippinh_fee[5]);
-
-        //EMS: chuyển phát nhanh, BK: chuyển phát thường
-        return response(array('EMS' => $response_shippinh_fee[0]["TongCuocBaoGomDVCT"], 'BK' => $response_shippinh_fee[1]["TongCuocBaoGomDVCT"]));
+        return $response_shippinh_fee;
     }
+
     //Tính toán cân nặng, chiều dài, chiều rộng, chiều cao của tất cả sp trong giỏ hàng.
     public function calculateProductShipping($products){
         $weight = 0;
@@ -110,10 +132,11 @@ class ShippingController extends Controller
         $width = 0;
         $length = 0;
         foreach($products as $value){
-            $weight += $value->model->weight*$value->qty;
-            $height = $height < $value->model->height ? $value->model->height : $height;
-            $width += $value->model->width*$value->qty;
-            $length = $length < $value->model->length ? $value->model->length : $length;
+            $product_info = $value->model;
+            $weight += $product_info->weight*$value->qty;
+            $height = $height < $product_info->height ? $product_info->height : $height;
+            $width += $product_info->width*$value->qty;
+            $length = $length < $product_info->length ? $product_info->length : $length;
         }
         return array("weight" => $weight, "height" => $height, "width" => $width, "length" => $length);
     }

@@ -57,7 +57,7 @@ class ShippingController extends Controller
         $get_link = $this->configShippingController->checkEnvironmentConfig($shipping_config->production);
 
         //gọi hàm tạo đơn hàng
-        $response_create = $this->createShippingOrder($order_info, $order_address, $order, $package_content, $calc, $get_link);
+        $response_create = $this->callApiCreateShippingOrder($order_info, $order_address, $order, $package_content, $calc, $get_link);
 
         //token hết thời gian.
         if($response_create->status() == 401){
@@ -66,7 +66,7 @@ class ShippingController extends Controller
             $this->configShippingController->updateTokenVnPost($shipping_config->production, $shipping_config->username, $shipping_config->password);
 
             //gọi lại hàm tạo đơn hàng vận chuyển
-            $response_create = $this->createShippingOrder($order_info, $order_address, $order, $package_content, $calc);
+            $response_create = $this->callApiCreateShippingOrder($order_info, $order_address, $order, $package_content, $calc);
         }
         //
         $response_create = json_decode($response_create, true);
@@ -103,13 +103,13 @@ class ShippingController extends Controller
             'order'=>$order, 
             'order_info'=>$order->order_info()->first(), 
             'order_address'=>$order_address, 
-            'order_products'=>$order->order_products()->get(),
+            'order_products'=>$order->products()->get(),
             'address'=>$address,
             ])->render();
         return $html;
     }
 
-    public function createShippingOrder($order_info, $order_address, $order, $package_content, $calc, $get_link){
+    public function callApiCreateShippingOrder($order_info, $order_address, $order, $package_content, $calc, $get_link){
         
         //lấy cấu hình vận chuyển
         $shipping_config = ShippingConfig::first();
@@ -143,7 +143,7 @@ class ShippingController extends Controller
             "PickupType" => $shipping_config->pickup_type,
             "CodAmountEvaluation" => $order->sub_total,
             "IsReceiverPayFreight" => true,
-            "OrderAmountEvaluation" => $shipping_config->order_amount_evaluation,
+            "OrderAmountEvaluation" => $shipping_config->order_amount_evaluation == true ? $order->sub_total : 0,
             "UseBaoPhat" => $shipping_config->use_bao_phat,
             "UseHoaDon" => $shipping_config->use_hoa_don,
             "PickupPoscode" => 0,
@@ -155,19 +155,26 @@ class ShippingController extends Controller
     }
 
     public function destroyShippingOrder(Request $request){
-        $response = Http::accept('application/json')->post('https://donhang-uat.vnpost.vn/api/api/MobileAuthentication/GetAccessToken', [
-            'TenDangNhap' => '01234567890',
-            'MatKhau' => '01234567890'
-        ]);
-        if(!$response['IsSuccess']){
-            return;
-        }
+
+        $shipping_config = ShippingConfig::select('production', 'username', 'password')->first();
+
+        //lấy link môi trường.
+        $get_link = $this->configShippingController->checkEnvironmentConfig($shipping_config->production);
+
+        //gọi hàm tạo đơn hàng
         $response_create = Http::withHeaders([
             'Content-Type' => 'application/json',
-            'h-token' => $response['Token']
-        ])->post('https://donhang-uat.vnpost.vn/api/api/CustomerConnect/CancelOrder', [
+            'h-token' => $shipping_config->token
+        ])->post($get_link.'/api/api/CustomerConnect/CancelOrder', [
             "OrderId" => $request->shipping_id
         ]);
+
+        //token hết thời gian.
+        if($response_create->status() != 204){
+
+            return $response_create->status();
+        }
+        
         $shipping_bill = ShippingBill::where('shipping_id', $request->shipping_id)->first();
         $shipping_bill->update(['status' => 60, 'note' => $request->text_note]);
         $shipping_bill->order()->update([

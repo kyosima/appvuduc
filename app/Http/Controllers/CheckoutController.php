@@ -89,7 +89,6 @@ class CheckoutController extends Controller
         if(!$request->id || !$order = Order::find($request->id)){
             return redirect('/');
         }
-        $order = Order::find($request->id);
         $order_info = $order->order_info()->first();
         $order_address = $order->order_address()->first()->address_full;
         return view('public.cart_checkout.order_success', ['order' => $order, 'address' => $order_address, 'order_info' => $order_info]);
