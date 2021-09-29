@@ -41,7 +41,8 @@ class OrderAddress extends Model
 		'id_province',
 		'id_district',
 		'id_ward',
-		'address'
+		'address',
+		'address_full'
 	];
 
 	public function order()

@@ -12,6 +12,9 @@ class ShippingBill extends Model
     protected $guarded = [];
 
     public function order(){
-		return $this->belongsTo(Order::class, 'order_id');
-	}
+      return $this->belongsTo(Order::class, 'order_id');
+    }
+    public function status(){
+      return $this->hasOne(ShippingStatus::class, 'status_id', 'status');
+    }
 }

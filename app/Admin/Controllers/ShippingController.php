@@ -9,28 +9,33 @@ use App\Models\Province;
 use App\Models\District;
 use App\Models\Ward;
 use App\Models\ShippingBill;
+use App\Models\shippingConfig;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\ShippingController as CallShippingController;
+use App\Admin\Controllers\ConfigShippingController;
 
 class ShippingController extends Controller
 {
+    private $configShippingController;
+
+    public function __construct(){
+        $this->configShippingController = new ConfigShippingController;
+    }
 
     public function create(Request $request){
-        $response = Http::accept('application/json')->post('https://donhang-uat.vnpost.vn/api/api/MobileAuthentication/GetAccessToken', [
-            'TenDangNhap' => '01234567890',
-            'MatKhau' => '01234567890'
-        ]);
-        if(!$response['IsSuccess']){
-            return;
-        }
+
         $order = Order::find($request->in_id_order);
+
+        //Tên gói hàng
         $package_content = '';
-        $order_total = $order->sub_total; 
+
+        //lấy thể tích của đơn hàng
         $products = $order->products()->select('height', 'weight', 'length', 'width', 'name')->get();
+
         foreach($products as $key => $value){
             if($key < count($products)-1){
                 $package_content .= $value->name.' x'.$value->pivot->quantity.', ';
@@ -38,56 +43,35 @@ class ShippingController extends Controller
                 $package_content .= $value->name.' x'.$value->pivot->quantity;
             }
         }
+        
         $order_info = $order->order_info()->first();
         $order_address = $order->order_address()->first();
-        $shippingController = new CallShippingController;
+
+        //gọi hàm tính thể tích đơn hàng
+        $shippingController = new CallShippingController;        
         $calc = $shippingController->calculateProductShippingAdmin($products);
 
-        $response_create = Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'h-token' => $response['Token']
-        ])->post('https://donhang-uat.vnpost.vn/api/api/CustomerConnect/CreateOrder', [
-            "SenderTel" => "0987818811",
-            "SenderFullname" => "công ty dược vũ đức test",
-            "SenderAddress" => "15 đường số 7 kdc cityland trần thị nghỉ",
-            "SenderWardId" => "72710",
-            "SenderDistrictId" => "7270",
-            "SenderProvinceId" => "70",
-            "ReceiverTel" => $order_info->phone,
-            "ReceiverFullname" => $order_info->fullname,
-            "ReceiverAddress" => $order_address->address,
-            "ReceiverWardId" => $order_address->id_ward,
-            "ReceiverDistrictId" => $order_address->id_district,
-            "ReceiverProvinceId" => $order_address->id_province,
-            "ReceiverAddressType" => 1,
-            "ServiceName" => $order->shipping_method,
-            "OrderCode" => "",
-            "PackageContent" => $package_content,
-            "WeightEvaluation" => $calc['weight'],
-            "WidthEvaluation" => $calc['width'],
-            "LengthEvaluation" => $calc['length'],
-            "HeightEvaluation" => $calc['height'],
-            "IsPackageViewable" => false,
-            "CustomerNote" => $order_info->note,
-            "PickupType" => 1,
-            "CodAmountEvaluation" => $order_total,
-            "IsReceiverPayFreight" => true,
-            "OrderAmountEvaluation" => 0,
-            "UseBaoPhat" => false,
-            "UseHoaDon" => false,
-            "PickupPoscode" => 0,
-            "UseNhanTinSmsNguoiNhanTruocPhat" => false,
-            "UseNhanTinSmsNguoiNhanSauPhat" => false
-        ]);
-        
+        $shipping_config = ShippingConfig::select('production', 'username', 'password')->first();
+
+        //lấy link môi trường.
+        $get_link = $this->configShippingController->checkEnvironmentConfig($shipping_config->production);
+
+        //gọi hàm tạo đơn hàng
+        $response_create = $this->callApiCreateShippingOrder($order_info, $order_address, $order, $package_content, $calc, $get_link);
+
+        //token hết thời gian.
+        if($response_create->status() == 401){
+
+            //cập nhật lại token
+            $this->configShippingController->updateTokenVnPost($shipping_config->production, $shipping_config->username, $shipping_config->password);
+
+            //gọi lại hàm tạo đơn hàng vận chuyển
+            $response_create = $this->callApiCreateShippingOrder($order_info, $order_address, $order, $package_content, $calc);
+        }
+        //
         $response_create = json_decode($response_create, true);
 
         $this->createShippingBill($order, $response_create);
-
-        $order->update([
-            'status' => 1, 
-            'status_shipping' => $response_create['OrderStatusId'],
-        ]);
         $order->update([
             'status' => 1, 
             'status_shipping' => $response_create['OrderStatusId'],
@@ -119,10 +103,86 @@ class ShippingController extends Controller
             'order'=>$order, 
             'order_info'=>$order->order_info()->first(), 
             'order_address'=>$order_address, 
-            'order_products'=>$order->order_products()->get(),
+            'order_products'=>$order->products()->get(),
             'address'=>$address,
             ])->render();
         return $html;
+    }
+
+    public function callApiCreateShippingOrder($order_info, $order_address, $order, $package_content, $calc, $get_link){
+        
+        //lấy cấu hình vận chuyển
+        $shipping_config = ShippingConfig::first();
+
+        $response_create = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'h-token' => $shipping_config->token
+        ])->post($get_link.'/api/api/CustomerConnect/CreateOrder', [
+            "SenderTel" => "0987818811",
+            "SenderFullname" => "công ty dược vũ đức test",
+            "SenderAddress" => "15 đường số 7 kdc cityland trần thị nghỉ",
+            "SenderWardId" => "72710",
+            "SenderDistrictId" => "7270",
+            "SenderProvinceId" => "70",
+            "ReceiverTel" => $order_info->phone,
+            "ReceiverFullname" => $order_info->fullname,
+            "ReceiverAddress" => $order_address->address,
+            "ReceiverWardId" => $order_address->id_ward,
+            "ReceiverDistrictId" => $order_address->id_district,
+            "ReceiverProvinceId" => $order_address->id_province,
+            "ReceiverAddressType" => 1,
+            "ServiceName" => $order->shipping_method,
+            "OrderCode" => "",
+            "PackageContent" => $package_content,
+            "WeightEvaluation" => $calc['weight'],
+            "WidthEvaluation" => $calc['width'],
+            "LengthEvaluation" => $calc['length'],
+            "HeightEvaluation" => $calc['height'],
+            "IsPackageViewable" => $shipping_config->package_viewable,
+            "CustomerNote" => $order_info->note,
+            "PickupType" => $shipping_config->pickup_type,
+            "CodAmountEvaluation" => $order->sub_total,
+            "IsReceiverPayFreight" => true,
+            "OrderAmountEvaluation" => $shipping_config->order_amount_evaluation == true ? $order->sub_total : 0,
+            "UseBaoPhat" => $shipping_config->use_bao_phat,
+            "UseHoaDon" => $shipping_config->use_hoa_don,
+            "PickupPoscode" => 0,
+            "UseNhanTinSmsNguoiNhanTruocPhat" => $shipping_config->use_nhan_tin_sms_nguoi_nhan_truoc_phat,
+            "UseNhanTinSmsNguoiNhanSauPhat" => $shipping_config->use_nhan_tin_sms_nguoi_nhan_sau_phat
+        ]);
+
+        return $response_create;
+    }
+
+    public function destroyShippingOrder(Request $request){
+
+        $shipping_config = ShippingConfig::select('production', 'username', 'password')->first();
+
+        //lấy link môi trường.
+        $get_link = $this->configShippingController->checkEnvironmentConfig($shipping_config->production);
+
+        //gọi hàm tạo đơn hàng
+        $response_create = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'h-token' => $shipping_config->token
+        ])->post($get_link.'/api/api/CustomerConnect/CancelOrder', [
+            "OrderId" => $request->shipping_id
+        ]);
+
+        //token hết thời gian.
+        if($response_create->status() != 204){
+
+            return $response_create->status();
+        }
+        
+        $shipping_bill = ShippingBill::where('shipping_id', $request->shipping_id)->first();
+        $shipping_bill->update(['status' => 60, 'note' => $request->text_note]);
+        $shipping_bill->order()->update([
+            'status' => 3,
+        ]);
+        // $response_create = json_decode($response_create, true);
+        return $response_create->status();
+
     }
 
     public function createShippingBill($order, $response_create){

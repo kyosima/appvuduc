@@ -4,44 +4,57 @@
 		padding: 15px !important;
 	}
 </style>
+<script>
+$(document).ready(function(){
 @if ($message = Session::get('success'))
-
-<div class="container alert alert-success alert-block">
-	<button type="button" class="close" data-dismiss="alert">×</button>	
-        <strong>{{ $message }}</strong>
-</div>
+	$.toast({
+            heading: 'Thành công',
+            text: '{{ $message }}',
+            position: 'top-right',
+            icon: 'success'
+        });
 @endif
 
 
 @if ($message = Session::get('error'))
-<div class="container alert alert-danger alert-block">
-	<button type="button" class="close" data-dismiss="alert">×</button>	
-        <strong>{{ $message }}</strong>
-</div>
+	$.toast({
+            heading: 'Thất bại',
+            text: '{{ $message }}',
+            position: 'top-right',
+            icon: 'error'
+        });
 @endif
 
 
 @if ($message = Session::get('warning'))
-<div class="container alert alert-warning alert-block">
-	<button type="button" class="close" data-dismiss="alert">×</button>	
-	<strong>{{ $message }}</strong>
-</div>
+	$.toast({
+            heading: 'Thông báo',
+            text: '{{ $message }}',
+            position: 'top-right',
+            icon: 'warning'
+        });
 @endif
 
 
 @if ($message = Session::get('info'))
-<div class="container alert alert-info alert-block">
-	<button type="button" class="close" data-dismiss="alert">×</button>	
-	<strong>{{ $message }}</strong>
-</div>
+	$.toast({
+            heading: 'Thông báo',
+            text: '{{ $message }}',
+            position: 'top-right',
+            icon: 'warning'
+        });
 @endif
 
 
 @if ($errors->any())
 @foreach($errors->all() as $val)
-<div class="container alert alert-danger">
-	<button type="button" class="close" data-dismiss="alert">×</button>	
-	{{$val}}
-</div>
+	$.toast({
+            heading: 'Thông báo',
+            text: '{{ $val }}',
+            position: 'top-right',
+            icon: 'warning'
+        });
 @endforeach
 @endif
+});
+</script>

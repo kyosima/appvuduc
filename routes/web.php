@@ -20,6 +20,9 @@ use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\PublicBlogController;
 use App\Http\Controllers\PublicBlogCategoryController;
 
+use App\Http\Controllers\OrderController as CustomOrderController;
+use Illuminate\Support\Facades\DB;
+use App\Admin\Controllers\ConfigShippingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +72,10 @@ Route::get('/admin/ket-qua-dao-tao', function () {
 Route::get('/admin/loai-khuyen-mai', function () {
     return view('admin.loai-khuyen-mai');
 });
+Route::get('/admin/test', function () {
+    
+    return DB::table('shipping_config')->first()->package_viewable == true ? true : false ;
+});
 
 Route::prefix('admin')->group(function () {
     Route::prefix('don-hang')->group(function () {
@@ -90,14 +97,17 @@ Route::prefix('admin')->group(function () {
         Route::get('don-hang-tra-dai-ly', function () {
             return view('admin.order.don-hang-tra-dai-ly');
         })->name('orderadmin.backAgency');
-
+        Route::put('/cap-nhat-don-hang', [OrderController::class, 'puthOrderUpdate'])->name('order.update');
         Route::get('/chi-tiet/{order:id}', [OrderController::class, 'getOrderDetail'])->name('order.detail');
+        Route::patch('/huy-don-hang', [OrderController::class, 'patchOrderDestroy']);
+        Route::delete('/xoa-don-hang', [OrderController::class, 'deleteOrderDelete']);
     });
 
     Route::prefix('van-chuyen')->group(function () {
         Route::post('/tao-don-hang', [AdminShippingController::class, 'create'])->name('post.shipping.create');
         // Route::get('/tao-don-hang/{order:id}', [AdminShippingController::class, 'getCreate'])->name('post.shipping.create');
         Route::get('/tao-don-hang', [AdminShippingController::class, 'getInfoShipping'])->name('get.shipping.create');
+        Route::delete('/huy-don-hang', [AdminShippingController::class, 'destroyShippingOrder'])->name('delete.shipping.destroy');
     });
 
     // ĐƠN VỊ TÍNH
@@ -174,6 +184,10 @@ Route::prefix('admin')->group(function () {
     Route::put('/tat-ca-bai-viet/{id}', [BlogController::class, 'updateStatus'])->name('baiviet.updateStatus');
     Route::delete('/tat-ca-bai-viet/{id}', [BlogController::class, 'destroy'])->name('baiviet.delete');
 
+
+    //setting
+    Route::get('/cau-hinh-van-chuyen', [ConfigShippingController::class, 'index']);
+    Route::put('/cau-hinh-van-chuyen', [ConfigShippingController::class, 'update'])->name('put.config.shipping');
 });
 
 Route::get('/admin/thong-tin-ban-hang', function () {
@@ -208,6 +222,11 @@ Route::prefix('thanh-toan')->group(function () {
 
 });
 
+Route::get('/theo-doi-don-hang', [CustomOrderController::class, 'getDetectOrder']);
+
+Route::post('/theo-doi-don-hang', [CustomOrderController::class, 'postDetectOrder'])->name('post.detect.order');
+
+Route::get('/tim-kiem-san-pham', [PublicProductController::class, 'searchProduct'])->name('tim-kiem-san-pham');
 
 Route::get('/blog', function () {
     return view('blog');

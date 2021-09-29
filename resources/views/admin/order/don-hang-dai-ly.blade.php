@@ -1,10 +1,4 @@
 <x-header_admin />
-	<script>
-		$(function () {
-			$("#datepicker1").datepicker();
-			$("#datepicker2").datepicker();
-		});
-	</script>
 	<script src="{{asset('/resources/js/admin/order.js')}}"></script>
 
 	<link rel="stylesheet" href="{{asset('/resources/css/khuyenmai.css')}}">
@@ -89,155 +83,18 @@
 												style="max-width: 400px; background-color: #11101D; color: #fff;">
 												<str>Tổng doanh thu trong tháng</str><br>
 												<span
-													style="font-size: 20px; font-weight: bold; text-align: left;">8,662,500</span>
+													style="font-size: 20px; font-weight: bold; text-align: left;">{{number_format($doanh_thu)}} đ</span>
 											</button>
 										</div>
 									</div>
-									<div class="row mb-3">
-										<div class="col-sm-10">
-											<div class="row g-2">
-												<div class="col-md-1">
-													<select class="form-select" name="" id="">
-														<option value="">10</option>
-														<option value="">20</option>
-														<option value="">30</option>
-													</select>
-												</div>
-												<div class="col-md-3">
-													<div class="dropdown">
-														<button class="form-select" data-bs-toggle="dropdown"
-															aria-expanded="false">
-															Chọn chi nhánh
-														</button>
-														<ul class="dropdown-menu">
-															<li>
-																<a class="dropdown-item" href="#">
-																	<input type="text" class="form-control"
-																		name="" id="">
-																</a>
-															</li>
-															<li><a class="dropdown-item" href="#">Văn phòng tập
-																	đoàn</a></li>
-															<li><a class="dropdown-item" href="#">Chi nhánh Đà
-																	Nẵng</a></li>
 
-
-														</ul>
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="dropdown">
-														<button class="form-select" data-bs-toggle="dropdown"
-															aria-expanded="false">
-															Chọn kênh
-														</button>
-														<ul class="dropdown-menu">
-															<li>
-																<a class="dropdown-item" href="#">
-																	<input type="text" class="form-control"
-																		name="" id="">
-																</a>
-															</li>
-															<li><a class="dropdown-item" href="#">GT</a></li>
-															<li><a class="dropdown-item" href="#">MT</a></li>
-														</ul>
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="dropdown">
-														<button class="form-select" data-bs-toggle="dropdown"
-															aria-expanded="false">
-															Chọn chi nhánh NPP
-														</button>
-														<ul class="dropdown-menu">
-															<li>
-																<a class="dropdown-item" href="#">
-																	<input type="text" class="form-control"
-																		name="" id="">
-																</a>
-															</li>
-															<li><a class="dropdown-item" href="#">Perfectone Ha
-																	Noi</a></li>
-
-
-
-														</ul>
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="dropdown">
-														<button class="form-select" data-bs-toggle="dropdown"
-															aria-expanded="false">
-															Chọn địa điểm
-														</button>
-														<ul class="dropdown-menu">
-															<li>
-																<a class="dropdown-item" href="#">
-																	<input type="text" class="form-control"
-																		name="" id="">
-																</a>
-															</li>
-															<li><a class="dropdown-item" href="#">AMAZING
-																	DISTRIBUTOR</a></li>
-															<li><a class="dropdown-item" href="#">VINMART</a>
-															</li>
-															<li><a class="dropdown-item" href="#">MEDIAMART</a>
-															</li>
-															<li><a class="dropdown-item" href="#">Điện máy
-																	xanh</a>
-															</li>
-															<li><a class="dropdown-item" href="#">GMO-Z.com
-																	RUNSYSTEM</a></li>
-
-
-														</ul>
-													</div>
-												</div>
-
-												<div class="col-md-3">
-													<div class="dropdown">
-														<button class="form-select" data-bs-toggle="dropdown"
-															aria-expanded="false">
-															Chọn người phụ trách
-														</button>
-														<ul class="dropdown-menu">
-															<li>
-																<a class="dropdown-item" href="#">
-																	<input type="text" class="form-control"
-																		name="" id="">
-																</a>
-															</li>
-															<li><a class="dropdown-item"
-																	href="#">Salerep01(Salerep01)</a></li>
-
-
-														</ul>
-													</div>
-												</div>
-												<div class="col-md-2">
-													<input type="text" class="form-control" name=""
-														id="datepicker1" placeholder="Từ ngày">
-												</div>
-												<div class="col-md-2">
-													<input type="text" class="form-control" name=""
-														id="datepicker2" placeholder="Đến ngày">
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-2">
-											<div class="input-group" style="width: 100%;">
-												<input type="text" class="form-control" placeholder="Tìm kiếm" aria-label="Recipient's username" aria-describedby="basic-addon2">
-												<span class="input-group-text" id="basic-addon2"><i class="fa fa-search" aria-hidden="true"></i></span>
-											</div>
-										</div>
-									</div>
 									<div class="row">
 										<div class="col-sm-12" style="overflow-x: auto;">
-											<table class="table table-hover align-middle">
+											<table id="order" class="table table-hover align-middle">
 												<thead>
 													<tr>
 														<th class="title">ID</th>
-														<th class="title"><input class="form-check" type="checkbox"></th>
+														<!-- <th class="title"><input class="form-check" type="checkbox"></th> -->
 														<th class="title">Người đặt</th>
 														<th class="title">Số lượng</th>
 														<th class="title">Tiền ship</th>
@@ -246,44 +103,31 @@
 														<th class="title">Phụ trách</th>
 														<th class="title">Ngày bán</th>
 														<th class="title">Trạng thái</th>
-														<th class="title">Thao tác</th>
+														<th class="title" style="width:75px;">Thao tác</th>
 													</tr>
 												</thead>
 												<tbody style="color: #748092; font-size: 14px;">
 													@foreach ( $orders as $order)
 													<tr>
 														<td>{{$order->id}}</td>
-														<td><input type="checkbox" name="" id=""></td>
-														<td>{{$order->order_info()->value('fullname')}}</td>
-														<td>{{$order->order_products()->count()}}</td>
+														<!-- <td><input type="checkbox" name="" id=""></td> -->
+														<td>{{$order->fullname}}</td>
+														<td>{{$order->count_product}}</td>
 														<td>{{formatPrice($order->shipping_total)}}</td>
 														<td>{{formatPrice($order->total)}}</td>
 														<td>{{formatPrice($order->total+$order->shipping_total)}}</td>
 														<td>@if(!$order->handler) Chưa có @else {{$order->handler}}@endif</td>
 														<td>{{date('Y-m-d H:i:s', strtotime($order->created_at))}}</td>
-														<td>@switch($order->status)
-															@case(1)
-																<span class="text-success">Đang xử lý</span>
-																@break
-															@case(2)
-																<span class="text-success">Hoàn thành</span>
-																@break
-														
-															@case(3)
-																<span class="text-danger">Đã hủy</span>
-																@break
-														
-															@default
-																<span class="text-seconday">chưa xử lý</span>
-																@break
-														@endswitch</td>
+														<td class="change-status-{{$order->id}}">{!! orderStatus($order->status) !!}</td>
 														<td>
 															<div class="input-group">
-																<a href="{{route('order.detail', ['order' => $order->id])}}" class="btn btn-info"  onclick="viewDetailOrder(this)">Xem</a>
+																<a href="{{route('order.detail', ['order' => $order->id])}}" class="btn btn-info">Xem</a>
 																<button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-angle-down"></i></button>
 																<ul class="dropdown-menu dropdown-menu-end">
-																	<li><a class="dropdown-item" href="#">Hủy</a></li>
-																	<li><a class="dropdown-item" href="#">Xóa</a></li>
+																	@if($order->status != 4)
+																	<li><a class="dropdown-item" href="#" onclick="orderDestroy({{$order->id}})">Hủy</a></li>
+																	@endif
+																	<li><a class="dropdown-item" href="#" onclick="orderDelete(this,{{$order->id}})">Xóa</a></li>
 																</ul>
 															</div>
 														</td>
@@ -301,4 +145,6 @@
 		</div>
 	</div>
 </section>
+<script src="{{asset('/resources/js/shipping/shipping.js')}}"></script>
+<script src="{{asset('/resources/js/admin/order.js')}}"></script>
 <x-footer_admin />

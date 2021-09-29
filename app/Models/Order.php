@@ -46,8 +46,7 @@ class Order extends Model
 		'shipping_total',
 		'sub_total',
 		'total',
-		'status',
-		'status_shipping'
+		'status'
 	];
 
 	public function order_address()
@@ -70,7 +69,7 @@ class Order extends Model
 	public function products()
 	{
 		return $this->belongsToMany(Product::class, 'order_products', 'id_order', 'id_product')
-					->withPivot('id', 'quantity')
+					->withPivot('id', 'quantity', 'price')
 					->withTimestamps();
 	}
 }

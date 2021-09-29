@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Province;
+use App\Models\District;
+use App\Models\Ward;
 use App\Models\Order;
 use App\Models\OrderInfo;
 use App\Models\OrderAddress;
@@ -56,6 +58,7 @@ class CheckoutController extends Controller
                 $order_address->id_district = $request->sel_district;
                 $order_address->id_ward = $request->sel_ward;
                 $order_address->address = $request->address;
+                $order_address->address_full = $request->address.', '.Ward::where('maphuongxa', $request->sel_ward)->first()->tenphuongxa.', '.District::where('maquanhuyen', $request->sel_district)->first()->tenquanhuyen.', '.Province::where('matinhthanh', $request->sel_province)->first()->tentinhthanh;
                 $order->order_address()->save($order_address);
 
                 $order_info = new OrderInfo();
@@ -73,9 +76,8 @@ class CheckoutController extends Controller
                         'price' => $item->price
                     ]);
                 }
-
                 Cart::instance('shopping')->destroy();
-                return redirect()->route('checkout.orderSuccess');
+                return redirect()->route('checkout.orderSuccess', ['id' => $order]);
             } catch (\Throwable $th) {
                 throw new \Exception('Đã có lỗi xảy ra vui lòng thử lại');
                 return redirect()->back()->withErrors(['error' => $th->getMessage()]);
@@ -83,8 +85,13 @@ class CheckoutController extends Controller
         });
     }
 
-    public function orderSuccess(){
-        return view('public.cart_checkout.order_success');
+    public function orderSuccess(Request $request){
+        if(!$request->id || !$order = Order::find($request->id)){
+            return redirect('/');
+        }
+        $order_info = $order->order_info()->first();
+        $order_address = $order->order_address()->first()->address_full;
+        return view('public.cart_checkout.order_success', ['order' => $order, 'address' => $order_address, 'order_info' => $order_info]);
     }
 
 }

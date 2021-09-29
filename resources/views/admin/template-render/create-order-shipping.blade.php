@@ -21,8 +21,8 @@
                             
                         </div>
                         <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                        <p><b>Địa chỉ:</b> {{$address}} </p>
-                        <p><b>Ghi chú:</b> {{$order_info->note}} </p>
+                            <p><b>Địa chỉ:</b> {{$address}} </p>
+                            <p><b>Ghi chú:</b> {{$order_info->note}} </p>
                         </div>
                     </div>
                     <hr>  
@@ -39,16 +39,16 @@
                                     </thead>
                                     <tbody>
                                         @foreach ( $order_products as $item)      
-                                            <tr class="cart_item">
-                                                <td class="product-name" data-title="Sản phẩm">
-                                                    <a href="{{url('san-pham/'.$item->product()->value('slug'))}}">{{$item->product()->value('name')}}</a>
-                                                    <strong class="product-quantity">× {{$item->quantity}}</strong>
-                                                </td>
+                                        <tr class="cart_item">
+                                            <td class="product-name" data-title="Sản phẩm">
+                                                <a href="{{url('san-pham/'.$item->slug)}}">{{$item->name}}</a>
+                                                <strong class="product-quantity">× {{$item->pivot->quantity}}</strong>
+                                            </td>
 
-                                                <td class="product-total" data-title="Tổng cộng">
-                                                    <span class="amount">{{formatPrice($item->price *$item->quantity)}}</span>
-                                                </td>
-                                            </tr>
+                                            <td class="product-total" data-title="Tổng cộng">
+                                                <span class="amount">{{formatPrice($item->pivot->price *$item->pivot->quantity)}} đ</span>
+                                            </td>
+                                        </tr>
                                         @endforeach
                                     </tbody>
                                     <tfoot>
@@ -62,7 +62,7 @@
                                         </tr>
                                         <tr class="checkout-shipping-label-curent">
                                             <th>Phương thức giao hàng</th>
-                                            <td>@if($order->shipping_method == 'shipping-ems')Chuyển phát nhanh @else Chuyển phát thường @endif</td>
+                                            <td>{{shippingMethod($order->shipping_method)}}</td>
                                         </tr>
                                         <tr class="order-total">
                                             <th>Tổng cộng</th>
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-dark" onclick="destroyModal()">Hủy</button>
+                        <button type="button" class="btn btn-dark" onclick="destroyModal()">Đóng</button>
                         <button type="submit" class="btn btn-info btn-submit-unit">Tạo đơn</button>
                     </div>
                 </form>
