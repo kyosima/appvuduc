@@ -5,6 +5,7 @@ use App\Admin\Controllers\BlogCategoryController;
 use App\Admin\Controllers\BlogController;
 use App\Admin\Controllers\BrandController;
 use App\Admin\Controllers\CalculationUnitController;
+use App\Admin\Controllers\CourseController;
 use App\Admin\Controllers\ProductCategoryController;
 use App\Admin\Controllers\ProductController;
 use App\Admin\Controllers\WarehouseController;
@@ -126,6 +127,14 @@ Route::prefix('admin')->group(function () {
     Route::delete('/san-pham/delete/{id}', [ProductController::class, 'destroy'])->name('san-pham.delete');
     Route::get('/san-pham/get-category', [ProductController::class, 'getCategory'])->name('san-pham.getCategory');
 
+    // COURSES
+    Route::get('/khoa-hoc', [CourseController::class, 'index'])->name('course.index');
+    Route::get('/tao-khoa-hoc', [CourseController::class, 'create'])->name('course.create');
+    Route::get('/cap-nhat-khoa-hoc/{id}', [CourseController::class, 'edit'])->name('course.edit');
+    Route::post('/khoa-hoc', [CourseController::class, 'store'])->name('course.store');
+    Route::put('/khoa-hoc/{id}', [CourseController::class, 'update'])->name('course.update');
+    Route::delete('/khoa-hoc/{id}', [CourseController::class, 'destroy'])->name('course.delete');
+
     // BRAND
     Route::get('/thuong-hieu', [BrandController::class, 'index'])->name('thuong-hieu.index');
     Route::get('/thuong-hieu/getDatatable', [BrandController::class, 'indexDatatable'])->name('thuong-hieu.indexDatatable');
@@ -141,9 +150,11 @@ Route::prefix('admin')->group(function () {
     
     Route::get('/ton-kho-dai-ly', [WarehouseController::class, 'index'])->name('warehouse.index');
     Route::post('/ton-kho-dai-ly', [WarehouseController::class, 'store'])->name('warehouse.store');
+    Route::post('/ton-kho-dai-ly/add-product', [WarehouseController::class, 'addProductToWarehouse'])->name('warehouse.addProductToWarehouse');
     Route::put('/ton-kho-dai-ly', [WarehouseController::class, 'update'])->name('warehouse.update');
     Route::delete('/ton-kho-dai-ly', [WarehouseController::class, 'delete'])->name('warehouse.destroy');
     Route::get('/get-location', [WarehouseController::class, 'getLocation'])->name('warehouse.getLocation');
+    Route::get('/get-warehouse', [WarehouseController::class, 'getWarehouse'])->name('warehouse.getWarehouse');
     Route::get('/ton-kho-dai-ly/modal-edit', [WarehouseController::class, 'modalEdit'])->name('warehouse.modalEdit');
 
     // BLOG CATEGORY

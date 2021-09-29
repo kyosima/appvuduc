@@ -80,18 +80,18 @@ class ProductController extends Controller
                     'long_desc' => $request->description,
                 ]);
 
-                $productPrice = new ProductPrice();
-                $productPrice->regular_price = $request->product_regular_price;
-                $productPrice->vpoint_retail = $request->product_vpoint;
-                $productPrice->vpoint_2_star = $request->product_discount_2;
-                $productPrice->vpoint_1_star = $request->product_discount_1;
-                $productPrice->vpoint_platinum = $request->product_discount_platinum;
-                $productPrice->vpoint_diamond = $request->product_discount_diamond;
-                $productPrice->vpoint_gold = $request->product_discount_gold;
-                $productPrice->vpoint_silver = $request->product_discount_silver;
-                $productPrice->vpoint_member = $request->product_discount_member;
+                // $productPrice = new ProductPrice();
+                // $productPrice->regular_price = $request->product_regular_price;
+                // $productPrice->vpoint_retail = $request->product_vpoint;
+                // $productPrice->vpoint_2_star = $request->product_discount_2;
+                // $productPrice->vpoint_1_star = $request->product_discount_1;
+                // $productPrice->vpoint_platinum = $request->product_discount_platinum;
+                // $productPrice->vpoint_diamond = $request->product_discount_diamond;
+                // $productPrice->vpoint_gold = $request->product_discount_gold;
+                // $productPrice->vpoint_silver = $request->product_discount_silver;
+                // $productPrice->vpoint_member = $request->product_discount_member;
 
-                $product->productPrice()->save($productPrice);
+                // $product->productPrice()->save($productPrice);
 
                 return redirect()->route('san-pham.edit', $product->id)->with('success', 'Cập nhật sản phẩm thành công');
             } catch (\Throwable $th) {
@@ -144,17 +144,17 @@ class ProductController extends Controller
                 ]);
 
 
-                ProductPrice::where('id_ofproduct', $id)->update([
-                    'regular_price' => $request->product_regular_price,
-                    'vpoint_retail' => $request->product_vpoint,
-                    'vpoint_2_star' => $request->product_discount_2,
-                    'vpoint_1_star' => $request->product_discount_1,
-                    'vpoint_platinum' => $request->product_discount_platinum,
-                    'vpoint_diamond' => $request->product_discount_diamond,
-                    'vpoint_gold' => $request->product_discount_gold,
-                    'vpoint_silver' => $request->product_discount_silver,
-                    'vpoint_member' => $request->product_discount_member,
-                ]);
+                // ProductPrice::where('id_ofproduct', $id)->update([
+                //     'regular_price' => $request->product_regular_price,
+                //     'vpoint_retail' => $request->product_vpoint,
+                //     'vpoint_2_star' => $request->product_discount_2,
+                //     'vpoint_1_star' => $request->product_discount_1,
+                //     'vpoint_platinum' => $request->product_discount_platinum,
+                //     'vpoint_diamond' => $request->product_discount_diamond,
+                //     'vpoint_gold' => $request->product_discount_gold,
+                //     'vpoint_silver' => $request->product_discount_silver,
+                //     'vpoint_member' => $request->product_discount_member,
+                // ]);
 
                 return redirect()->route('san-pham.edit', $id)->with('success', 'Cập nhật sản phẩm thành công');
             } catch (\Throwable $th) {

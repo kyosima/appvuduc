@@ -31,4 +31,8 @@ class Product extends Model
         return $this->belongstoMany(Warehouse::class, 'warehouse_product', 'product_id', 'warehouse_id');
     }
 
+    public function courses() {
+        return $this->belongstoMany(Course::class, 'course_product', 'product_id', 'course_id');
+    }
+
 }

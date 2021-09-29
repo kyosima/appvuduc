@@ -57,39 +57,27 @@
     <!-- end menu mobile -->
     <div class="m-3">
         <div class="wrapper bg-white p-4">
-            @if (session('success'))
-                <div class="portlet-status">
-                    <div class="caption bg-success p-3">
-                        <span class="caption-subject bold uppercase text-light">{{session('success')}}</span>
-                    </div>
-                </div>
-            @endif
             <div class="portlet-title">
                 <div class="title-name">
                     <div class="caption">
                         <i class="fa fa-product-hunt icon-drec" aria-hidden="true"></i>
                         <span class="caption-subject bold uppercase">
-                            Thông tin bài viết</span>
+                            Thông tin khóa học</span>
                     </div>
                 </div>
             </div>
             <hr>
             <div class="portlet-body">
-                <form action="{{ route('baiviet.update', $blog->id) }}" method="post">
+                <form action="{{ route('course.store') }}" method="post">
                     @csrf
-                    @method('PUT')
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <div class="fileinput-new thumbnail size-img-profile">
-                                    @if ($blog->feature_img != null)
-                                        <img src="{{$blog->feature_img}}">
-                                    @else
-                                        <img src="http://api.salefie.vn/images/new_product_default.jpg">
-                                    @endif
+                                    <img src="{{ old('feature_img', 'http://api.salefie.vn/images/new_product_default.jpg')}}">
                                 </div>
                                 <div class="form-group my-2">
-                                    <input id="ckfinder-input-1" type="hidden" name="feature_img" class="form-control" value="{{$blog->feature_img}}">
+                                    <input id="ckfinder-input-1" type="hidden" name="feature_img" class="form-control" value="{{ old('feature_img') }}">
                                     <a style="cursor: pointer;" id="ckfinder-popup-1" class="btn btn-success">Chọn ảnh đại diện</a>
                                 </div>
                             </div>
@@ -99,43 +87,113 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="col-md-12 control-label text-left">Trạng thái bài viết<span
+                                        <label class="col-md-12 control-label text-left">Trạng thái khóa học<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
                                             <div class="form-group d-flex">
                                                 <div class="input-group-btn" id="blog-status">
-                                                    <select name="blog_status" class="selectpicker form-control">
-                                                        <option value="0" {{$blog->status == 0 ? 'selected' : ''}} >Ngưng hoạt động</option>
-                                                        <option value="1" {{$blog->status == 1 ? 'selected' : ''}}>Hoạt động</option>
+                                                    <select name="course_status" class="form-control">
+                                                        <option value="0">Ngưng hoạt động</option>
+                                                        <option value="1" selected>Hoạt động</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-12 control-label text-left">Tiêu đề bài viết<span
+                                        <label class="col-md-12 control-label text-left">Tên khóa học<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
-                                            <input type="text" name="blog_title" class="form-control"
-                                                required value="{{ old('blog_title' , $blog->name) }}">
+                                            <input type="text" name="course_title" class="form-control"
+                                                required value="{{ old('course_title') }}">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-12 control-label text-left">Chuyên mục bài viết<span
+                                        <label class="col-md-12 control-label text-left">Sản phẩm đi kèm<span
                                                 class="required" aria-required="true">(*)</span>:</label>
                                         <div class="col-md-12">
-                                            <select class="selectpicker form-control" name="blog_category"
-                                                required>
-                                                <option value="-1">Chuyên mục bài viết</option>
-                                                @foreach ($categories as $item)
-                                                    <option value="{{$item->id}}"
-                                                        {{$blog->id_ofcategory == $item->id ? 'selected' : ''}}
-                                                        >{{$item->name}}</option>
+                                            <select class="selectpicker form-control" name="course_product[]"
+                                                required multiple>
+                                                @foreach ($products as $item)
+                                                    <option value="{{$item->id}}">{{$item->id}} - {{$item->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-md-12 control-label text-left">Điểm Vpoint bán lẻ<span
+                                                class="required" aria-required="true">(*)</span>:</label>
+                                        <div class="col-md-12">
+                                            <input type="number" step="0.1" min="0.1" name="course_vpoint"
+                                                class="form-control" required value="{{ old('course_vpoint') }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 control-label text-left">Chiết khấu cổ đông 2<span
+                                                class="required" aria-required="true">(*)</span>:</label>
+                                        <div class="col-md-12">
+                                            <input type="number" step="0.1" min="0.1" name="course_discount_2"
+                                                class="form-control" required
+                                                value="{{ old('course_discount_2') }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 control-label text-left">Chiết khấu cổ đông 1<span
+                                                class="required" aria-required="true">(*)</span>:</label>
+                                        <div class="col-md-12">
+                                            <input type="number" step="0.1" min="0.1" name="course_discount_1"
+                                                class="form-control" required
+                                                value="{{ old('course_discount_1') }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 control-label text-left">Chiết khấu Platinum<span
+                                                class="required" aria-required="true">(*)</span>:</label>
+                                        <div class="col-md-12">
+                                            <input type="number" step="0.1" min="0.1" name="course_discount_platinum"
+                                                class="form-control" required
+                                                value="{{ old('course_discount_platinum') }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 control-label text-left">Chiết khấu Diamond<span
+                                                class="required" aria-required="true">(*)</span>:</label>
+                                        <div class="col-md-12">
+                                            <input type="number" step="0.1" min="0.1" name="course_discount_diamond"
+                                                class="form-control" required
+                                                value="{{ old('course_discount_diamond') }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 control-label text-left">Chiết khấu Gold<span
+                                                class="required" aria-required="true">(*)</span>:</label>
+                                        <div class="col-md-12">
+                                            <input type="number" step="0.1" min="0.1" name="course_discount_gold"
+                                                class="form-control" required
+                                                value="{{ old('course_discount_gold') }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 control-label text-left">Chiết khấu Silver<span
+                                                class="required" aria-required="true">(*)</span>:</label>
+                                        <div class="col-md-12">
+                                            <input type="number" step="0.1" min="0.1" name="course_discount_silver"
+                                                class="form-control" required
+                                                value="{{ old('course_discount_silver') }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 control-label text-left">Chiết khấu Member<span
+                                                class="required" aria-required="true">(*)</span>:</label>
+                                        <div class="col-md-12">
+                                            <input type="number" step="0.1" min="0.1" name="course_discount_member"
+                                                class="form-control" required
+                                                value="{{ old('course_discount_member') }}">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -144,15 +202,13 @@
                             <div class="form-group">
                                 <label class="col-md-12 control-label vertical text-left text-danger">Mô tả chi tiết:</label>
                                 <div class="col-md-12">
-                                    <textarea name="description" id="description" class="form-control" rows="5">
-                                        {{ old('description', $blog->content) }}
-                                    </textarea>
+                                    <textarea name="description" id="description" class="form-control" rows="3"
+                                        placeholder="...">{{ old('description') }}</textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn-info">Cập nhật bài viết</button>
-                            <a href="{{route('baiviet.delete', $blog->id)}}" class="btn btn-danger">Xóa bài viết</a>
+                            <button type="submit" class="btn btn-info">Đăng khóa học</button>
                         </div>
 
                     </div>
@@ -172,6 +228,9 @@
     $(document).ready(function() {
         $('select.selectpicker').select2({
             width: '100%',
+            multiple: true,
+            placeholder: "Sản phẩm đi kèm",
+            allowClear: true,
         });
 
         CKEDITOR.replace('description', {
@@ -214,8 +273,9 @@
                 }
             });
         }
-
     });
 </script>
+
+<script src={{ asset('/resources/js/adminCourse.js') }}></script>
 
 <x-footer_admin />
