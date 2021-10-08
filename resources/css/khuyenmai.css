@@ -74,3 +74,19 @@ table tbody tr td a {
         overflow-x: scroll;
     } */
 }
+
+.control-label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.control-label .required {
+  color: #e02222;
+  font-size: 12px;
+  padding-left: 2px;
+}
+
+.error {
+  color: red !important;
+  border-color: red;
+}

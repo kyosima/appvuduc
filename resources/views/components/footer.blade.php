@@ -133,7 +133,7 @@
                 </a>
             </li>
             <li>
-                <a>
+                <a href="{{route('cart.index')}}">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Giỏ hàng</span>
                 </a>
@@ -163,7 +163,7 @@
                 </a>
             </li>
             <li>
-                <a id="chatfb" href="https://www.facebook.com/profile.php?id=100070938861938" target="_blank">
+                <a id="chatfb" href="{{route('cart.index')}}" target="_blank">
                     <img src="https://image.flaticon.com/icons/png/512/833/833314.png">
                     <br>
                     <span>Giỏ hàng</span>
@@ -178,9 +178,7 @@
             </li>
         </ul>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
         integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -190,8 +188,15 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.min.js"
+    integrity="sha512-cWEytOR8S4v/Sd3G5P1Yb7NbYgF1YAUzlg1/XpDuouZVo3FEiMXbeWh4zewcYu/sXYQR5PgYLRbhf18X/0vpRg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{asset('/resources/js/colorbox-master/jquery.colorbox-min.js')}}"></script>
     <script src="{{asset('/resources/js/main.js')}}"></script>
+    <script src="{{asset('/resources/js/sidebar.js')}}"></script>
+    <script src="{{asset('/resources/js/fotorama.js')}}"></script>
+    <script src="{{asset('/resources/js/cart.js')}}"></script>
+
 
 </body>
 
