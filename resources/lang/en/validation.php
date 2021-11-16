@@ -136,8 +136,24 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'unitCode' => [
+            'required' => 'Không được để trống',
+            'unique' => 'Code đã bị trùng, vui lòng chọn tên khác',
+        ],
+        'unitName' => [
+            'required' => 'Không được để trống',
+            'unique' => 'Name đã bị trùng, vui lòng chọn tên khác',
+        ],
+        'unitSlug' => [
+            'unique' => 'Slug đã bị trùng, vui lòng chọn tên khác',
+        ],
+        'brandCode' => [
+            'required' => 'Không được để trống',
+            'unique' => 'Code đã bị trùng, vui lòng chọn tên khác',
+        ],
+        'brandName' => [
+            'required' => 'Không được để trống',
+            'unique' => 'Name đã bị trùng, vui lòng chọn tên khác',
         ],
     ],
 

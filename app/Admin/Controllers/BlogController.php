@@ -31,6 +31,21 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'blog_title' => 'required|unique:blogs,name',
+            'slug' => 'unique:blogs,slug',
+            'feature_img' => 'required',
+            'blog_category' => 'required',
+            'blog_status' => 'required',
+        ], [
+            'blog_title.required' => 'Tên bài viết không được để trống',
+            'blog_title.unique' => 'Tên bài viết đã bị trùng lặp, vui lòng đặt tên khác',
+            'slug.unique' => 'Slug đang sử dụng đã bị trùng lặp, vui lòng đặt tên khác',
+            'feature_img' => 'Ảnh đại diện không được để trống',
+            'blog_category' => 'Chuyên mục bài viết không được để trống',
+            'blog_status' => 'Trạng thái không được để trống',
+        ]);
+        
         $slug = Str::slug($request->blog_title, '-');
         $blog = Blog::create([
             'id_ofcategory' => $request->blog_category,
@@ -51,6 +66,21 @@ class BlogController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'blog_title' => 'required|unique:blogs,name,'.$id,
+            'slug' => 'unique:blogs,slug,'.$id,
+            'feature_img' => 'required',
+            'blog_category' => 'required',
+            'blog_status' => 'required',
+        ], [
+            'blog_title.required' => 'Tên bài viết không được để trống',
+            'blog_title.unique' => 'Tên bài viết đã bị trùng lặp, vui lòng đặt tên khác',
+            'slug.unique' => 'Slug đang sử dụng đã bị trùng lặp, vui lòng đặt tên khác',
+            'feature_img' => 'Ảnh đại diện không được để trống',
+            'blog_category' => 'Chuyên mục bài viết không được để trống',
+            'blog_status' => 'Trạng thái không được để trống',
+        ]);
+
         $slug = Str::slug($request->blog_title, '-');
         $blog = Blog::where('id', $id)->update([
             'id_ofcategory' => $request->blog_category,

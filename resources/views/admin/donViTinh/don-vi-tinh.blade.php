@@ -198,15 +198,40 @@
                 data: form.serialize(), // serializes the form's elements.
                 success: function (response) {
                     $("#formCreateUnit")[0].reset();
-                    $('#calculation_unit_create .form-body').prepend(`<div class="bg-success p-2 mb-2">
-                        <p class="text-light m-0">Đã thêm mới đơn vị tính thành công</p>
-                        </div>`);
+                    $.toast({
+                        heading: 'Thành công',
+                        text: 'Thêm mới đơn vị tính thành công',
+                        position: 'top-right',
+                        icon: 'success'
+                    });
                     setTimeout(function () {
                         $('#calculation_unit_create').modal('dispose')
                         $('#calculation_unit_create').hide()
                         $('.modal-backdrop.fade.show').remove()
                     }, 1500);
                     table.ajax.reload();
+                },
+                error: function(response) {
+                    console.log(response.responseJSON.message);
+                    var string = ''
+
+                    $.each(response.responseJSON.message, function (idx, val) { 
+                        if(string == '') {
+                            string += val
+                        } else {
+                            string = string + ' - ' + val
+                        }
+                    });
+                    
+                    $.toast({
+                        heading: 'Thất bại',
+                        text: [
+                            'Đã có lỗi xảy ra',
+                            string,
+                        ],
+                        position: 'top-right',
+                        icon: 'error'
+                    });
                 }
             });
         });
@@ -224,9 +249,12 @@
                 url: form.attr('action'),
                 data: form.serialize(),
                 success: function (response) {
-                    $('#calculation_unit_update .form-body').prepend(`<div class="bg-success p-2 mb-2">
-                        <p class="text-light m-0">Đã chỉnh sửa đơn vị tính thành công</p>
-                        </div>`);
+                    $.toast({
+                        heading: 'Thành công',
+                        text: 'Chỉnh sửa đơn vị tính thành công',
+                        position: 'top-right',
+                        icon: 'success'
+                    });
                     setTimeout(function () {
                         $('#calculation_unit_update').modal('dispose')
                         $('#calculation_unit_update').remove()
@@ -235,6 +263,28 @@
                         $('body').css({'padding-right': 'unset', 'overflow': 'unset'})
                     }, 1500);
                     table.ajax.reload();
+                },
+                error: function(response) {
+                    console.log(response.responseJSON.message);
+                    var string = ''
+
+                    $.each(response.responseJSON.message, function (idx, val) { 
+                        if(string == '') {
+                            string += val
+                        } else {
+                            string = string + ' - ' + val
+                        }
+                    });
+                    
+                    $.toast({
+                        heading: 'Thất bại',
+                        text: [
+                            'Đã có lỗi xảy ra',
+                            string,
+                        ],
+                        position: 'top-right',
+                        icon: 'error'
+                    });
                 }
             });
         });
@@ -256,7 +306,21 @@
                     id: id
                 },
                 success: function (response) {
+                    $.toast({
+                        heading: 'Thành công',
+                        text: 'Cập nhật đơn vị tính thành công',
+                        position: 'top-right',
+                        icon: 'success'
+                    });
                     table.ajax.reload();
+                },
+                error: function(response) {
+                    $.toast({
+                        heading: 'Thất bại',
+                        text: 'Đã có lỗi xảy ra',
+                        position: 'top-right',
+                        icon: 'error'
+                    });
                 }
             });
         })
@@ -276,7 +340,21 @@
                         id: id
                     },
                     success: function (response) {
+                        $.toast({
+                            heading: 'Thành công',
+                            text: 'Xóa đơn vị tính thành công',
+                            position: 'top-right',
+                            icon: 'success'
+                        });
                         table.ajax.reload();
+                    },
+                    error: function(response) {
+                        $.toast({
+                            heading: 'Thất bại',
+                            text: 'Đã có lỗi xảy ra',
+                            position: 'top-right',
+                            icon: 'error'
+                        });
                     }
                 });
             }
