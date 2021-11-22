@@ -16,6 +16,9 @@
     <!-- css đối tác -->
     <link rel="stylesheet" href="{{asset('/resources/css/log.css')}}">
 </head>
+<style>
+    
+</style>
 <body>
     <div class="login-container">
         <div class="pt-5 text-center">
