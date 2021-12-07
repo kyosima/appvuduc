@@ -44,14 +44,14 @@ class LoginController extends Controller
     {
         
         $this->validate($request, [
-            'email' => 'required|email',
+            'name' => 'required|name',
             'password' => 'required'
         ], [
-            'email.required' => 'Nhập Email',
+            'name.required' => 'Nhập name',
             'password.required' => 'Nhập Password',            
         ]);
         
-        $credentials = $request->only(['email', 'password']);
+        $credentials = $request->only(['name', 'password']);
         if (Auth::guard('admin')->attempt($credentials)){
             return redirect()->intended('/admin');
         }

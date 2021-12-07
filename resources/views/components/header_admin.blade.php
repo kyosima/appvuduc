@@ -39,7 +39,7 @@
 
         <ul class="nav-list p-0">
             <li class="dropdown">
-                <a href="/salefie_goc/admin" class="dropbtn">
+                <a href="/appvuduc/admin" class="dropbtn">
                     <i class="fa fa-frown-o" aria-hidden="true"></i>
                     <span class="links_name">Dashboard</span>
                 </a>
@@ -52,9 +52,9 @@
                             class="fa fa-angle-double-right float-end" aria-hidden="true"></i></span>
                 </a>
                 <span class="dropdown-content">
-                    <a href="/salefie_goc/admin/doi-nhom">Đội nhóm</a>
-                    <a href="/salefie_goc/admin/ca-nhan">Cá nhân</a>
-                    <a href="/salefie_goc/admin/thong-tin-ban-hang">Thông tin bán hàng</a>
+                    <a href="/appvuduc/admin/doi-nhom">Đội nhóm</a>
+                    <a href="/appvuduc/admin/ca-nhan">Cá nhân</a>
+                    <a href="/appvuduc/admin/thong-tin-ban-hang">Thông tin bán hàng</a>
                 </span>
             </li>
             @role('user')
@@ -65,9 +65,9 @@
                             class="fa fa-angle-double-right float-end" aria-hidden="true"></i></span>
                 </a>
                 <span class="dropdown-content">
-                    <a href="/salefie_goc/admin/nganh-nhom-hang">Ngành/Nhóm hàng</a>
-                    <a href="/salefie_goc/admin/don-vi-tinh">Đơn vị tính</a>
-                    <a href="/salefie_goc/admin/san-pham">Thông tin sản phẩm</a>
+                    <a href="/appvuduc/admin/nganh-nhom-hang">Ngành/Nhóm hàng</a>
+                    <a href="/appvuduc/admin/don-vi-tinh">Đơn vị tính</a>
+                    <a href="/appvuduc/admin/san-pham">Thông tin sản phẩm</a>
                 </span>
             </li>
             @endrole
@@ -79,8 +79,8 @@
                             class="fa fa-angle-double-right float-end" aria-hidden="true"></i></span>
                 </a>
                 <span class="dropdown-content">
-                    <a href="/salefie_goc/admin/cau-hinh-khuyen-mai">Cấu hình khuyến mại</a>
-                    <a href="/salefie_goc/admin/loai-khuyen-mai">Loại khuyến mãi</a>
+                    <a href="/appvuduc/admin/cau-hinh-khuyen-mai">Cấu hình khuyến mại</a>
+                    <a href="/appvuduc/admin/loai-khuyen-mai">Loại khuyến mãi</a>
                 </span>
             </li>
 
@@ -92,11 +92,11 @@
                             class="fa fa-angle-double-right float-end" aria-hidden="true"></i></span>
                 </a>
                 <span class="dropdown-content">
-                    <a href="/salefie_goc/admin/don-hang-cnpp">Đơn hàng CN NPP</a>
-                    <a href="/salefie_goc/admin/don-hang-tra-chi-nhanh-npp">Đơn hàng trả CN NPP</a>
-                    <a href="/salefie_goc/admin/don-hang-dai-ly">Đơn hàng đại lý</a>
-                    <a href="/salefie_goc/admin/don-hang-tra-dai-ly">Đơn hàng trả đại lý</a>
-                    <a href="/salefie_goc/admin/don-hang-doi-thu-dai-ly">Đơn hàng đối thủ đại lý</a>
+                    <a href="/appvuduc/admin/don-hang-cnpp">Đơn hàng CN NPP</a>
+                    <a href="/appvuduc/admin/don-hang-tra-chi-nhanh-npp">Đơn hàng trả CN NPP</a>
+                    <a href="/appvuduc/admin/don-hang-dai-ly">Đơn hàng đại lý</a>
+                    <a href="/appvuduc/admin/don-hang-tra-dai-ly">Đơn hàng trả đại lý</a>
+                    <a href="/appvuduc/admin/don-hang-doi-thu-dai-ly">Đơn hàng đối thủ đại lý</a>
                 </span>
             </li>
             @endrole
@@ -108,7 +108,7 @@
                             class="fa fa-angle-double-right float-end" aria-hidden="true"></i></span>
                 </a>
                 <span class="dropdown-content">
-                    <a href="/salefie_goc/admin/ket-qua-dao-tao">Kết quả đào tạo</a>
+                    <a href="/appvuduc/admin/ket-qua-dao-tao">Kết quả đào tạo</a>
                 </span>
             </li>
             <li class="dropdown">
@@ -118,8 +118,8 @@
                             class="fa fa-angle-double-right float-end" aria-hidden="true"></i></span>
                 </a>
                 <span class="dropdown-content">
-                    <a href="/salefie_goc/admin/ton-kho-CNNPP">Tồn kho CN NPP</a>
-                    <a href="/salefie_goc/admin/ton-kho-dai-ly">Tồn kho đại lý</a>
+                    <a href="/appvuduc/admin/ton-kho-CNNPP">Tồn kho CN NPP</a>
+                    <a href="/appvuduc/admin/ton-kho-dai-ly">Tồn kho đại lý</a>
                 </span>
             </li>
             <li class="dropdown">
@@ -133,11 +133,7 @@
                     <img src="{{asset('/resources/image/header/avatar.jpg')}}" alt="profileImg">
                     <div class="name_job">
                         <div class="name">
-                            @if(Auth::guard('admin')->check())
-                            {{auth()->user()->name}}
-                            @elseif (Auth::check())
-                            {{auth()->user()->fullname}}
-                            @endif
+                            Thinh Nguyen
                         </div>
                         <div class="job">Science Technology</div>
                     </div>
