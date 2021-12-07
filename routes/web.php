@@ -38,10 +38,10 @@ use App\Admin\Controllers\ConfigShippingController;
 
 
 Route::prefix('admin')->group(function(){
-    Route::middleware(['auth'])->group(function () {
         Route::get('/', function(){
             return view('admin.dashboard');
-        })->middleware(['role:admin']);
+        });
+        // ->middleware(['role:admin']);
         Route::get('/ca-nhan', function () {
         return view('admin.ca-nhan');
         });
@@ -102,11 +102,8 @@ Route::prefix('admin')->group(function(){
             return view('admin.ton-kho-CNNPP');
         });
 
-        Route::get('/ton-kho-dai-ly', function () {
-            return view('admin.ton-kho-dai-ly');
-        });
         Route::get('/dang-xuat', 'App\Http\Controllers\Admin\LoginController@destroy')->name('admin.dang-xuat');
-    });
+
 
     Route::get('/dang-nhap', 'App\Http\Controllers\Admin\LoginController@index')->name('admin.dang-nhap');
     Route::post('/dang-nhap', 'App\Http\Controllers\Admin\LoginController@store');

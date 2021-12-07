@@ -1,13 +1,7 @@
 <x-header_admin />
 <!-- <link rel="stylesheet" href="{{asset('/resources/css/khuyenmai.css')}}"> -->
 <link rel="stylesheet" href="{{asset('/resources/css/shipping.css')}}">
-<section class="home-section">
-    <div class="header bg-white shadow-sm header_mobile">
-        <div class="text"><i class="fas fa-shipping-fast"></i> Cấu hình vận chuyển</div>
-        <div class="icon_menu-mobile">
-            <i class="fa fa-bars" data-bs-toggle="collapse" href="#menu-main" role="button" aria-expanded="false" aria-controls="menu-main"></i>
-        </div>
-    </div>
+
     <ul class="sub-menu collapse sidebar-mobile list-group list-group-flush" id="menu-main">
         <li class="list-group-item p-0 list-group-item-action">
             <a href="#" class="list-group-item-link p-3"><i class="fa fa-bar-chart-o"></i> Dashboard</a>
@@ -140,7 +134,7 @@
         </div>
     </div>
   
-</section>
+    
 <x-footer_admin />
 
 

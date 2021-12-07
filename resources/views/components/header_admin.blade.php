@@ -143,3 +143,10 @@
         </ul>
     </div>
     <!-- end sidebar -->
+    <section class="home-section">
+	    <div class="header bg-white shadow-sm header_mobile">
+			<div class="text">Dashboard</div>
+			<div class="icon_menu-mobile">
+				<i class="fa fa-bars" data-bs-toggle="collapse" href="#menu-main" role="button" aria-expanded="false" aria-controls="menu-main"></i>
+			</div>
+		</div>

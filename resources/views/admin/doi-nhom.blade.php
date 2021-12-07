@@ -2,14 +2,6 @@
 	<link rel="stylesheet" href="{{asset('/resources/css/doitac.css')}}">
 
 
-	<!-- main -->
-	<section class="home-section">
-	  <div class="header bg-white shadow-sm header_mobile">
-		  <div class="text">Dashboard</div>
-		  <div class="icon_menu-mobile">
-			  <i class="fa fa-bars" data-bs-toggle="collapse" href="#menu-main" role="button" aria-expanded="false" aria-controls="menu-main"></i>
-		  </div>
-	  </div>
 		<ul class="sub-menu collapse sidebar-mobile list-group list-group-flush" id="menu-main">
 			
 			<li class="list-group-item p-0 list-group-item-action">
@@ -487,7 +479,6 @@
 			<a href="#"><i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>
 		</div>
 		<!-- end scroll top -->
-	</section>
 	<!-- main -->
 
   <script type="text/javascript" src="./js/header.js"></script>

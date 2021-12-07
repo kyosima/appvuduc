@@ -3,16 +3,7 @@
     <script src="./resources/js/amcharts.js" type="text/javascript"></script>
     <script src="./resources/js/serial.js" type="text/javascript"></script>
     <link rel="stylesheet" href="./resources/css/amcharts.css" type="text/css">
-
-  	<section class="home-section">
-
 		<!-- menu mobile -->
-		<div class="header bg-white shadow-sm header_mobile">
-			<div class="text">Dashboard</div>
-			<div class="icon_menu-mobile">
-				<i class="fa fa-bars" data-bs-toggle="collapse" href="#menu-main" role="button" aria-expanded="false" aria-controls="menu-main"></i>
-			</div>
-		</div>
 		  <ul class="sub-menu collapse sidebar-mobile list-group list-group-flush" id="menu-main">
 			  <li class="list-group-item p-0 list-group-item-action">
 				  <a href="#" class="list-group-item-link p-3"><i class="fa fa-bar-chart-o"></i> Dashboard</a>
@@ -52,11 +43,10 @@
 		  </ul>
 		</div>
 		<!-- end menu mobile -->
-
-
-  		<div class="m-3">
+		
+  		<div class="">
   			<div class="row">
-  				<div class="col-sm-6" id="title_tinhhinh">
+  				<div class="col-sm-5" id="title_tinhhinh">
       				<div class="text">Tình hình đang như thế nào ?</div>
   				</div>
   				<div class="col-sm-2 align-self-center text-end" id="col_find_button">
@@ -186,6 +176,6 @@
                 </div>
             </div>
         </div>
-  	</section>
+  	
 
 <x-footer_admin />

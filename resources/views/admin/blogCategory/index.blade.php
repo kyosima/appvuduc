@@ -2,16 +2,8 @@
 <link rel="stylesheet" href="{{ asset('/resources/css/doitac.css') }}">
 <link rel="stylesheet" href="{{ asset('/resources/css/quanlysanpham.css') }}">
 
-<section class="home-section">
 
-    <!-- menu mobile -->
-    <div class="header bg-white shadow-sm header_mobile">
-        <div class="text">Dashboard</div>
-        <div class="icon_menu-mobile">
-            <i class="fa fa-bars" data-bs-toggle="collapse" href="#menu-main" role="button" aria-expanded="false"
-                aria-controls="menu-main"></i>
-        </div>
-    </div>
+
     <ul class="sub-menu collapse sidebar-mobile list-group list-group-flush" id="menu-main">
         <li class="list-group-item p-0 list-group-item-action">
             <a href="#" class="list-group-item-link p-3"><i class="fa fa-bar-chart-o"></i> Dashboard</a>
@@ -167,7 +159,7 @@
     <div class="footer text-center">
         <spans style="font-size: 12px; color: #333;">Copyright©2005-2021 . All rights reserved</spans>
     </div>
-</section>
+    
 
 <script>
     $(document).ready(function() {
