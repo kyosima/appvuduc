@@ -27,8 +27,8 @@ body {
     margin: 0 auto;
     color: var(--bcolor);
     font-size: 14px;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 400;
+    font-family: 'Mulish', sans-serif;
+            font-weight: 400;
     line-height: 1.6;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
