@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\BlogCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class BlogCategoryController extends Controller
@@ -44,6 +45,17 @@ class BlogCategoryController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'unitName' => 'bail|required|unique:blog_category,name',
+            'unitSlug' => 'unique:blog_category,slug',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()
+            ], 400);
+        }
+
         if($request->unitSlug == null) {
             $slug = Str::slug($request->unitName, '-');
             $blogCategory = BlogCategory::create([

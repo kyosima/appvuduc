@@ -57,6 +57,15 @@
     <!-- end menu mobile -->
     <div class="m-3">
         <div class="wrapper bg-white p-4">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="portlet-title">
                 <div class="title-name">
                     <div class="caption">
@@ -115,14 +124,22 @@
                                             <select class="selectpicker form-control" name="course_product[]"
                                                 required multiple>
                                                 @foreach ($products as $item)
-                                                    <option value="{{$item->id}}">{{$item->id}} - {{$item->name}}</option>
+                                                    <option value="{{$item->id}}"
+                                                        @php
+                                                            if(old('course_product')) {
+                                                                if(in_array($item->id, old('course_product'))) {
+                                                                    echo "selected";
+                                                                }
+                                                            }
+                                                        @endphp
+                                                        >{{$item->id}} - {{$item->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="col-md-12 control-label text-left">Điểm Vpoint bán lẻ<span
                                                 class="required" aria-required="true">(*)</span>:</label>
@@ -158,6 +175,8 @@
                                                 value="{{ old('course_discount_platinum') }}">
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="col-md-12 control-label text-left">Chiết khấu Diamond<span
                                                 class="required" aria-required="true">(*)</span>:</label>

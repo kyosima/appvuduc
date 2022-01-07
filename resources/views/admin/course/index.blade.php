@@ -1,4 +1,5 @@
 <x-header_admin />
+<link rel="stylesheet" href="{{ asset('/resources/css/doitac.css') }}">
 <link rel="stylesheet" href="{{ asset('/resources/css/quanlysanpham.css') }}">
 
 <section class="home-section">
@@ -95,6 +96,7 @@
                                 <th class="title-text">
                                     Đơn giá bán lẻ
                                 </th>
+                                <th>Trạng thái</th>
                             </tr>
                         </thead>
                         <tbody style="color: #748092; font-size: 14px; vertical-align: middle;">
@@ -105,6 +107,69 @@
                                     <td><a style="text-decoration: none;"
                                             href="{{ route('course.edit', $item->id) }}">{{ $item->name }}</a></td>
                                     <td>{{ moneyFormat($item->coursePrice->vpoint_retail) }} Vpoint</td>
+                                    @if ($item->status == 1)
+                                        <td>
+                                            <span style=" max-width: 82px;min-width: 82px;" type="text"
+                                                    class="form-control form-control-sm font-size-s text-white active text-center d-inline">Hoạt động</span>
+                                            <button class="btn bg-status-drop border-0 text-white py-0 px-2" type="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-angle-down"
+                                                    aria-hidden="true"></i></button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li>
+                                                    <form
+                                                        action="{{ route('course.updateStatus', $item->id) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        @method('put')
+                                                        <input type="hidden" name="unitStatus" value="0">
+                                                        <button type="submit"
+                                                            class="dropdown-item">Ngừng</button>
+                                                    </form>
+                                                </li>
+                                                <li>
+                                                    <form
+                                                        action="{{ route('course.delete', $item->id) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="dropdown-item"
+                                                            onclick="confirm('Bạn có chắc muốn xóa');">Xoá</button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    @else
+                                        <td>
+                                            <span style=" max-width: 82px;min-width: 82px;" type="text"
+                                            class="form-control form-control-sm font-size-s text-white stop text-center d-inline">Ngừng</span>
+                                            <button class="btn bg-status-drop border-0 text-white py-0 px-2" type="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-angle-down"
+                                                    aria-hidden="true"></i></button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li>
+                                                    <form
+                                                        action="{{ route('course.updateStatus', $item->id) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        @method('put')
+                                                        <input type="hidden" name="unitStatus" value="1">
+                                                        <button type="submit"
+                                                            class="dropdown-item">Hoạt động</button>
+                                                    </form>
+                                                </li>
+                                                <li>
+                                                    <form
+                                                        action="{{ route('course.delete', $item->id) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="dropdown-item"
+                                                            onclick="confirm('Bạn có chắc muốn xóa');">Xoá</button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>

@@ -143,6 +143,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/cap-nhat-khoa-hoc/{id}', [CourseController::class, 'edit'])->name('course.edit');
     Route::post('/khoa-hoc', [CourseController::class, 'store'])->name('course.store');
     Route::put('/khoa-hoc/{id}', [CourseController::class, 'update'])->name('course.update');
+    Route::put('/khoa-hoc/update-status/{id}', [CourseController::class, 'updateStatus'])->name('course.updateStatus');
     Route::delete('/khoa-hoc/{id}', [CourseController::class, 'destroy'])->name('course.delete');
 
     // BRAND

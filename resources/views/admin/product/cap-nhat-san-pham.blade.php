@@ -57,6 +57,15 @@
     <!-- end menu mobile -->
     <div class="m-3">
         <div class="wrapper bg-white p-4">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             @if (session('success'))
                 <div class="portlet-status">
                     <div class="caption bg-success p-3">
@@ -82,24 +91,47 @@
                         <div class="col-sm-3">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <div class="fileinput-new thumbnail size-img-profile">
-                                    <img src="{{$product->feature_img}}">
+                                    <img src="{{old('feature_img', $product->feature_img)}}">
                                 </div>
                                 <div class="form-group my-2">
-                                    <input id="ckfinder-input-1" type="text" name="feature_img" class="form-control" value="{{old('feature_img', $product->feature_img)}}" readonly required>
+                                    <input id="ckfinder-input-1" type="hidden" name="feature_img" class="form-control" value="{{old('feature_img', $product->feature_img)}}" readonly required>
                                     <a style="cursor: pointer;" id="ckfinder-popup-1" class="btn btn-success">Chọn ảnh</a>
                                 </div>
                             </div>
 
                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <div class="form-group my-2">
-                                    <input id="ckfinder-input-2" type="text" name="gallery_img"
+                                    <input id="ckfinder-input-2" type="hidden" name="gallery_img"
                                     data-type="multiple" data-hasid="{{$product->id}}"
                                     readonly class="form-control"
-                                    value="{{old('gallery_img', $product->gallery)}}">
+                                    @if ($product->gallery != null || $product->gallery != '')
+                                    value="{{old('gallery_img', $product->gallery.',').' '}}"
+                                    @else
+                                    value="{{old('gallery_img').' '}}"
+                                    @endif
+
+                                    >
                                     <a style="cursor: pointer;" id="ckfinder-popup-2" class="btn btn-success">Chọn nhiều ảnh</a>
                                 </div>
                                 <div class="fileinput-gallery thumbnail">
                                     <div class="row">
+                                        @if (old('gallery_img') && old('gallery_img') != $product->gallery.',')
+                                        @php
+                                        $galleries = explode(',', old('gallery_img'));
+                                        @endphp
+                                        @foreach($galleries as $img)
+                                            @if ($img != null || $img != '')
+                                            <div class="col-md-3">
+                                                <span style="cursor: pointer;" data-id='' data-url="{{trim($img)}}" class="delete_gallery">
+                                                    <i class="fas fa-times"></i>
+                                                </span>
+                                                <img src="{{trim($img)}}">
+                                            </div>
+                                            @endif
+                                        @endforeach
+
+                                    @else 
+
                                         @php
                                             $gallery = explode(", ",$product->gallery);
                                         @endphp
@@ -113,6 +145,7 @@
                                                 </div>
                                             @endforeach
                                         @endif
+                                    @endif
                                     </div>
                                 </div>
                             </div>
@@ -131,9 +164,14 @@
                                                     required value="{{old('product_sku', $product->sku)}}">
                                                 <div class="input-group-btn w-50" id="product-status">
                                                     <select name="product_status" class="selectpicker form-control">
-                                                        <option value="0" {{ $product->status == 0 ? 'selected' : ''}}>Ngưng hoạt động</option>
-                                                        <option value="1" {{ $product->status == 1 ? 'selected' : ''}}>Hoạt động</option>
-                                                        <option value="2" {{ $product->status == 2 ? 'selected' : ''}}>Mới</option>
+                                                        <option value="0" 
+                                                        {{ $product->status == 0 ? 'selected' : ''}}
+                                                        {{old('product_status') == 0 ? 'selected' : ''}}
+                                                        >Ngưng hoạt động</option>
+                                                        <option value="1" 
+                                                        {{ $product->status == 1 ? 'selected' : ''}}
+                                                        {{old('product_status') == 1 ? 'selected' : ''}}
+                                                        >Hoạt động</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -234,7 +272,10 @@
                                                 title="Thương hiệu" data-placeholder="Thương hiệu">
                                                 <option value="-1">Chọn thương hiệu</option>
                                                 @foreach ($brands as $item)
-                                                    <option value="{{ $item->id }}" {{$item->id == $product->productBrand->id ? 'selected' : ''}}>{{ $item->name }}</option>
+                                                    <option value="{{ $item->id }}"
+                                                        {{$item->id == $product->productBrand->id ? 'selected' : ''}}
+                                                        {{old('product_brand') == $item->id ? 'selected' : ''}}
+                                                        >{{ $item->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -247,7 +288,10 @@
                                                 required data-placeholder="Đơn vị tính">
                                                 <option value="-1">Chọn đơn vị tính</option>
                                                 @foreach ($calculationUnits as $item)
-                                                    <option value="{{ $item->id }}" {{$item->id == $product->productCalculationUnit->id ? 'selected' : ''}}>{{ $item->name }}</option>
+                                                    <option value="{{ $item->id }}"
+                                                        {{$item->id == $product->productCalculationUnit->id ? 'selected' : ''}}
+                                                        {{old('product_calculation_unit') == $item->id ? 'selected' : ''}}
+                                                        >{{ $item->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -432,6 +476,10 @@
 <script>
     $(document).ready(function() {
         $('select.selectpicker').select2();
+
+        $('select.nhomhang').select2({
+            placeholder: 'Chọn nhóm ngành hàng',
+        });
 
         setInterval(() => {
             $('.portlet-status').remove();

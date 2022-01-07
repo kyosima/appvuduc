@@ -54,7 +54,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title"><i class="fas fa-anchor"></i> Thông tin chi nhánh NPP </h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal" id="formCreateUnit" action="{{ route('warehouse.store') }}"
@@ -138,7 +138,7 @@
                             </div> --}}
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Hủy</button>
+                            <button type="button" class="btn btn-dark" data-dismiss="modal">Hủy</button>
                             <button type="submit" class="btn btn-info btn-submit-unit">Lưu</button>
                         </div>
                     </form>
@@ -155,7 +155,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title"><i class="fas fa-anchor"></i> Thêm sản phẩm vào chi nhánh NPP </h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal" id="formAddProduct" action="{{ route('warehouse.addProductToWarehouse') }}"
@@ -166,7 +166,7 @@
                                 <label class="col-md-3 control-label">Mã chi nhánh:<span class="required"
                                         aria-required="true">(*)</span></label>
                                 <div class="col-md-9">
-                                    <select class="form-control js-warehouse" name="warehouseCode">
+                                    <select class="form-control js-warehouse select-search" name="warehouseCode">
                                         <option value="-1">Chọn kho hàng</option>
                                         @foreach ($warehouseCodes as $warehouse)
                                             <option value="{{$warehouse->code}}">{{$warehouse->code}}</option>
@@ -178,7 +178,7 @@
                                 <label class="col-md-3 control-label">Tên chi nhánh NPP:<span class="required"
                                         aria-required="true">(*)</span></label>
                                 <div class="col-md-9">
-                                    <select class="form-control" id="warehouseName" name="warehouseName">
+                                    <select class="form-control select-search" id="warehouseName" name="warehouseName">
                                         <option value="-1">Chọn chi nhánh</option>
                                     </select>
                                 </div>
@@ -187,7 +187,7 @@
                                 <label class="col-md-3 control-label">Sản phẩm<span class="required"
                                         aria-required="true">(*)</span></label>
                                 <div class="col-md-9">
-                                    <select name="product" class="form-control productId">
+                                    <select name="product" class="form-control productId select-search">
                                         <option value="-1" selected>Chọn sản phẩm</option>
                                         @foreach ($products as $item)
                                             <option value="{{$item->id}}">{{$item->name}}</option>
@@ -205,7 +205,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Hủy</button>
+                            <button type="button" class="btn btn-dark" data-dismiss="modal">Hủy</button>
                             <button type="submit" class="btn btn-info btn-submit-unit">Lưu</button>
                         </div>
                     </form>
@@ -216,100 +216,100 @@
     </div>
     <!-- END MODAL -->
 
-		<div class="m-3">
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="card">
-						<div class="card-body">
-                            @if ($errors->any())
-                                <div class="bg-danger p-2 mb-2">
-                                    <p class="text-light m-0">{{$errors->first()}}</p>
+    <div class="m-3">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        @if ($errors->any())
+                            <div class="bg-danger p-2 mb-2">
+                                <p class="text-light m-0">{{$errors->first()}}</p>
+                            </div>
+                        @elseif(session('success'))    
+                            <div class="bg-success p-2 mb-2">
+                                <p class="text-light m-0">{{session('success')}}</p>
+                            </div>
+                        @endif
+                        <ul class="list-group list-group-flush">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p>
+                                        <span class="caption-subject"><i class="far fa-hourglass"></i> DANH SÁCH TỒN KHO</span>
+                                        <a href="#warehouse_create" data-toggle="modal" class="btn btn_success"><i
+                                            class="fa fa-plus"></i> Thêm mới kho hàng</a>
+                                        <a href="#warehouse_add_product" data-toggle="modal" class="btn btn-info text-light" style="border-radius:55px;">
+                                            <i class="fa fa-plus"></i> Thêm mới sản phẩm vào kho hàng</a>
+                                    </p>
+
+                                    <span>
+                                        <span data-bs-toggle="collapse" href="#collapseExample" role="button"
+                                            aria-expanded="false" aria-controls="collapseExample">
+                                            <i class="fas fa-chevron-down"></i>
+                                        </span>&nbsp;
+                                        <span style="cursor: pointer;" onclick="window.location.reload();"><i class="fas fa-sync-alt"></i></span>
+                                    </span>
                                 </div>
-                            @elseif(session('success'))    
-                                <div class="bg-success p-2 mb-2">
-                                    <p class="text-light m-0">{{session('success')}}</p>
-                                </div>
-                            @endif
-							<ul class="list-group list-group-flush">
-									<div class="d-flex justify-content-between align-items-center">
-										<p>
-											<span class="caption-subject"><i class="far fa-hourglass"></i> DANH SÁCH TỒN KHO</span>
-											<a href="#warehouse_create" data-toggle="modal" class="btn btn_success"><i
-                                                class="fa fa-plus"></i> Thêm mới kho hàng</a>
-											<a href="#warehouse_add_product" data-toggle="modal" class="btn btn-info text-light" style="border-radius:55px;">
-                                                <i class="fa fa-plus"></i> Thêm mới sản phẩm vào kho hàng</a>
-										</p>
-	
-										<span>
-											<span data-bs-toggle="collapse" href="#collapseExample" role="button"
-												aria-expanded="false" aria-controls="collapseExample">
-												<i class="fas fa-chevron-down"></i>
-											</span>&nbsp;
-											<span style="cursor: pointer;" onclick="window.location.reload();"><i class="fas fa-sync-alt"></i></span>
-										</span>
-									</div>
-							</ul>
-                            <div class="collapse show" id="collapseExample">
-                                <div class="row">
-                                    <div class="col-sm-12" style="overflow-x: auto;">
-                                        <table id="warehouse_table" class="table table-hover align-middle">
-                                            <thead>
+                        </ul>
+                        <div class="collapse show" id="collapseExample">
+                            <div class="row">
+                                <div class="col-sm-12" style="overflow-x: auto;">
+                                    <table id="warehouse_table" class="table table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th class="title">STT</th>
+                                                <th class="title">Mã chi nhánh NPP</th>
+                                                <th class="title">Tên chi nhánh NPP</th>
+                                                <th class="title">Loại kho</th>
+                                                <th class="title">Model</th>
+                                                <th class="title">Tên sản phẩm</th>
+                                                <th class="title">Đơn vị tính</th>
+                                                <th class="title">Nhóm sản phẩm</th>
+                                                <th class="title">Ngành hàng</th>
+                                                <th class="title">Số lượng tồn kho</th>
+                                                <th class="title">Thời gian</th>
+                                                <th class="title">Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="color: #748092; font-size: 14px;">
+                                            @foreach ($warehouses as $item)
+                                                @foreach ($item->products as $product)
                                                 <tr>
-                                                    <th class="title">STT</th>
-                                                    <th class="title">Mã chi nhánh NPP</th>
-                                                    <th class="title">Tên chi nhánh NPP</th>
-                                                    <th class="title">Loại kho</th>
-                                                    <th class="title">Model</th>
-                                                    <th class="title">Tên sản phẩm</th>
-                                                    <th class="title">Đơn vị tính</th>
-                                                    <th class="title">Nhóm sản phẩm</th>
-                                                    <th class="title">Ngành hàng</th>
-                                                    <th class="title">Số lượng tồn kho</th>
-                                                    <th class="title">Thời gian</th>
-                                                    <th class="title">Thao tác</th>
+                                                    <td>{{$index}}</td>
+                                                    <td>{{$item->code}}</td>
+                                                    <td>{{$item->name}}</td>
+                                                    <td>Promotion</td>
+                                                    <td>PerfectCream01</td>
+                                                    <td>{{$product->name}}</td>
+                                                    <td>{{$product->productCalculationUnit->name}}</td>
+                                                    @if ($product->productCategory->typeof_category == 2)
+                                                        <td>{{$product->productCategory->parentCategories->name}}</td>
+                                                        <td>{{$product->productCategory->parentCategories->megaParentCategories->name}}</td>
+                                                    @else
+                                                        <td>{{$product->productCategory->name}}</td>
+                                                        <td>{{$product->productCategory->parentCategories->name}}</td>
+                                                    @endif
+                                                    <td>{{$product->getOriginal('pivot_quantity')}}</td>
+                                                    <td>{{$product->getOriginal('pivot_created_at')}}</td>
+                                                    <td>
+                                                        <button class="btn modal-edit-unit" data-route="{{route('warehouse.modalEdit')}}"
+                                                        data-productid="{{$product->id}}"
+                                                        data-warehouseid="{{$item->id}}">
+                                                            <i class="fas fa-pen"></i>
+                                                        </button>
+                                                    </td>
                                                 </tr>
-                                            </thead>
-                                            <tbody style="color: #748092; font-size: 14px;">
-                                                @foreach ($warehouses as $item)
-                                                    @foreach ($item->products as $product)
-                                                    <tr>
-                                                        <td>{{$index}}</td>
-                                                        <td>{{$item->code}}</td>
-                                                        <td>{{$item->name}}</td>
-                                                        <td>Promotion</td>
-                                                        <td>PerfectCream01</td>
-                                                        <td>{{$product->name}}</td>
-                                                        <td>{{$product->productCalculationUnit->name}}</td>
-                                                        @if ($product->productCategory->typeof_category == 2)
-                                                            <td>{{$product->productCategory->parentCategories->name}}</td>
-                                                            <td>{{$product->productCategory->parentCategories->megaParentCategories->name}}</td>
-                                                        @else
-                                                            <td>{{$product->productCategory->name}}</td>
-                                                            <td>{{$product->productCategory->parentCategories->name}}</td>
-                                                        @endif
-                                                        <td>{{$product->getOriginal('pivot_quantity')}}</td>
-                                                        <td>{{$product->getOriginal('pivot_created_at')}}</td>
-                                                        <td>
-                                                            <button class="btn modal-edit-unit" data-route="{{route('warehouse.modalEdit')}}"
-                                                            data-productid="{{$product->id}}"
-                                                            data-warehouseid="{{$item->id}}">
-                                                                <i class="fas fa-pen"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <?php $index++; ?>
-                                                    @endforeach
+                                                <?php $index++; ?>
                                                 @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 	</section>
 
 <script>
@@ -428,6 +428,11 @@
         $('#warehouse_create select').select2({
             width: '100%',
             dropdownParent: $('#warehouse_create')
+        })
+
+        $('#warehouse_add_product select').select2({
+            width: '100%',
+            dropdownParent: $('#warehouse_add_product')
         })
 
         $('.js-location').change(function(e) {

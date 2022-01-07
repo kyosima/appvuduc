@@ -28,6 +28,35 @@ class CourseController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'course_title' => 'required|unique:courses,name',
+            'slug' => 'unique:courses,slug',
+            'feature_img' => 'required',
+            'course_status' => 'required',
+            'course_vpoint' => 'required',
+            'course_discount_2' => 'required',
+            'course_discount_1' => 'required',
+            'course_discount_platinum' => 'required',
+            'course_discount_diamond' => 'required',
+            'course_discount_gold' => 'required',
+            'course_discount_silver' => 'required',
+            'course_discount_member' => 'required',
+        ], [
+            'course_title.required' => 'Tên sản phẩm không được để trống',
+            'course_title.unique' => 'Tên sản phẩm đã bị trùng lặp, vui lòng đặt tên khác',
+            'slug.unique' => 'Slug đang sử dụng đã bị trùng lặp, vui lòng đặt tên khác',
+            'feature_img' => 'Ảnh đại diện không được để trống',
+            'course_vpoint' => 'Vpoint không được để trống',
+            'course_discount_2' => 'Chiết khấu cổ đông 2 không được để trống',
+            'course_discount_1' => 'Chiết khấu cổ đông 1 không được để trống',
+            'course_discount_platinum' => 'Chiết khấu Platinum không được để trống',
+            'course_discount_diamond' => 'Chiết khấu Diamond không được để trống',
+            'course_discount_gold' => 'Chiết khấu Gold không được để trống',
+            'course_discount_silver' => 'Chiết khấu Silver không được để trống',
+            'course_discount_member' => 'Chiết khấu Member không được để trống',
+            'course_status' => 'Trạng thái không được để trống',
+        ]);
+
         return DB::transaction(function () use ($request) {
             try {
                 $slug = Str::slug($request->course_title, '-');
@@ -80,6 +109,35 @@ class CourseController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'course_title' => 'required|unique:courses,name,'.$id,
+            'slug' => 'unique:courses,slug,'.$id,
+            'feature_img' => 'required',
+            'course_status' => 'required',
+            'course_vpoint' => 'required',
+            'course_discount_2' => 'required',
+            'course_discount_1' => 'required',
+            'course_discount_platinum' => 'required',
+            'course_discount_diamond' => 'required',
+            'course_discount_gold' => 'required',
+            'course_discount_silver' => 'required',
+            'course_discount_member' => 'required',
+        ], [
+            'course_title.required' => 'Tên khóa học không được để trống',
+            'course_title.unique' => 'Tên khóa học đã bị trùng lặp, vui lòng đặt tên khác',
+            'slug.unique' => 'Slug đang sử dụng đã bị trùng lặp, vui lòng đặt tên khác',
+            'feature_img' => 'Ảnh đại diện không được để trống',
+            'course_vpoint' => 'Vpoint không được để trống',
+            'course_discount_2' => 'Chiết khấu cổ đông 2 không được để trống',
+            'course_discount_1' => 'Chiết khấu cổ đông 1 không được để trống',
+            'course_discount_platinum' => 'Chiết khấu Platinum không được để trống',
+            'course_discount_diamond' => 'Chiết khấu Diamond không được để trống',
+            'course_discount_gold' => 'Chiết khấu Gold không được để trống',
+            'course_discount_silver' => 'Chiết khấu Silver không được để trống',
+            'course_discount_member' => 'Chiết khấu Member không được để trống',
+            'course_status' => 'Trạng thái không được để trống',
+        ]);
+
         return DB::transaction(function () use ($request, $id) {
             try {
                 $slug = Str::slug($request->course_title, '-');
@@ -120,6 +178,15 @@ class CourseController extends Controller
                 return redirect()->back()->withErrors(['error' => $th->getMessage()]);
             }
         });
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        Course::where('id', $id)->update([
+            'status' => $request->unitStatus
+        ]);
+
+        return redirect()->route('course.index');
     }
 
     public function destroy($id)
