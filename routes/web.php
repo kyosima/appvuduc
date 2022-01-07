@@ -66,10 +66,7 @@ Route::get('/admin/ket-qua-dao-tao', function () {
 Route::get('/admin/loai-khuyen-mai', function () {
     return view('admin.loai-khuyen-mai');
 });
-Route::get('/admin/test', function () {
-    
-    return DB::table('shipping_config')->first()->package_viewable == true ? true : false ;
-});
+Route::get('/admin/test', [ShippingController::class, 'test']);
 
 Route::prefix('admin')->group(function () {
     Route::prefix('don-hang')->group(function () {

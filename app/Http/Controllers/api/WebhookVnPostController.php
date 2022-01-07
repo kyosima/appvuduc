@@ -12,9 +12,16 @@ class WebhookVnPostController extends Controller
         $bodyContent = $request->all();
         $response = json_decode($bodyContent['Data'], true );
         if($shipping_bill = ShippingBill::where('shipping_id', $response['Id'])->first()){
-            $shipping_bill->update([ 'status' => $response['OrderStatusId'] ]);
+            $shipping_status = Shipping_status::where('status_id', $response['OrderStatusId'])->first();
+            $shipping_bill->update([ 
+                'status' => $response['OrderStatusId'], 
+                'note' => $shipping_status->note
+             ]);
             $shipping_bill->order()->update([
-                'status' => $shipping_bill->status()->first()->status_step,
+                'status' => $shipping_status->status_step
+            ]);
+            $shipping_bill->shipping_history()->create([
+                'status' => $response['OrderStatusId']
             ]);
         }
         return true;

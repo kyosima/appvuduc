@@ -98,6 +98,12 @@
                                                         title="bắt buộc">*</abbr></label>
                                                 <input type="text" class="form-control" id="email" name="email" value="{{$order_info->email}}" required>
                                             </div>
+                                            <div class="form-group w-100">
+                                            <label for="fullname">Ngày đặt <abbr class="required"
+                                                        title="bắt buộc">*</abbr></label>
+                                                
+                                                <input type="text" class="form-control" name="in_created_at" id="fdate" value="{{date('Y-m-d H:i:s', strtotime($order->created_at))}}" required>
+                                            </div>
                                         </div>
                                         <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
                                             <div class="form-group w-100">
@@ -134,9 +140,9 @@
                                                 </div>
                                                 <div class="form-group w-100">
                                                     <label for="address">Địa chỉ <abbr class="required"
-                                                            title="bắt buộc">*</abbr></label>
+                                                            title="bắt buộc">*</abbr><small class="text-danger">( Địa chỉ không bao gồm phường xã, quận huyện, tỉnh thành.)</small></label>
                                                     <input type="text" class="form-control" id="address" name="address" value="{{$order_address->address}}" required>
-                                                    <small class="text-danger">Địa chỉ không bao gồm phường xã, quận huyện, tỉnh thành.</small>
+                                                    
                                                 </div>
                                         </div>
                                     </div>     

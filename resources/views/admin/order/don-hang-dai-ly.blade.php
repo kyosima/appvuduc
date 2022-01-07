@@ -87,7 +87,6 @@
 											</button>
 										</div>
 									</div>
-
 									<div class="row">
 										<div class="col-sm-12" style="overflow-x: auto;">
 											<table id="order" class="table table-hover align-middle">
@@ -117,7 +116,7 @@
 														<td>{{formatPrice($order->total)}}</td>
 														<td>{{formatPrice($order->total+$order->shipping_total)}}</td>
 														<td>@if(!$order->handler) Chưa có @else {{$order->handler}}@endif</td>
-														<td>{{date('Y-m-d H:i:s', strtotime($order->created_at))}}</td>
+														<td>{{date('d-m-Y H:i:s', strtotime($order->created_at))}}</td>
 														<td class="change-status-{{$order->id}}">{!! orderStatus($order->status) !!}</td>
 														<td>
 															<div class="input-group">

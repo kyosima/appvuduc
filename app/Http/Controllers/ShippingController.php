@@ -10,22 +10,17 @@ use App\Models\Ward;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Models\Order;
 use App\Models\shippingConfig;
+use App\Models\shippingBill;
 use App\Admin\Controllers\ConfigShippingController;
 
 class ShippingController extends Controller
 {
-    public function test(){
-        // try {
-        //     return District::where('maquanhuyen', 7110)->first()->ward()
-        // ->select('maphuongxa', 'tenphuongxa')->get();
-        // } catch (\Throwable $th) {
-        //     throw $th;
-        // }
-        return optional(District::where('maquanhuyen', 7110)->first(), function ($user) {
-            return $user->ward()->select('maphuongxa', 'tenphuongxa')->get();
-        });
-        
-    }
+    // public function test(){
+    //     $shipping_bill = ShippingBill::where('id', 13)->first();
+    //     return $shipping_bill->shipping_history()->create([
+    //         'status' => 20
+    //     ]);
+    // }
     // lấy quận huyện theo tỉnh thành
     public function districtOfProvince(Request $request){
         return optional(Province::where('matinhthanh', $request->id)->first(), function ($response) {

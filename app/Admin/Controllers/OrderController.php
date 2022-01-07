@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Session;
 class OrderController extends Controller
 {
     public function getOrderAgency(Request $request){
-
         $orders = DB::table('orders')
         ->leftJoin('order_address', 'orders.id', '=', 'order_address.id_order')
         ->leftJoin('order_info', 'orders.id', '=', 'order_info.id_order')
@@ -61,8 +60,9 @@ class OrderController extends Controller
             $order->shipping_total = $request->in_shipping;
             $order->shipping_method = $request->shipping_method;
             $order->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
-            $order->save();
         }
+        $order->created_at = $request->in_created_at;
+        $order->save();
         $order->order_address()->update([
             'id_province' => $request->sel_province,
             'id_district' => $request->sel_district,

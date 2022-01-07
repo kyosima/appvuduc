@@ -17,4 +17,7 @@ class ShippingBill extends Model
     public function status(){
       return $this->hasOne(ShippingStatus::class, 'status_id', 'status');
     }
+    public function shipping_history() {
+      return $this->hasMany(ShippingHistory::class, 'shipping_bill_id', 'id');
+  }
 }
